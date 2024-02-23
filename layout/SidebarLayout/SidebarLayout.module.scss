@@ -1,0 +1,14 @@
+.container-section-layout-sidebar {
+    width: 20rem;
+    height: 100%;
+    background-color: red;
+    transition: width 0.2s ease-in-out;
+    padding: 2rem;
+
+    &.close {
+        width: 8rem;
+        transition: width 0.2s ease-in-out;
+    }
+
+    background-color: green;
+}
