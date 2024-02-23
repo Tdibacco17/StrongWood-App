@@ -1,4 +1,4 @@
-export default function Home() {
+export default function HomePage() {
   return (
     <div>
       {/* <button onClick={() => console.log("chau")}>chau</button> */}

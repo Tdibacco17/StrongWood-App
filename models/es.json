@@ -1,0 +1,45 @@
+{
+    "headerComponent": {
+        "navigation": {
+            "kitchen": {
+                "title": "Cocina",
+                "url": "/kitchen/under-counter"
+            },
+            "closet": {
+                "title": "Placer",
+                "url": "/closet/closet-1"
+            }
+        }
+    },
+    "sidebarComponent": {
+        "title": "StrongWood App",
+        "smallTitle": "STRONG",
+        "url": "/",
+        "home": {
+            "dashboard": {
+                "title": "Dashboard",
+                "url": "/"
+            },
+            "tables": {
+                "title": "Tablas",
+                "url": "/tables"
+            }
+        },
+        "kitchen": {
+            "kitchen": {
+                "title": "Bajo mesada",
+                "url": "/kitchen/under-counter"
+            },
+            "cupboard": {
+                "title": "Alacena",
+                "url": "/kitchen/cupboard"
+            }
+        },
+        "closet": {
+            "closet-1": {
+                "title": "Placar",
+                "url": "/closet/closet-1"
+            }
+        }
+    }
+}

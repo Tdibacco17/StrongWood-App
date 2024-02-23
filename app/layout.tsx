@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Providers from "@/Providers/Providers";
 import { font } from "@/utils/fonts";
-import DashboardLayout from "@/layout/DashboardLayout/DashboardLayout";
 
 export const metadata: Metadata = {
   title: "StrongWood App®",
@@ -33,9 +32,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={font.className}>
         <Providers>
-          <DashboardLayout>
             {children}
-          </DashboardLayout>
         </Providers>
       </body>
     </html>

@@ -2,7 +2,7 @@ import { Roboto } from "next/font/google";
 
 export const font = Roboto({
     subsets: ['latin'],
-    weight: ['300', '400'],
+    weight: ['300', '400', '700'],
     style: 'normal',
     preload: true,
     variable: '--strongwood-font',
