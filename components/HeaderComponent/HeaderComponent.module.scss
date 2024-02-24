@@ -12,4 +12,10 @@
     align-items: center;
 
     padding: 0 1rem;
+
+    .nav-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
 }

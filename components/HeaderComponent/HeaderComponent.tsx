@@ -10,7 +10,7 @@ import { useResizableContext } from "@/hook/useResizableContext "
 export default function HeaderComponent() {
     const { toggleSidebarHandle } = useResizableContext();
     const pathName = usePathname().split('/')[1];
-    
+
     return (
         <header className={styles["container-section-header"]}>
             <Button variant={"outline"} size={"icon"} onClick={toggleSidebarHandle}>
@@ -18,7 +18,7 @@ export default function HeaderComponent() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                 </svg>
             </Button>
-            <nav>
+            <nav className={styles["nav-container"]}>
                 {Object.values(data.headerComponent.navigation).map((itemData: ItemNavigation, index: number) => {
                     const active = pathName === itemData.url.split('/')[1];
                     return <CustomLink
