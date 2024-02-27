@@ -19,6 +19,12 @@ const api = {
                 const pisoMetalico: ExcelDataInterface[] = [];
                 const bisagras: ExcelDataInterface[] = [];
                 const correderas: ExcelDataInterface[] = [];
+                const cubiertero: ExcelDataInterface[] = [];
+                const carroEsquinero: ExcelDataInterface[] = [];
+                const carroEspeciero: ExcelDataInterface[] = [];
+                const carroVerdulero: ExcelDataInterface[] = [];
+                const canastoVerdulero: ExcelDataInterface[] = [];
+                const tacho: ExcelDataInterface[] = [];
 
                 // Función para procesar cada fila y añadir al array correspondiente
                 const processRow = (sectionArray: ExcelDataInterface[], sectionName: BajoMesadaSectionTitle): ((row: string) => void) => {
@@ -57,6 +63,12 @@ const api = {
                     "piso metalico": processRow(pisoMetalico, "piso metalico"),
                     "bisagras": processRow(bisagras, "bisagras"),
                     "correderas": processRow(correderas, "correderas"),
+                    "cubiertero": processRow(cubiertero, "cubiertero"),
+                    "carro esquinero": processRow(carroEsquinero, "carro esquinero"),
+                    "carro especiero": processRow(carroEspeciero, "carro especiero"),
+                    "carro verdulero": processRow(carroVerdulero, "carro verdulero"),
+                    "canasto verdulero": processRow(canastoVerdulero, "canasto verdulero"),
+                    "tacho": processRow(tacho, "tacho"),
                     // Puedes agregar más secciones aquí según sea necesario
                 };
 
@@ -77,7 +89,11 @@ const api = {
                 }
 
                 // Retornamos el objeto con las medidas y materiales
-                return { medidas, materiales, panelDeCierre, fondo, patas, zocalo, aperturas, pisoMetalico, bisagras, correderas };
+                return {
+                    medidas, materiales, panelDeCierre, fondo, patas, zocalo, aperturas,
+                    pisoMetalico, bisagras, correderas, cubiertero, carroEsquinero, carroEspeciero,
+                    carroVerdulero, canastoVerdulero, tacho
+                };
             }
         },
         // alacena:{

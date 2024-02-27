@@ -53,6 +53,30 @@ export default function UnderCounterPageClient({
             title: "Correderas",
             data: { name: "", price: 0 }
         },
+        cubiertero: {
+            title: "Cubiertero",
+            data: { name: "", price: 0 }
+        },
+        carroEsquinero: {
+            title: "Carro esquinero",
+            data: { name: "", price: 0 }
+        },
+        carroEspeciero: {
+            title: "Carro especiero",
+            data: { name: "", price: 0 }
+        },
+        carroVerdulero: {
+            title: "Carro verdulero",
+            data: { name: "", price: 0 }
+        },
+        canastoVerdulero: {
+            title: "Canasto verdulero",
+            data: { name: "", price: 0 }
+        },
+        tacho: {
+            title: "Tacho",
+            data: { name: "", price: 0 }
+        },
     };
 
     return <BajoMesadaContainer

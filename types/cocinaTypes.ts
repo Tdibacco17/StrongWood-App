@@ -12,16 +12,16 @@ export interface BajoMesadaExcelDataResponse {
     pisoMetalico: ExcelDataInterface[];
     bisagras: ExcelDataInterface[];
     correderas: ExcelDataInterface[];
-    // pisoMetalico: ExcelDataInterface[];
-    // apertura: ExcelDataInterface[];
-    // cubiertero: ExcelDataInterface[];
-    // carroEsquinero: ExcelDataInterface[];
-    // carroEspeciero: ExcelDataInterface[];
-    // carroVerdulero: ExcelDataInterface[];
-    // canastoVerdulero: ExcelDataInterface[];
-    // tacho: ExcelDataInterface[];
+    cubiertero: ExcelDataInterface[];
+    carroEsquinero: ExcelDataInterface[];
+    carroEspeciero: ExcelDataInterface[];
+    carroVerdulero: ExcelDataInterface[];
+    canastoVerdulero: ExcelDataInterface[];
+    tacho: ExcelDataInterface[];
 }
-export type BajoMesadaSectionTitle = "medidas" | "materiales" | "panel de cierre" | "fondo" | "patas" | "zocalo" | "aperturas" | "piso metalico" | "bisagras" | "correderas";
+export type BajoMesadaSectionTitle = "medidas" | "materiales" | "panel de cierre" | "fondo" | "patas"
+    | "zocalo" | "aperturas" | "piso metalico" | "bisagras" | "correderas" | "cubiertero" | "carro esquinero"
+    | "carro especiero" | "carro verdulero" | "canasto verdulero" | "tacho";
 //ESTRUCTURA DE CONSULTAS BAJO MESADA
 export interface BajoMesadaInterface {
     medida: TableSelectFieldsInterface,
@@ -33,18 +33,13 @@ export interface BajoMesadaInterface {
     apertura: TableSelectFieldsInterface,
     pisoMetalico: TableSelectFieldsInterface,
     bisagras: TableSelectFieldsInterface,
-    correderas: TableSelectFieldsInterface
-    // pisoMetalico: TableSelectFieldsInterface,
-    // patas: TableSelectFieldsInterface,
-    // apertura: TableSelectFieldsInterface,
-    // bisagra: TableSelectFieldsInterface,
-    // corredera: TableSelectFieldsInterface,
-    // cubiertero: TableSelectFieldsInterface,
-    // carroEsquinero: TableSelectFieldsInterface,
-    // carroEspeciero: TableSelectFieldsInterface,
-    // carroVerdulero: TableSelectFieldsInterface,
-    // canastoVerdulero: TableSelectFieldsInterface,
-    // tacho: TableSelectFieldsInterface,
+    correderas: TableSelectFieldsInterface,
+    cubiertero: TableSelectFieldsInterface
+    carroEsquinero: TableSelectFieldsInterface,
+    carroEspeciero: TableSelectFieldsInterface,
+    carroVerdulero: TableSelectFieldsInterface,
+    canastoVerdulero: TableSelectFieldsInterface,
+    tacho: TableSelectFieldsInterface,
 }
 export type BajoMesadaTypes = keyof BajoMesadaInterface;
 export type DrawerType = 'puertas' | 'cajones' | ''; //bajo mesada

@@ -125,24 +125,24 @@ export default function BajoMesadaContainer({
                     category,
                 });
             }
-            if (category.startsWith("bisagras")) {
-                handleNumericInputChange({
-                    quantity: bisagrasQuantity,
-                    itemData,
-                    excelData: excelData.bisagras,
-                    setSelectedOption,
-                    category
-                });
-            }
-            if (category.startsWith("correderas")) {
-                handleNumericInputChange({
-                    quantity: correderasQuantity,
-                    itemData,
-                    excelData: excelData.correderas,
-                    setSelectedOption,
-                    category
-                })
-            }
+        }
+        if (category === "bisagras") {
+            handleNumericInputChange({
+                quantity: bisagrasQuantity,
+                itemData,
+                excelData: excelData.bisagras,
+                setSelectedOption,
+                category
+            });
+        }
+        if (category === "correderas") {
+            handleNumericInputChange({
+                quantity: correderasQuantity,
+                itemData,
+                excelData: excelData.correderas,
+                setSelectedOption,
+                category
+            })
         }
     };
 

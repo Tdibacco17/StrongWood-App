@@ -103,7 +103,7 @@ export default function BajoMesadaComponent({
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Bisagras" excelData={excelData.bisagras}
                         inputQuantity={bisagrasQuantity} handleQuantityInputChange={handleBisagrasQuantityChange}
-                        isDisabled={selectedOption.pisoMetalico.data.name.length > 0 || selectedOption.bisagras.data.name === "No"} showNumericInput={true}
+                        isDisabled={selectedOption.pisoMetalico.data.name.length > 0} showNumericInput={true}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "bisagras",
@@ -111,10 +111,56 @@ export default function BajoMesadaComponent({
                         }} />
                     <SelectFieldComponent title="Correderas" excelData={excelData.correderas}
                         inputQuantity={correderasQuantity} handleQuantityInputChange={handleCorrederasQuantityChange}
-                        isDisabled={selectedOption.bisagras.data.name.length > 0 || selectedOption.correderas.data.name === "No"} showNumericInput={true}
+                        isDisabled={selectedOption.bisagras.data.name.length > 0} showNumericInput={true}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "correderas",
+                            handleOptionSelect: handleOptionSelect,
+                        }} />
+                </div>
+                <div className={styles["wrapper-row"]}>
+                    <SelectFieldComponent title="Cubiertero" excelData={excelData.cubiertero}
+                        isDisabled={selectedOption.correderas.data.name.length > 0} showNumericInput={false}
+                        bajoMesadaProps={{
+                            selectedOption: selectedOption,
+                            selectedOptionType: "cubiertero",
+                            handleOptionSelect: handleOptionSelect,
+                        }} />
+                    <SelectFieldComponent title="Carro esquinero" excelData={excelData.carroEsquinero}
+                        isDisabled={selectedOption.cubiertero.data.name.length > 0} showNumericInput={false}
+                        bajoMesadaProps={{
+                            selectedOption: selectedOption,
+                            selectedOptionType: "carroEsquinero",
+                            handleOptionSelect: handleOptionSelect,
+                        }} />
+                    <SelectFieldComponent title="Carro especiero" excelData={excelData.carroEspeciero}
+                        isDisabled={selectedOption.carroEsquinero.data.name.length > 0} showNumericInput={false}
+                        bajoMesadaProps={{
+                            selectedOption: selectedOption,
+                            selectedOptionType: "carroEspeciero",
+                            handleOptionSelect: handleOptionSelect,
+                        }} />
+                </div>
+                <div className={styles["wrapper-row"]}>
+                    <SelectFieldComponent title="Carro verdulero" excelData={excelData.carroVerdulero}
+                        isDisabled={selectedOption.carroEspeciero.data.name.length > 0} showNumericInput={false}
+                        bajoMesadaProps={{
+                            selectedOption: selectedOption,
+                            selectedOptionType: "carroVerdulero",
+                            handleOptionSelect: handleOptionSelect,
+                        }} />
+                    <SelectFieldComponent title="Canasto verdulero" excelData={excelData.canastoVerdulero}
+                        isDisabled={selectedOption.carroVerdulero.data.name.length > 0} showNumericInput={false}
+                        bajoMesadaProps={{
+                            selectedOption: selectedOption,
+                            selectedOptionType: "canastoVerdulero",
+                            handleOptionSelect: handleOptionSelect,
+                        }} />
+                    <SelectFieldComponent title="Tacho" excelData={excelData.tacho}
+                        isDisabled={selectedOption.canastoVerdulero.data.name.length > 0} showNumericInput={false}
+                        bajoMesadaProps={{
+                            selectedOption: selectedOption,
+                            selectedOptionType: "tacho",
                             handleOptionSelect: handleOptionSelect,
                         }} />
                 </div>
