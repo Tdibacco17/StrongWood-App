@@ -1,7 +1,6 @@
 import styles from "./DashboardLayout.module.scss"
 import HeaderComponent from "@/components/HeaderComponent/HeaderComponent";
 import SidebarComponent from "@/components/SidebarComponent/SidebarComponent";
-import ContentLayout from "../ContentLayout/ContentLayout";
 
 export default function DashboardLayout({
     children,
@@ -13,10 +12,12 @@ export default function DashboardLayout({
     return (
         <section className={styles["container-section-layout-dashboard"]}>
             <SidebarComponent navType={navType} />
-            <ContentLayout>
+            <main id="top" className={styles["container-section-layout-content"]}>
                 <HeaderComponent />
-                {children}
-            </ContentLayout>
+                <div className={styles["scrollbar"]}>
+                    {children}
+                </div>
+            </main>
         </section>
     )
 }

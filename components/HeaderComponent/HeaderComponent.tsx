@@ -5,7 +5,7 @@ import { ItemNavigation } from "@/types"
 import { usePathname } from "next/navigation"
 import CustomLink from "../ui/link"
 import { Button } from "../ui/button"
-import { useResizableContext } from "@/hook/useResizableContext "
+import { useResizableContext } from "@/hook/UseResizableContext"
 
 export default function HeaderComponent() {
     const { toggleSidebarHandle } = useResizableContext();

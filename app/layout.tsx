@@ -1,7 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import Providers from "@/Providers/Providers";
+import Providers from "@/providers/Providers";
 import { font } from "@/utils/fonts";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "StrongWood App®",
@@ -33,6 +34,7 @@ export default function RootLayout({
       <body className={font.className}>
         <Providers>
             {children}
+            <Toaster richColors theme="dark"/>
         </Providers>
       </body>
     </html>

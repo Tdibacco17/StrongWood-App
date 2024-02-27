@@ -1,0 +1,16 @@
+.section-total-options {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+
+    .table {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .btn-points {
+            color: hsl(var(--accent-foreground));
+            background-color: hsl(var(--accent));
+        }
+    }
+}

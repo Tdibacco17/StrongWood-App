@@ -1,4 +1,4 @@
-import DashboardLayout from "@/layout/DashboardLayout/DashboardLayout";
+import DashboardLayout from "@/layout/DashboardLayout";
 
 export default function HomeLayout({
     children,

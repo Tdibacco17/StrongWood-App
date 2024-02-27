@@ -1,6 +1,7 @@
 "use client"
-import { ThemeProvider } from "@/Providers/ThemeProvider";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 import { ResizableProvider } from "@/context/ResizableProvider";
+import { SaveOptionsProvider } from "@/context/SavedOptionsContextProvider";
 
 export default function Providers({
     children,
@@ -10,7 +11,9 @@ export default function Providers({
     return (
         <ThemeProvider>
             <ResizableProvider>
-                {children}
+                <SaveOptionsProvider>
+                    {children}
+                </SaveOptionsProvider>
             </ResizableProvider>
         </ThemeProvider>
     );

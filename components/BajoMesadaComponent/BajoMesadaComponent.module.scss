@@ -1,0 +1,19 @@
+.container-section-bajomesada {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    width: 100%;
+
+    .wrapper-column {
+        max-width: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 4rem;
+
+        .wrapper-row {
+            display: flex;
+            gap: 2rem;
+        }
+    }
+}

@@ -1,0 +1,11 @@
+.container-section-table {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    .active {
+        background-color: hsl(147, 100%, 12%);
+        color: #59F3A6;
+        border: 1px solid #59F3A6;
+    }
+}

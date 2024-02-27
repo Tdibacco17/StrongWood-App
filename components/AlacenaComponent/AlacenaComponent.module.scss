@@ -1,0 +1,14 @@
+.container-section-alacena {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    width: 100%;
+    padding-bottom: 3rem;
+
+    .wrapper-column {
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+}

@@ -1,0 +1,35 @@
+.container-select-field {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 1rem;
+    width: 100%;
+
+    .wrapper {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .active {
+            background-color: hsl(147, 100%, 12%);
+            color: #59F3A6;
+            border: 1px solid #59F3A6;
+        }
+    }
+
+    .options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+
+        .btn-custom {
+            border: 1px solid transparent;
+
+            &.btn-active {
+                background-color: hsl(147, 100%, 12%);
+                color: #59F3A6;
+                border: 1px solid #59F3A6;
+            }
+        }
+    }
+}

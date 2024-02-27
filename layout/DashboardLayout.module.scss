@@ -1,0 +1,40 @@
+.container-section-layout-dashboard {
+    min-width: 100vw;
+    width: 100vw;
+    max-width: 100vw;
+    min-height: 100vh;
+    height: 100vh;
+    max-height: 100vh;
+    display: flex;
+
+    .container-section-layout-content {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        // padding: 2rem;
+        padding-top: 5rem;
+        overflow-y: hidden;
+
+        .scrollbar {
+            position: relative;
+            height: 100%;
+            width: 100%;
+            overflow-y: auto;
+            padding: 2rem;
+
+            &::-webkit-scrollbar {
+                width: 8px;
+                background-color: transparent;
+            }
+
+            &::-webkit-scrollbar-track {
+                background-color: transparent
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: #27272A;
+                border-radius: var(--radius);
+            }
+        }
+    }
+}

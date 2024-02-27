@@ -4,7 +4,7 @@ import styles from "./SidebarComponent.module.scss"
 import data from "@/models/es.json"
 import { ItemNavigation } from "@/types"
 import CustomLink from "../ui/link"
-import { useResizableContext } from "@/hook/useResizableContext "
+import { useResizableContext } from "@/hook/UseResizableContext"
 import { usePathname } from "next/navigation"
 
 export default function SidebarComponent({
