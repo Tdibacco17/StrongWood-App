@@ -17,6 +17,8 @@ const api = {
                 const zocalo: ExcelDataInterface[] = [];
                 const aperturas: ExcelDataInterface[] = [];
                 const pisoMetalico: ExcelDataInterface[] = [];
+                const puertas: ExcelDataInterface[] = [];
+                const cajones: ExcelDataInterface[] = [];
                 const bisagras: ExcelDataInterface[] = [];
                 const correderas: ExcelDataInterface[] = [];
                 const cubiertero: ExcelDataInterface[] = [];
@@ -61,6 +63,8 @@ const api = {
                     "zocalo": processRow(zocalo, "zocalo"),
                     "aperturas": processRow(aperturas, "aperturas"),
                     "piso metalico": processRow(pisoMetalico, "piso metalico"),
+                    "puertas": processRow(puertas, "puertas"),
+                    "cajones": processRow(cajones, "cajones"),
                     "bisagras": processRow(bisagras, "bisagras"),
                     "correderas": processRow(correderas, "correderas"),
                     "cubiertero": processRow(cubiertero, "cubiertero"),
@@ -91,8 +95,8 @@ const api = {
                 // Retornamos el objeto con las medidas y materiales
                 return {
                     medidas, materiales, panelDeCierre, fondo, patas, zocalo, aperturas,
-                    pisoMetalico, bisagras, correderas, cubiertero, carroEsquinero, carroEspeciero,
-                    carroVerdulero, canastoVerdulero, tacho
+                    pisoMetalico, puertas, cajones, bisagras, correderas, cubiertero, carroEsquinero,
+                    carroEspeciero, carroVerdulero, canastoVerdulero, tacho
                 };
             }
         },

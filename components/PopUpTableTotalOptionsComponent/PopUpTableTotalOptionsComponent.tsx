@@ -56,6 +56,7 @@ export default function PopUpTableTotalOptionsComponent({
                                 </TableHeader>
                                 <TableBody>
                                     {Object.entries(saveOptions[optionType].data[selectedItemIndex].moduleData).map(([category, item]: [string, TableSelectFieldsInterface]) => {
+                                        if (item.data.name === "No") return
                                         return <TableRow key={category}>
                                             <TableCell className="text-medium font-medium">{item.title}</TableCell>
                                             <TableCell className="font-medium">{item.data.name}</TableCell>

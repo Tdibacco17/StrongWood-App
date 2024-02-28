@@ -10,6 +10,8 @@ export interface BajoMesadaExcelDataResponse {
     zocalo: ExcelDataInterface[];
     aperturas: ExcelDataInterface[];
     pisoMetalico: ExcelDataInterface[];
+    puertas: ExcelDataInterface[];
+    cajones: ExcelDataInterface[];
     bisagras: ExcelDataInterface[];
     correderas: ExcelDataInterface[];
     cubiertero: ExcelDataInterface[];
@@ -20,8 +22,8 @@ export interface BajoMesadaExcelDataResponse {
     tacho: ExcelDataInterface[];
 }
 export type BajoMesadaSectionTitle = "medidas" | "materiales" | "panel de cierre" | "fondo" | "patas"
-    | "zocalo" | "aperturas" | "piso metalico" | "bisagras" | "correderas" | "cubiertero" | "carro esquinero"
-    | "carro especiero" | "carro verdulero" | "canasto verdulero" | "tacho";
+    | "zocalo" | "aperturas" | "piso metalico" | "puertas" | "cajones" | "bisagras" | "correderas" | "cubiertero"
+    | "carro esquinero" | "carro especiero" | "carro verdulero" | "canasto verdulero" | "tacho";
 //ESTRUCTURA DE CONSULTAS BAJO MESADA
 export interface BajoMesadaInterface {
     medida: TableSelectFieldsInterface,
@@ -32,6 +34,8 @@ export interface BajoMesadaInterface {
     zocalo: TableSelectFieldsInterface,
     apertura: TableSelectFieldsInterface,
     pisoMetalico: TableSelectFieldsInterface,
+    puertas: TableSelectFieldsInterface,
+    cajones: TableSelectFieldsInterface,
     bisagras: TableSelectFieldsInterface,
     correderas: TableSelectFieldsInterface,
     cubiertero: TableSelectFieldsInterface

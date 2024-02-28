@@ -22,8 +22,10 @@ export const SaveOptionsProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const getTotalPriceOfOptions = (optionType: OptionType) => {
-        return saveOptions[optionType].data
+        const totalPrice = saveOptions[optionType].data
             .reduce((total: number, option: SaveOptionsInterface) => total + option.totalPrice, 0);
+
+        return parseFloat(totalPrice.toFixed(2));
     };
 
     useEffect(() => {

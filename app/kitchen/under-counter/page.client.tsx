@@ -45,8 +45,16 @@ export default function UnderCounterPageClient({
             title: "Piso metalico",
             data: { name: "", price: 0 }
         },
+        puertas: {
+            title: "Puertas",
+            data: { name: "", price: 0 }
+        },
         bisagras: {
             title: "Bisagras",
+            data: { name: "", price: 0 }
+        },
+        cajones: {
+            title: "Cajones",
             data: { name: "", price: 0 }
         },
         correderas: {

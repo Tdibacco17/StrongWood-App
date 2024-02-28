@@ -159,6 +159,7 @@ export const handleNumericInputChange = ({
     setSelectedOption: React.Dispatch<React.SetStateAction<BajoMesadaInterface>>,
     category: BajoMesadaTypes
 }): void => {
+    if (itemData.name === "No") return;
     // Eliminar la parte de la cantidad del nombre
     const itemNameWithoutQuantity = itemData.name.split(' x')[0];
 
@@ -184,6 +185,102 @@ export const handleNumericInputChange = ({
                 price: parseFloat(newPrice.toFixed(2))
             },
         },
+    }));
+};
+
+//handle de handleQuantityChange ( calcula cuantos modulos )
+export const handleQuantityChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    setQuantity: React.Dispatch<React.SetStateAction<number>>
+): void => {
+    const newQuantity = parseInt(event.target.value);
+    setQuantity(newQuantity > 1 ? newQuantity : 1);
+};
+
+// handle de handleBisagrasQuantityChange
+export const handleBisagrasQuantityChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    setBisagrasQuantity: React.Dispatch<React.SetStateAction<number>>,
+    selectedOption: BajoMesadaInterface,
+    excelData: ExcelDataInterface[],
+    setSelectedOption: React.Dispatch<React.SetStateAction<BajoMesadaInterface>> // Agregar como argumento
+): void => {
+    const newQuantity = parseInt(event.target.value);
+    const updatedQuantity = newQuantity > 1 ? newQuantity : 1;
+    setBisagrasQuantity(updatedQuantity);
+    // Llamar a la función handleNumericInputChange para actualizar el precio de las bisagras
+    if (selectedOption.bisagras.data.name.trim().length > 0) {
+        handleNumericInputChange({
+            quantity: updatedQuantity,
+            itemData: selectedOption.bisagras.data,
+            excelData: excelData,
+            setSelectedOption: setSelectedOption, // Propiedad necesaria aquí
+            category: 'bisagras'
+        });
+    }
+};
+// handle de handleCorrederasQuantityChange 
+export const handleCorrederasQuantityChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    setCorrederasQuantity: React.Dispatch<React.SetStateAction<number>>,
+    selectedOption: BajoMesadaInterface,
+    excelData: ExcelDataInterface[],
+    setSelectedOption: React.Dispatch<React.SetStateAction<BajoMesadaInterface>> // Agregar como argumento
+): void => {
+    const newQuantity = parseInt(event.target.value);
+    const updatedQuantity = newQuantity > 1 ? newQuantity : 1;
+    setCorrederasQuantity(updatedQuantity);
+    // Validar si hay una selección de correderas y si es así, llamar a handleNumericInputChange
+    if (selectedOption.correderas.data.name.trim().length > 0) {
+        handleNumericInputChange({
+            quantity: updatedQuantity,
+            itemData: selectedOption.correderas.data,
+            excelData: excelData,
+            setSelectedOption: setSelectedOption, // Propiedad necesaria aquí
+            category: 'correderas'
+        });
+    }
+};
+
+//cajones
+export const handleCalculateDrawerPrice = (
+    {
+        measurements,
+        drawerQuantity,
+        excelData,
+        setSelectedOption
+    }: {
+        setSelectedOption: React.Dispatch<React.SetStateAction<BajoMesadaInterface>>,
+        measurements: MeasurementsInterface | undefined,
+        drawerQuantity: number,
+        excelData: ExcelDataInterface[]
+    }
+) => {
+    if (!measurements) return
+    const { ancho, profundidad } = measurements
+
+    let alturaCajon = 0.1
+    if (drawerQuantity === 2) { // si son 2 cajones
+        alturaCajon = 0.25
+    }
+
+    // const tapaCajon = alto / Number(drawerQuantity);
+    const separacionCajon = 0.1
+    const largoCajon = ((profundidad - separacionCajon) * alturaCajon) * 2;
+    const anchoCajon = (ancho * alturaCajon) * 2;
+    const materialPrice = ((ancho * (profundidad - separacionCajon)) * excelData[1].price) / excelData[1].meters!;
+    const totalPrice = /*tapaCajon +*/ largoCajon + anchoCajon + materialPrice;
+
+    // Actualizar el precio de los cajones en el estado selectedOption
+    setSelectedOption(prevState => ({
+        ...prevState,
+        cajones: {
+            ...prevState.cajones,
+            data: {
+                ...prevState.cajones.data,
+                price: parseFloat((totalPrice * Number(drawerQuantity)).toFixed(2))
+            }
+        }
     }));
 };
 

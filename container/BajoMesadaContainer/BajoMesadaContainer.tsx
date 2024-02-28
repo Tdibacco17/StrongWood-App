@@ -3,7 +3,10 @@ import { UseSavedOptions } from "@/hook/UseSavedOptions";
 import { ExcelDataInterface, MeasurementsInterface } from "@/types";
 import { BajoMesadaExcelDataResponse, BajoMesadaInterface, BajoMesadaTypes, DrawerType } from "@/types/cocinaTypes";
 import { OptionType, SaveOptionsInterface } from "@/types/reducer";
-import { calculateTotalPrice, handleFondo, handleMaterialExterior, handleMeasureSelect, handleNumericInputChange, handlePanelDeCierre, handleZocalo } from "@/utils/functions";
+import {
+    calculateTotalPrice, handleFondo, handleMaterialExterior, handleMeasureSelect, handleNumericInputChange, handlePanelDeCierre,
+    handleZocalo, handleBisagrasQuantityChange, handleCorrederasQuantityChange, handleQuantityChange, handleCalculateDrawerPrice
+} from "@/utils/functions";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -24,41 +27,9 @@ export default function BajoMesadaContainer({
     const [selectedOption, setSelectedOption] = useState<BajoMesadaInterface>(initialSelectedOption);
     const [bisagrasQuantity, setBisagrasQuantity] = useState<number>(1);
     const [correderasQuantity, setCorrederasQuantity] = useState<number>(1);
-
-    const handleBisagrasQuantityChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        const newQuantity = parseInt(event.target.value);
-        const updatedQuantity = newQuantity > 1 ? newQuantity : 1;
-        setBisagrasQuantity(updatedQuantity);
-        // Llamar a la función handleNumericInputChange para actualizar el precio de las bisagras
-        if (selectedOption.bisagras.data.name.trim().length > 0) {
-            handleNumericInputChange({
-                quantity: updatedQuantity,
-                itemData: selectedOption.bisagras.data,
-                excelData: excelData.bisagras,
-                setSelectedOption,
-                category: 'bisagras'
-            });
-        }
-    };
-
-    const handleCorrederasQuantityChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        const newQuantity = parseInt(event.target.value);
-        const updatedQuantity = newQuantity > 1 ? newQuantity : 1;
-        setCorrederasQuantity(updatedQuantity);
-        // Validar si hay una selección de correderas y si es así, llamar a handleNumericInputChange
-        if (selectedOption.correderas.data.name.trim().length > 0) {
-            handleNumericInputChange({
-                quantity: updatedQuantity,
-                itemData: selectedOption.correderas.data,
-                excelData: excelData.correderas,
-                setSelectedOption,
-                category: 'correderas'
-            });
-        }
-    };
-
     const { handleSaveOptionsChange } = UseSavedOptions();
 
+    //actualizador de selecciones
     const handleOptionSelect = (
         category: BajoMesadaTypes,
         itemData: ExcelDataInterface
@@ -125,6 +96,16 @@ export default function BajoMesadaContainer({
                     category,
                 });
             }
+            if (category === "cajones") {
+                if (itemData.name !== "No") {
+                    handleCalculateDrawerPrice({
+                        excelData: excelData.fondo,
+                        measurements,
+                        setSelectedOption,
+                        drawerQuantity: Number(itemData.name)
+                    })
+                }
+            }
         }
         if (category === "bisagras") {
             handleNumericInputChange({
@@ -145,52 +126,21 @@ export default function BajoMesadaContainer({
             })
         }
     };
-
-    const handleQuantityChange = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ): void => {
-        const newQuantity = parseInt(event.target.value);
-        setQuantity(newQuantity > 1 ? newQuantity : 1);
+    //cantidad de bisagras
+    const handleBisagrasQuantityChangeWrapper = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        handleBisagrasQuantityChange(event, setBisagrasQuantity, selectedOption, excelData.bisagras, setSelectedOption);
     };
-    const handleSaveOptions = (): void => {
-        // Verificar si algún campo de opción es inválido
-        const isAnyOptionInvalid = Object.values(selectedOption).some(
-            (option) => !option.data.name || option.data.name.trim() === ''
-        );
-
-        // Si el nombre del módulo está en blanco o alguna opción es inválida, salimos de la función
-        if (moduleName.trim() === '' || isAnyOptionInvalid) {
-            // Manejar el caso en que falten opciones seleccionadas
-            toast.warning("COMPLETE TODOS LOS CAMPOS ANTES DE GUARDAR.", {
-                duration: 3000,
-            });
-            return;
-        }
-
-        // Crear un nuevo objeto de datos guardados
-        const newData: SaveOptionsInterface = {
-            moduleType: moduleType,
-            name: moduleName,
-            totalPrice: calculateTotalPrice(selectedOption, quantity), // Asegúrate de importar esta función
-            quantity,
-            moduleData: { ...selectedOption },
-        };
-
-        // Limpiar los campos
-        setModuleName('');
-        setQuantity(1);
-        setSelectedOption(initialSelectedOption);
-        setMeasurements(undefined)
-        // Llama a la función para guardar las opciones
-        handleSaveOptionsChange(optionType, newData);
-        toast.success("MODULO CREADO CORRECTAMENTE.", {
-            duration: 3000,
-        })
-        return;
+    //cantidad de correderas
+    const handleCorrederasQuantityChangeWrapper = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        handleCorrederasQuantityChange(event, setCorrederasQuantity, selectedOption, excelData.bisagras, setSelectedOption);
     };
-
+    //cantidad del modulo total
+    const handleQuantityChangeWrapper = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        handleQuantityChange(event, setQuantity);
+    };
+    //actualizacion de precio total
     const totalPriceWithQuantity = calculateTotalPrice(selectedOption, quantity);
-
+    //actualizacion de vuelta atras en selecciones
     useEffect(() => {
         if (selectedOption.materialExterior.data.name.trim().length > 0) { //actualiamos materialExterior
             handleMaterialExterior({
@@ -220,7 +170,7 @@ export default function BajoMesadaContainer({
                 category: 'fondo',
             });
         }
-        if (selectedOption.zocalo.data.name.trim().length > 0) {
+        if (selectedOption.zocalo.data.name.trim().length > 0) {//  actualizamos zocalo
             handleZocalo({
                 itemData: selectedOption.zocalo.data.name,
                 measurements,
@@ -229,11 +179,59 @@ export default function BajoMesadaContainer({
                 category: 'zocalo',
             });
         }
+        if (selectedOption.cajones.data.name.trim().length > 0 && selectedOption.cajones.data.name !== "No") { //Actualizo cajones
+            handleCalculateDrawerPrice({
+                excelData: excelData.fondo,
+                measurements,
+                setSelectedOption,
+                drawerQuantity: Number(selectedOption.cajones.data.name)
+            })
+        }
     }, [measurements])
+
+    //guardar selecciones
+    const handleSaveOptions = (): void => {
+        // Verificar si algún campo de opción es inválido
+        const isAnyOptionInvalid = Object.values(selectedOption).some(
+            (option) => !option.data.name || option.data.name.trim() === ''
+        );
+
+        // Si el nombre del módulo está en blanco o alguna opción es inválida, salimos de la función
+        if (moduleName.trim() === '' || isAnyOptionInvalid) {
+            // Manejar el caso en que falten opciones seleccionadas
+            toast.warning("COMPLETE TODOS LOS CAMPOS ANTES DE GUARDAR.", {
+                duration: 3000,
+            });
+            return;
+        }
+
+        // Crear un nuevo objeto de datos guardados
+        const newData: SaveOptionsInterface = {
+            moduleType: moduleType,
+            name: moduleName,
+            totalPrice: calculateTotalPrice(selectedOption, quantity), // Asegúrate de importar esta función
+            quantity,
+            moduleData: { ...selectedOption },
+        };
+
+        // Limpiar los campos
+        setModuleName('');
+        setQuantity(1);
+        setSelectedOption(initialSelectedOption);
+        setMeasurements(undefined)
+        setBisagrasQuantity(1)
+        setCorrederasQuantity(1)
+        // Llama a la función para guardar las opciones
+        handleSaveOptionsChange(optionType, newData);
+        toast.success("MODULO CREADO CORRECTAMENTE.", {
+            duration: 3000,
+        })
+        return;
+    };
 
     return <BajoMesadaComponent
         handleOptionSelect={handleOptionSelect}
-        handleQuantityChange={handleQuantityChange}
+        handleQuantityChangeWrapper={handleQuantityChangeWrapper}
         handleSaveOptions={handleSaveOptions}
         moduleName={moduleName}
         setModuleName={setModuleName}
@@ -244,7 +242,7 @@ export default function BajoMesadaContainer({
         measurements={measurements ? true : false}
         bisagrasQuantity={bisagrasQuantity}
         correderasQuantity={correderasQuantity}
-        handleCorrederasQuantityChange={handleCorrederasQuantityChange}
-        handleBisagrasQuantityChange={handleBisagrasQuantityChange}
+        handleCorrederasQuantityChangeWrapper={handleCorrederasQuantityChangeWrapper}
+        handleBisagrasQuantityChangeWrapper={handleBisagrasQuantityChangeWrapper}
     />
 }
