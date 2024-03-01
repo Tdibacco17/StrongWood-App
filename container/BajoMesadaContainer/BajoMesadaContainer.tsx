@@ -132,7 +132,7 @@ export default function BajoMesadaContainer({
     };
     //cantidad de correderas
     const handleCorrederasQuantityChangeWrapper = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        handleCorrederasQuantityChange(event, setCorrederasQuantity, selectedOption, excelData.bisagras, setSelectedOption);
+        handleCorrederasQuantityChange(event, setCorrederasQuantity, selectedOption, excelData.correderas, setSelectedOption);
     };
     //cantidad del modulo total
     const handleQuantityChangeWrapper = (event: React.ChangeEvent<HTMLInputElement>): void => {
