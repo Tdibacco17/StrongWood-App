@@ -20,10 +20,11 @@ export interface BajoMesadaExcelDataResponse {
     carroVerdulero: ExcelDataInterface[];
     canastoVerdulero: ExcelDataInterface[];
     tacho: ExcelDataInterface[];
+    pisoCajon: ExcelDataInterface[];
 }
 export type BajoMesadaSectionTitle = "medidas" | "materiales" | "panel de cierre" | "fondo" | "patas"
     | "zocalo" | "aperturas" | "piso metalico" | "puertas" | "cajones" | "bisagras" | "correderas" | "cubiertero"
-    | "carro esquinero" | "carro especiero" | "carro verdulero" | "canasto verdulero" | "tacho";
+    | "carro esquinero" | "carro especiero" | "carro verdulero" | "canasto verdulero" | "tacho" | "piso cajon";
 //ESTRUCTURA DE CONSULTAS BAJO MESADA
 export interface BajoMesadaInterface {
     medida: TableSelectFieldsInterface,
@@ -44,6 +45,7 @@ export interface BajoMesadaInterface {
     carroVerdulero: TableSelectFieldsInterface,
     canastoVerdulero: TableSelectFieldsInterface,
     tacho: TableSelectFieldsInterface,
+    pisoCajon: TableSelectFieldsInterface,
 }
 export type BajoMesadaTypes = keyof BajoMesadaInterface;
 export type DrawerType = 'puertas' | 'cajones' | ''; //bajo mesada

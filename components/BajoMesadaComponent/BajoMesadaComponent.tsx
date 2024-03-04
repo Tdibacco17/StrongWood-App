@@ -140,10 +140,17 @@ export default function BajoMesadaComponent({
                             handleOptionSelect: handleOptionSelect,
                         }} />
                 </div>
+                <SelectFieldComponent title="Piso cajon" excelData={excelData.pisoCajon}
+                    isDisabled={selectedOption.correderas.data.name.length > 0} showNumericInput={false}
+                    bajoMesadaProps={{
+                        selectedOption: selectedOption,
+                        selectedOptionType: "pisoCajon",
+                        handleOptionSelect: handleOptionSelect,
+                    }} />
                 <DividerComponent title="ACCESORIOS" size="medium" />
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Cubiertero" excelData={excelData.cubiertero}
-                        isDisabled={selectedOption.correderas.data.name.length > 0} showNumericInput={false}
+                        isDisabled={selectedOption.pisoCajon.data.name.length > 0} showNumericInput={false}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "cubiertero",

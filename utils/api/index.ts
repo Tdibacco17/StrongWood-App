@@ -27,6 +27,7 @@ const api = {
                 const carroVerdulero: ExcelDataInterface[] = [];
                 const canastoVerdulero: ExcelDataInterface[] = [];
                 const tacho: ExcelDataInterface[] = [];
+                const pisoCajon: ExcelDataInterface[] = [];
 
                 // Función para procesar cada fila y añadir al array correspondiente
                 const processRow = (sectionArray: ExcelDataInterface[], sectionName: BajoMesadaSectionTitle): ((row: string) => void) => {
@@ -73,6 +74,7 @@ const api = {
                     "carro verdulero": processRow(carroVerdulero, "carro verdulero"),
                     "canasto verdulero": processRow(canastoVerdulero, "canasto verdulero"),
                     "tacho": processRow(tacho, "tacho"),
+                    "piso cajon": processRow(pisoCajon, "piso cajon"),
                     // Puedes agregar más secciones aquí según sea necesario
                 };
 
@@ -96,7 +98,7 @@ const api = {
                 return {
                     medidas, materiales, panelDeCierre, fondo, patas, zocalo, aperturas,
                     pisoMetalico, puertas, cajones, bisagras, correderas, cubiertero, carroEsquinero,
-                    carroEspeciero, carroVerdulero, canastoVerdulero, tacho
+                    carroEspeciero, carroVerdulero, canastoVerdulero, tacho, pisoCajon
                 };
             }
         },

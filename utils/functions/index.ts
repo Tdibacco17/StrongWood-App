@@ -102,8 +102,8 @@ export const handleFondo = ({
     category: CategoryType,
 }): void => {
     if (!measurements) return;
-    const { ancho, profundidad } = measurements;
-    const materialPrice = itemData === "No" ? 0 : ((ancho * profundidad) * excelData[1].price) / excelData[1].meters!;
+    const { ancho, profundidad, alto } = measurements;
+    const materialPrice = itemData === "No" ? 0 : ((ancho * alto) * excelData[1].price);
 
     setSelectedOption((prevState: any) => ({
         ...prevState,
@@ -260,18 +260,18 @@ export const handleCalculateDrawerPrice = (
     const { ancho, profundidad } = measurements
 
     let alturaCajon = 0.1
-    if (drawerQuantity === 2) { // si son 2 cajones
+    if (drawerQuantity === 2) {
         alturaCajon = 0.25
     }
-
-    // const tapaCajon = alto / Number(drawerQuantity);
     const separacionCajon = 0.1
-    const largoCajon = ((profundidad - separacionCajon) * alturaCajon) * 2;
+    const largoCajon = (profundidad - separacionCajon) * alturaCajon * 2;
     const anchoCajon = (ancho * alturaCajon) * 2;
-    const materialPrice = ((ancho * (profundidad - separacionCajon)) * excelData[1].price) / excelData[1].meters!;
-    const totalPrice = /*tapaCajon +*/ largoCajon + anchoCajon + materialPrice;
 
-    // Actualizar el precio de los cajones en el estado selectedOption
+    // const fondoM2 = ancho * (profundidad - separacionCajon)
+    // const fondoPrice = (fondoM2 * 5086) * Number(drawerQuantity) //en el 5086 multiplicar x constante de fondo cajon
+
+    const totalPrice = (largoCajon + anchoCajon) * excelData[1].price
+
     setSelectedOption(prevState => ({
         ...prevState,
         cajones: {
@@ -284,6 +284,41 @@ export const handleCalculateDrawerPrice = (
     }));
 };
 
+export const handleCalculatePricePisoCajon = ({
+    setSelectedOption,
+    measurements,
+    excelData,
+    drawerQuantity,
+    category,
+    itemData
+}: {
+    setSelectedOption: React.Dispatch<React.SetStateAction<BajoMesadaInterface>>,
+    measurements: MeasurementsInterface | undefined,
+    excelData: ExcelDataInterface[]
+    drawerQuantity: number,
+    category: BajoMesadaTypes,
+    itemData: string,
+}) => {
+    if (!measurements) return
+    const { ancho, profundidad } = measurements
+    const selectedMaterial = excelData.find((material: ExcelDataInterface) => material.name === itemData);
+
+    if (selectedMaterial) {
+        const totalPrice = (ancho * profundidad) * selectedMaterial.price;
+        setSelectedOption((prevState: any) => ({
+            ...prevState,
+            [category]: {
+                ...prevState[category],
+                data: {
+                    ...prevState[category].data,
+                    price: parseFloat((totalPrice * drawerQuantity).toFixed(2))
+                    ,
+                },
+            },
+        }));
+    }
+    return
+}
 //calcualr precio total de las selecciones
 export const calculateTotalPrice = (selectedOption: SelectedOptionType, quantity: number) => {
     const totalPrice = Object.values(selectedOption).reduce((acc, curr) => acc + (typeof curr.data.price === 'number' ? curr.data.price : 0), 0);
