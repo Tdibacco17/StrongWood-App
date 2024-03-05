@@ -14,8 +14,8 @@ export default function UnderCounterPageClient({
 }) {
     const initialUnderCounterOption: BajoMesadaInterface = {
         medida: {
-            title: "Medidas",
-            data: { name: "", price: 0, meters: 0 }
+            title: "Medida",
+            data: { name: "", price: 0 }
         },
         materialExterior: {
             title: "Material exterior",
@@ -27,7 +27,7 @@ export default function UnderCounterPageClient({
         },
         fondo: {
             title: "Fondo",
-            data: { name: "", price: 0, meters: 0 }
+            data: { name: "", price: 0 }
         },
         patas: {
             title: "Patas",
@@ -35,7 +35,7 @@ export default function UnderCounterPageClient({
         },
         zocalo: {
             title: "Zocalo",
-            data: { name: "", price: 0, meters: 0 }
+            data: { name: "", price: 0 }
         },
         apertura: {
             title: "Apertura",

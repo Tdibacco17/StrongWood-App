@@ -1,3 +1,4 @@
+import { SquareMetersInterface } from ".";
 import { AlacenaInterface, BajoMesadaInterface } from "./cocinaTypes";
 
 //acciones reducer
@@ -24,7 +25,8 @@ export interface SaveOptionsInterface {
     name: string,
     totalPrice: number,
     quantity: number,
-    moduleData: SelectedOptionType
+    moduleData: SelectedOptionType,
+    materials: SquareMetersInterface[]
 }
 
 //METODOS DEL CONTEXTO

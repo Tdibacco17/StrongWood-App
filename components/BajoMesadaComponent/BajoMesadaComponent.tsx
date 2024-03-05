@@ -67,7 +67,7 @@ export default function BajoMesadaComponent({
                             selectedOptionType: "panelDeCierre",
                             handleOptionSelect: handleOptionSelect,
                         }} />
-                    <SelectFieldComponent title="Fondo" excelData={excelData.fondo}
+                    <SelectFieldComponent title="Fondo" excelData={excelData.fondos.slice(0, 2)}
                         isDisabled={selectedOption.panelDeCierre.data.name.length > 0} showNumericInput={false}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
@@ -140,7 +140,7 @@ export default function BajoMesadaComponent({
                             handleOptionSelect: handleOptionSelect,
                         }} />
                 </div>
-                <SelectFieldComponent title="Piso cajon" excelData={excelData.pisoCajon}
+                <SelectFieldComponent title="Piso cajon" excelData={excelData.fondos}
                     isDisabled={selectedOption.correderas.data.name.length > 0} showNumericInput={false}
                     bajoMesadaProps={{
                         selectedOption: selectedOption,

@@ -12,7 +12,7 @@ const api = {
                 const medidas: ExcelDataInterface[] = [];
                 const materiales: ExcelDataInterface[] = [];
                 const panelDeCierre: ExcelDataInterface[] = [];
-                const fondo: ExcelDataInterface[] = [];
+                const fondos: ExcelDataInterface[] = [];
                 const patas: ExcelDataInterface[] = [];
                 const zocalo: ExcelDataInterface[] = [];
                 const aperturas: ExcelDataInterface[] = [];
@@ -27,7 +27,6 @@ const api = {
                 const carroVerdulero: ExcelDataInterface[] = [];
                 const canastoVerdulero: ExcelDataInterface[] = [];
                 const tacho: ExcelDataInterface[] = [];
-                const pisoCajon: ExcelDataInterface[] = [];
 
                 // Función para procesar cada fila y añadir al array correspondiente
                 const processRow = (sectionArray: ExcelDataInterface[], sectionName: BajoMesadaSectionTitle): ((row: string) => void) => {
@@ -59,7 +58,7 @@ const api = {
                     "medidas": processRow(medidas, "medidas"),
                     "materiales": processRow(materiales, "materiales"),
                     "panel de cierre": processRow(panelDeCierre, "panel de cierre"),
-                    "fondo": processRow(fondo, "fondo"),
+                    "fondos": processRow(fondos, "fondos"),
                     "patas": processRow(patas, "patas"),
                     "zocalo": processRow(zocalo, "zocalo"),
                     "aperturas": processRow(aperturas, "aperturas"),
@@ -74,7 +73,6 @@ const api = {
                     "carro verdulero": processRow(carroVerdulero, "carro verdulero"),
                     "canasto verdulero": processRow(canastoVerdulero, "canasto verdulero"),
                     "tacho": processRow(tacho, "tacho"),
-                    "piso cajon": processRow(pisoCajon, "piso cajon"),
                     // Puedes agregar más secciones aquí según sea necesario
                 };
 
@@ -96,9 +94,9 @@ const api = {
 
                 // Retornamos el objeto con las medidas y materiales
                 return {
-                    medidas, materiales, panelDeCierre, fondo, patas, zocalo, aperturas,
+                    medidas, materiales, panelDeCierre, fondos, patas, zocalo, aperturas,
                     pisoMetalico, puertas, cajones, bisagras, correderas, cubiertero, carroEsquinero,
-                    carroEspeciero, carroVerdulero, canastoVerdulero, tacho, pisoCajon
+                    carroEspeciero, carroVerdulero, canastoVerdulero, tacho
                 };
             }
         },
