@@ -1,5 +1,6 @@
 'use client'
 import { initialOptionsState, reducer } from "@/reducer/SaveOptionesRuder";
+import { ExcelDataInterface } from "@/types";
 import { OptionType, SaveOptionsInterface, SavedOptionsContextInterface, } from "@/types/reducer";
 import { ReactNode, createContext, useEffect, useReducer } from "react";
 
@@ -13,6 +14,10 @@ export const SaveOptionsProvider = ({ children }: { children: ReactNode }) => {
         dispatch({ type: 'ADD_OPTION', payload: { optionType, option: newOption } });
     };
 
+    const handleSaveMaterialsChange = (optionType: OptionType, materialsData: ExcelDataInterface[]) => {
+        dispatch({ type: 'UPDATE_OPTIONS', payload: { optionType, materialsData } });
+    }
+
     const handleRemoveOption = (optionType: OptionType, index: number) => {
         dispatch({ type: 'REMOVE_OPTION', payload: { optionType, index } });
     };
@@ -22,11 +27,21 @@ export const SaveOptionsProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const getTotalPriceOfOptions = (optionType: OptionType) => {
-        const totalPrice = saveOptions[optionType].data
-            .reduce((total: number, option: SaveOptionsInterface) => total + option.totalPrice, 0);
+        let totalPriceGeneral = 0;
+        const options = saveOptions[optionType].data;
 
-        return parseFloat(totalPrice.toFixed(2));
+        // Sumar los precios de cada ítem en options al total general
+        totalPriceGeneral += options.reduce((total: number, option: SaveOptionsInterface) => total + option.totalPrice, 0);
+
+        // Sumar los precios de los objetos en totalMaterials al total general
+        const totalMaterials = saveOptions[optionType].totalMaterials;
+        Object.values(totalMaterials).forEach((item: any) => {
+            totalPriceGeneral += item.price;
+        });
+
+        return parseFloat(totalPriceGeneral.toFixed(3));
     };
+
 
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -38,6 +53,9 @@ export const SaveOptionsProvider = ({ children }: { children: ReactNode }) => {
                 } catch (error) {
                     console.error('Error parsing stored savedData:', error);
                 }
+            } else {
+                // No hay datos guardados, inicializar con el estado inicial
+                dispatch({ type: 'SET_OPTIONS', payload: initialOptionsState });
             }
         }
     }, []);
@@ -47,6 +65,7 @@ export const SaveOptionsProvider = ({ children }: { children: ReactNode }) => {
             value={{
                 saveOptions,
                 handleSaveOptionsChange,
+                handleSaveMaterialsChange,
                 handleRemoveOption,
                 handleClearOptions,
                 getTotalPriceOfOptions

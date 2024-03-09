@@ -37,14 +37,6 @@ export default function UnderCounterPageClient({
             title: "Zocalo",
             data: { name: "", price: 0 }
         },
-        apertura: {
-            title: "Apertura",
-            data: { name: "", price: 0 }
-        },
-        pisoMetalico: {
-            title: "Piso metalico",
-            data: { name: "", price: 0 }
-        },
         puertas: {
             title: "Puertas",
             data: { name: "", price: 0 }
@@ -63,6 +55,14 @@ export default function UnderCounterPageClient({
         },
         pisoCajon: {
             title: "Piso cajon",
+            data: { name: "", price: 0 }
+        },
+        apertura: {
+            title: "Apertura",
+            data: { name: "", price: 0 }
+        },
+        pisoMetalico: {
+            title: "Piso metalico",
             data: { name: "", price: 0 }
         },
         cubiertero: {

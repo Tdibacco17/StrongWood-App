@@ -11,6 +11,7 @@ export interface ExcelDataInterface {
     price: number,
     meters?: number | null;
 }
+
 export interface SelectedOptionInterface{
     name: string,
     price: number,

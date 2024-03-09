@@ -1,5 +1,7 @@
-import { ExcelDataInterface } from "@/types"
-import { AlacenaExcelDataResponse, AlacenaSectionTitle, BajoMesadaExcelDataResponse, BajoMesadaSectionTitle } from "@/types/cocinaTypes";
+import { ExcelDataInterface, } from "@/types"
+import {
+    AlacenaExcelDataResponse, AlacenaSectionTitle, BajoMesadaExcelDataResponse, BajoMesadaSectionTitle,
+} from "@/types/cocinaTypes";
 
 const api = {
     cocina: {

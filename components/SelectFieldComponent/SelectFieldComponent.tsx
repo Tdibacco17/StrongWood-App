@@ -13,7 +13,8 @@ export default function SelectFieldComponent({
     title,
     subTitle,
     isDisabled,
-    showNumericInput
+    showNumericInput,
+    btnBlocked
 }: {
     excelData?: ExcelDataInterface[]; // Marcar excelData como opcional
     inputQuantity?: number,
@@ -31,7 +32,8 @@ export default function SelectFieldComponent({
     title: string;
     subTitle?: string,
     isDisabled: boolean,
-    showNumericInput: boolean
+    showNumericInput: boolean,
+    btnBlocked?: boolean
 }) {
 
     const isOptionSelected = (itemData: ExcelDataInterface) => {
@@ -78,7 +80,7 @@ export default function SelectFieldComponent({
             <div className={styles["options"]}>
                 {excelData.map((itemData: ExcelDataInterface, index: number) => (
                     <Button
-                        disabled={!isDisabled}
+                        disabled={!isDisabled ||( btnBlocked && index !== 0)}
                         variant="secondary"
                         key={index}
                         onClick={() => handleOptionSelect(

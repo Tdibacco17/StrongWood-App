@@ -24,7 +24,7 @@ export const handleMeasureSelect = ({
         const newSquareMeter: SquareMetersInterface = {
             sectionId: category,
             title: "Melamina blanca",
-            amount: itemData.meters ? itemData.meters : 0
+            amount: itemData.meters ? parseFloat((itemData.meters).toFixed(3)) : 0
         };
 
         // Llamar al handleSquareMeterChange para actualizar o agregar el objeto en squareMeter
@@ -54,15 +54,15 @@ export const handleMaterialExterior = ({
     const { ancho, alto } = measurements;
     const selectedMaterial = excelData.find((material: ExcelDataInterface) => material.name === materialName);
     if (selectedMaterial) {
-        let materialPrice = ancho * alto * selectedMaterial.price;
-        materialPrice = parseFloat(materialPrice.toFixed(2));
+        // let materialPrice = ancho * alto * selectedMaterial.price;
+        // materialPrice = parseFloat(materialPrice.toFixed(2));
         setSelectedOption((prevState: any) => ({
             ...prevState,
             [category]: {
                 ...prevState[category],
                 data: {
                     ...prevState[category].data,
-                    price: materialPrice,
+                    price: 0, //materialPrice,
                 },
             },
         }));
@@ -102,23 +102,23 @@ export const handlePanelDeCierre = ({
     const selectedMaterial = excelData.find((material: ExcelDataInterface) => material.name === materialName);
 
     if (selectedMaterial) {
-        let materialPrice = alto * profundidad * selectedMaterial.price;
-        if (typeof lateralSelection === 'number') {
-            if (lateralSelection > 1) {
-                materialPrice = materialPrice * lateralSelection;
-            }
-            if (lateralSelection === 0) {
-                materialPrice = 0;
-            }
-        }
-        materialPrice = parseFloat(materialPrice.toFixed(2));
+        // let materialPrice = alto * profundidad * selectedMaterial.price;
+        // if (typeof lateralSelection === 'number') {
+        //     if (lateralSelection > 1) {
+        //         materialPrice = materialPrice * lateralSelection;
+        //     }
+        //     if (lateralSelection === 0) {
+        //         materialPrice = 0;
+        //     }
+        // }
+        // materialPrice = parseFloat(materialPrice.toFixed(2));
         setSelectedOption((prevState: any) => ({
             ...prevState,
             [category]: {
                 ...prevState[category],
                 data: {
                     ...prevState[category].data,
-                    price: materialPrice,
+                    price: 0, //materialPrice,
                 },
             },
         }));
@@ -126,7 +126,7 @@ export const handlePanelDeCierre = ({
         const newSquareMeter: SquareMetersInterface = {
             sectionId: category,
             title: selectedMaterial.name,
-            amount: alto * profundidad * lateralSelection
+            amount: parseFloat((alto * profundidad * lateralSelection).toFixed(3))
         };
         handleSquareMeterChange(newSquareMeter, squareMeter, setSquareMeter);
     }
@@ -151,7 +151,7 @@ export const handleFondo = ({
 }): void => {
     if (!measurements) return;
     const { ancho, alto } = measurements;
-    const materialPrice = itemData === "No" ? 0 : (ancho * alto * excelData[1].price);
+    // const materialPrice = itemData === "No" ? 0 : (ancho * alto * excelData[1].price);
 
     setSelectedOption((prevState: any) => ({
         ...prevState,
@@ -159,7 +159,7 @@ export const handleFondo = ({
             ...prevState[category],
             data: {
                 ...prevState[category].data,
-                price: parseFloat(materialPrice.toFixed(2))
+                price: 0,//parseFloat(materialPrice.toFixed(2))
             },
         },
     }));
@@ -168,7 +168,7 @@ export const handleFondo = ({
     const newSquareMeter: SquareMetersInterface = {
         sectionId: category,
         title: itemData,
-        amount: ancho * alto
+        amount: parseFloat((ancho * alto).toFixed(3))
     };
     handleSquareMeterChange(newSquareMeter, squareMeter, setSquareMeter);
 };
@@ -201,7 +201,7 @@ export const handleZocalo = ({
         },
     }));
 };
-//puertas o cajones + input
+//puertas o cajones + input => bisagras / correderas
 export const handleNumericInputChange = ({
     quantity,
     itemData,
@@ -328,11 +328,11 @@ export const handleCalculateDrawerPrice = ({
     const largoCajon = (profundidad - separacionCajon) * alturaCajon * 2;
     const anchoCajon = (ancho * alturaCajon) * 2;
 
-    let totalPrice = 0;
+    // let totalPrice = 0;
 
-    if (drawerQuantity !== 0) {
-        totalPrice = (largoCajon + anchoCajon) * excelData[0].price; // exceldata[1] => melamina blanca posicion cero
-    }
+    // if (drawerQuantity !== 0) {
+    //     totalPrice = (largoCajon + anchoCajon) * excelData[0].price; // exceldata[1] => melamina blanca posicion cero
+    // }
 
     setSelectedOption(prevState => ({
         ...prevState,
@@ -340,7 +340,7 @@ export const handleCalculateDrawerPrice = ({
             ...prevState.cajones,
             data: {
                 ...prevState.cajones.data,
-                price: parseFloat((totalPrice * Number(drawerQuantity)).toFixed(2))
+                price: 0 // parseFloat((totalPrice * Number(drawerQuantity)).toFixed(2))
             }
         }
     }));
@@ -349,7 +349,7 @@ export const handleCalculateDrawerPrice = ({
     const newSquareMeter: SquareMetersInterface = {
         sectionId: category,
         title: 'Melamina blanca',
-        amount: drawerQuantity === 0 ? 0 : ((largoCajon + anchoCajon) * Number(drawerQuantity))
+        amount: drawerQuantity === 0 ? 0 : parseFloat(((largoCajon + anchoCajon) * Number(drawerQuantity)).toFixed(3))
     };
     handleSquareMeterChange(newSquareMeter, squareMeter, setSquareMeter);
 };
@@ -379,14 +379,14 @@ export const handleCalculatePricePisoCajon = ({
     const selectedMaterial = excelData.find((material: ExcelDataInterface) => material.name === itemData);
 
     if (selectedMaterial) {
-        const totalPrice = (ancho * profundidad) * selectedMaterial.price;
+        // const totalPrice = (ancho * profundidad) * selectedMaterial.price;
         setSelectedOption((prevState: any) => ({
             ...prevState,
             [category]: {
                 ...prevState[category],
                 data: {
                     ...prevState[category].data,
-                    price: parseFloat((totalPrice * drawerQuantity).toFixed(2))
+                    price: 0 //parseFloat((totalPrice * drawerQuantity).toFixed(2))
                     ,
                 },
             },
@@ -395,7 +395,7 @@ export const handleCalculatePricePisoCajon = ({
         const newSquareMeter: SquareMetersInterface = {
             sectionId: category,
             title: selectedMaterial.name,
-            amount: ancho * profundidad * drawerQuantity
+            amount: parseFloat((ancho * profundidad * drawerQuantity).toFixed(3))
         };
         handleSquareMeterChange(newSquareMeter, squareMeter, setSquareMeter);
     }
@@ -432,9 +432,53 @@ export const handleSquareMeterChange = (
     }
 };
 
+export const handleQuantityApertura = ({
+    drawerQuantity,
+    setSelectedOption,
+    category,
+    itemData,
+    excelData
+}: {
+    drawerQuantity: number,
+    setSelectedOption: React.Dispatch<React.SetStateAction<BajoMesadaInterface>>,
+    category: BajoMesadaTypes,
+    itemData: ExcelDataInterface,
+    excelData: ExcelDataInterface[],
+}) => {
+    const selectedMaterial = excelData.find((material: ExcelDataInterface) => material.name === itemData.name);
+    if (selectedMaterial) {
+        setSelectedOption((prevState: any) => ({
+            ...prevState,
+            [category]: {
+                ...prevState[category],
+                data: {
+                    ...prevState[category].data,
+                    price: parseFloat((selectedMaterial.price * drawerQuantity).toFixed(3))
+                    ,
+                },
+            },
+        }));
+    }
+}
+
 //calcualr precio total de las selecciones
 export const calculateTotalPrice = (selectedOption: SelectedOptionType, quantity: number) => {
     const totalPrice = Object.values(selectedOption).reduce((acc, curr) => acc + (typeof curr.data.price === 'number' ? curr.data.price : 0), 0);
     const totalPriceRounded = parseFloat((totalPrice * quantity).toFixed(2)); // Redondear a 2 decimales
     return totalPriceRounded;
+};
+
+//calcualr precio total de las selecciones
+export const calculateTotalPriceM2 = (selectedOption: SelectedOptionType, squareMeters: { [key: string]: { amount: number, placas: number, price: number } }, quantity: number) => {
+    // Calcular el precio total de las selecciones
+    const totalPriceSelections = Object.values(selectedOption).reduce((acc, curr) => acc + (typeof curr.data.price === 'number' ? curr.data.price : 0), 0);
+
+    // Calcular el precio total de los metros cuadrados
+    const totalPriceSquareMeters = Object.values(squareMeters).reduce((acc, curr) => acc + curr.price, 0);
+
+    // Calcular el precio total incluyendo la cantidad
+    const totalPrice = totalPriceSelections + totalPriceSquareMeters;
+    const totalPriceWithQuantity = parseFloat((totalPrice * quantity).toFixed(2)); // Redondear a 2 decimales
+
+    return totalPriceWithQuantity;
 };

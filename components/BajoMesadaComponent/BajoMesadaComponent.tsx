@@ -1,4 +1,4 @@
-import { ExcelDataInterface } from "@/types"
+import { ExcelDataInterface, SquareMetersInterface } from "@/types"
 import { BajoMesadaExcelDataResponse, BajoMesadaInterface, BajoMesadaTypes } from "@/types/cocinaTypes"
 import styles from "./BajoMesadaComponent.module.scss"
 import SelectFieldComponent from "../SelectFieldComponent/SelectFieldComponent"
@@ -89,26 +89,10 @@ export default function BajoMesadaComponent({
                             handleOptionSelect: handleOptionSelect,
                         }} />
                 </div>
-                <div className={styles["wrapper-row"]}>
-                    <SelectFieldComponent title="Apertura" excelData={excelData.aperturas}
-                        isDisabled={selectedOption.zocalo.data.name.length > 0} showNumericInput={false}
-                        bajoMesadaProps={{
-                            selectedOption: selectedOption,
-                            selectedOptionType: "apertura",
-                            handleOptionSelect: handleOptionSelect,
-                        }} />
-                    <SelectFieldComponent title="Piso metalico" excelData={excelData.pisoMetalico}
-                        isDisabled={selectedOption.apertura.data.name.length > 0} showNumericInput={false}
-                        bajoMesadaProps={{
-                            selectedOption: selectedOption,
-                            selectedOptionType: "pisoMetalico",
-                            handleOptionSelect: handleOptionSelect,
-                        }} />
-                </div>
                 <DividerComponent title="CAJON O PUERTAS" size="medium" />
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Puertas" subTitle="Precio del frente contemplado en material exterior" excelData={excelData.puertas}
-                        isDisabled={selectedOption.pisoMetalico.data.name.length > 0} showNumericInput={false}
+                        isDisabled={selectedOption.zocalo.data.name.length > 0} showNumericInput={false} btnBlocked={selectedOption.cajones.data.name.trim().length > 0 && (selectedOption.cajones.data.name === "No" ? false : true)}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "puertas",
@@ -125,7 +109,7 @@ export default function BajoMesadaComponent({
                 </div>
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Cajones" subTitle="Precio del frente contemplado en material exterior" excelData={excelData.cajones}
-                        isDisabled={selectedOption.bisagras.data.name.length > 0} showNumericInput={false}
+                        isDisabled={selectedOption.bisagras.data.name.length > 0} showNumericInput={false} btnBlocked={selectedOption.puertas.data.name === "No" ? false : true}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "cajones",
@@ -140,17 +124,33 @@ export default function BajoMesadaComponent({
                             handleOptionSelect: handleOptionSelect,
                         }} />
                 </div>
-                <SelectFieldComponent title="Piso cajon" excelData={excelData.fondos}
-                    isDisabled={selectedOption.correderas.data.name.length > 0} showNumericInput={false}
-                    bajoMesadaProps={{
-                        selectedOption: selectedOption,
-                        selectedOptionType: "pisoCajon",
-                        handleOptionSelect: handleOptionSelect,
-                    }} />
+                <div className={styles["wrapper-row"]}>
+                    <SelectFieldComponent title="Piso cajon" excelData={excelData.fondos}
+                        isDisabled={selectedOption.correderas.data.name.length > 0} showNumericInput={false}
+                        bajoMesadaProps={{
+                            selectedOption: selectedOption,
+                            selectedOptionType: "pisoCajon",
+                            handleOptionSelect: handleOptionSelect,
+                        }} />
+                    <SelectFieldComponent title="Apertura" excelData={excelData.aperturas}
+                        isDisabled={selectedOption.pisoCajon.data.name.length > 0} showNumericInput={false}
+                        bajoMesadaProps={{
+                            selectedOption: selectedOption,
+                            selectedOptionType: "apertura",
+                            handleOptionSelect: handleOptionSelect,
+                        }} />
+                </div>
                 <DividerComponent title="ACCESORIOS" size="medium" />
                 <div className={styles["wrapper-row"]}>
+                    <SelectFieldComponent title="Piso metalico" excelData={excelData.pisoMetalico}
+                        isDisabled={selectedOption.apertura.data.name.length > 0} showNumericInput={false}
+                        bajoMesadaProps={{
+                            selectedOption: selectedOption,
+                            selectedOptionType: "pisoMetalico",
+                            handleOptionSelect: handleOptionSelect,
+                        }} />
                     <SelectFieldComponent title="Cubiertero" excelData={excelData.cubiertero}
-                        isDisabled={selectedOption.pisoCajon.data.name.length > 0} showNumericInput={false}
+                        isDisabled={selectedOption.pisoMetalico.data.name.length > 0} showNumericInput={false}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "cubiertero",
@@ -170,6 +170,7 @@ export default function BajoMesadaComponent({
                             selectedOptionType: "carroEspeciero",
                             handleOptionSelect: handleOptionSelect,
                         }} />
+
                 </div>
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Carro verdulero" excelData={excelData.carroVerdulero}
@@ -195,7 +196,7 @@ export default function BajoMesadaComponent({
                         }} />
                 </div>
                 <DividerComponent title="SELECCIONES REALIZADAS" size="lg" />
-                <TableSelectFieldsComponent quantity={quantity} moduleName={moduleName} handleSaveOptions={handleSaveOptions}
+                <TableSelectFieldsComponent quantity={quantity} moduleName={moduleName} handleSaveOptions={handleSaveOptions} /* totalSquareMeters={totalSquareMeters} */
                     handleQuantityChange={handleQuantityChangeWrapper} selectedOption={selectedOption} totalPriceWithQuantity={totalPriceWithQuantity} />
             </div>
         </div>

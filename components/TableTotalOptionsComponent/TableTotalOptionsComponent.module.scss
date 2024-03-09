@@ -12,5 +12,18 @@
             color: hsl(var(--accent-foreground));
             background-color: hsl(var(--accent));
         }
+
+
+        .line-top {
+            border-top: 1px solid hsl(var(--border));
+        }
+
+        .line-bottom {
+            border-bottom: 1px solid hsl(var(--border));
+        }
+
+        .row-active {
+            background-color: hsl(var(--muted) / 0.5);
+        }
     }
 }

@@ -8,4 +8,16 @@
         color: #59F3A6;
         border: 1px solid #59F3A6;
     }
+
+    .line-top {
+        border-top: 1px solid hsl(var(--border));
+    }
+
+    .line-bottom {
+        border-bottom: 1px solid hsl(var(--border));
+    }
+
+    .row-active {
+        background-color: hsl(var(--muted) / 0.5);
+    }
 }

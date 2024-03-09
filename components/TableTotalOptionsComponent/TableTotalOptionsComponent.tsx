@@ -18,7 +18,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "../ui/button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Badge } from "../ui/badge";
 import { UseSavedOptions } from "@/hook/UseSavedOptions";
 import { OptionType, SaveOptionsInterface } from "@/types/reducer";
@@ -41,29 +41,28 @@ export function TableTotalOptionsComponent() {
         <section className={styles["section-total-options"]}>
             {Object.entries(saveOptions).map(([optionType, data]) => {
                 const typedOptionType = optionType as OptionType;
-
                 if (data.data.length > 0) {
                     return (
                         <div key={optionType} className={styles["table"]}>
                             <p>COTIZACIÓN {data.title.toUpperCase()}</p>
                             <Table>
-                                <TableHeader>
-                                    <TableRow>
+                                <TableHeader className={styles["line-top"]}>
+                                    <TableRow className={styles["row-active"]}>
                                         <TableHead>NOMBRE DE MÓDULOS</TableHead>
-                                        <TableHead className="text-center">CANTIDAD</TableHead>
-                                        <TableHead className="text-right">PRECIO</TableHead>
+                                        <TableHead >CANTIDAD</TableHead>
+                                        <TableHead className="text-center">PRECIO</TableHead>
                                         <TableHead></TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
                                     {data.data.map((item: SaveOptionsInterface, index: number) => (
                                         <TableRow key={index}>
-                                            <TableCell className="font-medium space-x-2 w-[500px]">
+                                            <TableCell className="space-x-2 w-[400px]">
                                                 <Badge variant="outline">{item.moduleType}</Badge>
                                                 <span>{item.name}</span>
                                             </TableCell>
-                                            <TableCell className="font-medium text-center">{item.quantity}</TableCell>
-                                            <TableCell className="text-right">${item.totalPrice}</TableCell>
+                                            <TableCell >{item.quantity}</TableCell>
+                                            <TableCell className="text-center">${item.totalPrice}</TableCell>
                                             <TableCell className="flex justify-end">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
@@ -90,10 +89,28 @@ export function TableTotalOptionsComponent() {
                                         </TableRow>
                                     ))}
                                 </TableBody>
+                                <TableHeader className={styles["line-top"]}>
+                                    <TableRow className={styles["row-active"]}>
+                                        <TableHead className="w-[400px]">MATERIALES A UTILIZAR</TableHead>
+                                        <TableHead>m2</TableHead>
+                                        <TableHead className="text-center">PRECIO</TableHead>
+                                        <TableHead className="text-right">PLACAS</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {Object.entries(data.totalMaterials).map(([title, { amount, placas, price }], index: number) => {
+                                        return <TableRow key={index}>
+                                            <TableCell className="text-medium">{title}</TableCell>
+                                            <TableCell >{amount} m</TableCell>
+                                            <TableCell className="text-center">${price}</TableCell>
+                                            <TableCell className="text-right">{placas}</TableCell>
+                                        </TableRow>
+                                    })}
+                                </TableBody>
                                 <TableFooter>
                                     <TableRow>
                                         <TableCell colSpan={2} className="text-lg">Total</TableCell>
-                                        <TableCell className="text-right text-lg">${getTotalPriceOfOptions(typedOptionType)}</TableCell>
+                                        <TableCell className="text-center text-lg">${getTotalPriceOfOptions(typedOptionType)}</TableCell>
                                         <TableCell className="flex justify-end">
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>

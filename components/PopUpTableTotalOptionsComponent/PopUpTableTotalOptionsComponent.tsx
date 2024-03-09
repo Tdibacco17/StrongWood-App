@@ -47,9 +47,9 @@ export default function PopUpTableTotalOptionsComponent({
                         </CardHeader>
                         <CardContent className={styles["scroll-table"]}>
                             <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead className="w-[200px]">CATEGORIA</TableHead>
+                                <TableHeader className={styles["line-top"]}>
+                                    <TableRow className={styles["row-active"]}>
+                                        <TableHead className="w-[300px]">CATEGORIA</TableHead>
                                         <TableHead >ELEMENTO</TableHead>
                                         <TableHead className="text-right">PRECIO</TableHead>
                                     </TableRow>
@@ -64,9 +64,23 @@ export default function PopUpTableTotalOptionsComponent({
                                         </TableRow>
                                     })}
                                 </TableBody>
-                                <TableFooter>
+                                <TableHeader className={styles["line-top"]}>
+                                    <TableRow className={styles["row-active"]}>
+                                        <TableHead className="w-[300px]">MATERIALES A UTILIZAR</TableHead>
+                                        <TableHead colSpan={2}>M2</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {Object.entries(saveOptions[optionType].data[selectedItemIndex].materials).map(([title, { amount }], index) => (
+                                        <TableRow key={index}>
+                                            <TableCell className="text-medium font-medium">{title}</TableCell>
+                                            <TableCell colSpan={2} className="font-medium">{amount} m</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                                <TableFooter className={styles["line-bottom"]}>
                                     <TableRow>
-                                        <TableCell colSpan={2} className="text-lg">Total</TableCell>
+                                        <TableCell colSpan={2} className="text-lg">Total por {saveOptions[optionType].data[selectedItemIndex].quantity} modulo</TableCell>
                                         <TableCell className="text-right text-lg">${saveOptions[optionType].data[selectedItemIndex].totalPrice}</TableCell>
                                     </TableRow>
                                 </TableFooter>
