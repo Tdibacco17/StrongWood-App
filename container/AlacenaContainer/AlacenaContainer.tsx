@@ -1,42 +1,38 @@
-import BajoMesadaComponent from "@/components/BajoMesadaComponent/BajoMesadaComponent";
+import AlacenaComponent from "@/components/AlacenaComponent/AlacenaComponent";
 import { UseSavedOptions } from "@/hook/UseSavedOptions";
 import { ExcelDataInterface, MeasurementsInterface, SquareMetersInterface } from "@/types";
-import { BajoMesadaExcelDataResponse, BajoMesadaInterface, BajoMesadaTypes } from "@/types/cocinaTypes";
-import { OptionType, SaveOptionsInterface } from "@/types/reducer";
-import {
-    calculateTotalPrice, handleFondo, handleMaterialExterior, handleMeasureSelect, handleNumericInputChange, handlePanelDeCierre,
-    handleZocalo, handleBisagrasQuantityChange, handleCorrederasQuantityChange, handleQuantityChange, handleCalculateDrawerPrice, handleCalculatePricePisoCajon, calculateTotalPriceM2, handleQuantityApertura
-} from "@/utils/functions";
+import { AlacenaExcelDataResponse, AlacenaInterface, AlacenaTypes } from "@/types/cocinaTypes"
+import { OptionType, SaveOptionsInterface } from "@/types/reducer"
+import { calculateTotalPrice, handleBisagrasQuantityChange, handleCalculateDrawerPrice, handleCalculateShelfPrice, handleFondo, handleMaterialExterior, handleMeasureSelect, handleNumericInputChange, handlePanelDeCierre, handleQuantityApertura, handleQuantityChange } from "@/utils/functions";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-export default function BajoMesadaContainer({
+export default function AlacenaContainer({
     initialSelectedOption,
     excelData,
     optionType,
     moduleType
 }: {
-    initialSelectedOption: BajoMesadaInterface,
-    excelData: BajoMesadaExcelDataResponse,
+    initialSelectedOption: AlacenaInterface,
+    excelData: AlacenaExcelDataResponse,
     optionType: OptionType,
     moduleType: string
 }) {
     const [moduleName, setModuleName] = useState<string>('');
     const [quantity, setQuantity] = useState<number>(1);
     const [measurements, setMeasurements] = useState<MeasurementsInterface | undefined>(undefined);
-    const [selectedOption, setSelectedOption] = useState<BajoMesadaInterface>(initialSelectedOption);
+    const [selectedOption, setSelectedOption] = useState<AlacenaInterface>(initialSelectedOption);
     const [bisagrasQuantity, setBisagrasQuantity] = useState<number>(1);
-    const [correderasQuantity, setCorrederasQuantity] = useState<number>(1);
     const [squareMeter, setSquareMeter] = useState<SquareMetersInterface[]>([])
     const [totalSquareMeters, setTotalSquareMeters] = useState<{ [key: string]: { amount: number } }>({});
     const { handleSaveOptionsChange, handleSaveMaterialsChange } = UseSavedOptions();
 
     //actualizador de selecciones
     const handleOptionSelect = (
-        category: BajoMesadaTypes,
+        category: AlacenaTypes,
         itemData: ExcelDataInterface
     ): void => {
-        setSelectedOption((prevState: BajoMesadaInterface) => ({
+        setSelectedOption((prevState: AlacenaInterface) => ({
             ...prevState,
             [category]: {
                 ...prevState[category],
@@ -103,20 +99,11 @@ export default function BajoMesadaContainer({
                     setSquareMeter
                 });
             }
-            if (category === 'zocalo') {
-                handleZocalo({
-                    itemData: itemData.name,
-                    measurements,
-                    excelData: excelData.zocalo,
-                    setSelectedOption,
-                    category,
-                });
-            }
-            if (category === "puertas") {
+            if (category === "batientes") {
                 if (selectedOption.apertura.data.name.trim().length > 0) { // actualizo apertura
                     handleQuantityApertura({
                         drawerQuantity: itemData.name !== "No" ? Number(itemData.name) : 0,
-                        bajoMesadaProps: {
+                        alacenaProps: {
                             setSelectedOption,
                         },
                         category: 'apertura',
@@ -125,72 +112,46 @@ export default function BajoMesadaContainer({
                     })
                 }
             }
-            if (category === "cajones") {
-                handleCalculateDrawerPrice({
-                    // excelData: excelData.materiales,
+            if (category === "rebatibles") {
+                if (selectedOption.apertura.data.name.trim().length > 0) { // actualizo apertura
+                    handleQuantityApertura({
+                        drawerQuantity: itemData.name !== "No" ? Number(itemData.name) : 0,
+                        alacenaProps: {
+                            setSelectedOption,
+                        },
+                        category: 'apertura',
+                        itemData: selectedOption.apertura.data,
+                        excelData: excelData.aperturas
+                    })
+                }
+            }
+            if (category === "estantes") {
+                handleCalculateShelfPrice({
+                    category,
+                    drawerQuantity: itemData.name !== "No" ? Number(itemData.name) : 0,
                     measurements,
                     setSelectedOption,
-                    drawerQuantity: itemData.name !== "No" ? Number(itemData.name) : 0,
-                    category,
                     setSquareMeter,
                     squareMeter
                 })
-                if (selectedOption.pisoCajon.data.name.trim().length > 0 && selectedOption.pisoCajon.data.name !== "No") {
-                    //actualizamos pisoCajon si cambiamos la cantidad de cajones
-                    handleCalculatePricePisoCajon({
-                        measurements,
-                        itemData: selectedOption.pisoCajon.data.name,
-                        setSelectedOption,
-                        excelData: excelData.fondos,
-                        drawerQuantity: itemData.name !== "No" ? Number(itemData.name) : 0,
-                        category: "pisoCajon",
-                        setSquareMeter,
-                        squareMeter
-                    })
-                }
-                if (selectedOption.apertura.data.name.trim().length > 0) { // actualizo apertura
-                    handleQuantityApertura({
-                        drawerQuantity: itemData.name !== "No" ? Number(itemData.name) : 0,
-                        bajoMesadaProps: {
-                            setSelectedOption,
-                        },
-                        category: 'apertura',
-                        itemData: selectedOption.apertura.data,
-                        excelData: excelData.aperturas
-                    })
-                }
-            }
-            if (category === "pisoCajon") {
-                if (selectedOption.cajones.data.name.trim().length > 0) {
-                    handleCalculatePricePisoCajon({
-                        measurements,
-                        itemData: itemData.name,
-                        setSelectedOption,
-                        excelData: excelData.fondos,
-                        drawerQuantity: selectedOption.cajones.data.name !== "No" ? Number(selectedOption.cajones.data.name) : 0,
-                        category,
-                        setSquareMeter,
-                        squareMeter
-                    })
-                }
             }
         }
         if (category === "apertura") {
-            if (selectedOption.cajones.data.name.trim().length > 0) {
+            if (selectedOption.batientes.data.name.trim().length > 0) {
                 handleQuantityApertura({
-                    drawerQuantity: selectedOption.cajones.data.name !== "No" ? Number(selectedOption.cajones.data.name) : 0,
+                    drawerQuantity: selectedOption.batientes.data.name !== "No" ? Number(selectedOption.batientes.data.name) : 0,
+                    alacenaProps: {
+                        setSelectedOption,
+                    },
                     category,
                     itemData,
-                    excelData: excelData.aperturas,
-                    bajoMesadaProps: {
-                        setSelectedOption,
-                    }
+                    excelData: excelData.aperturas
                 })
             }
-            if (selectedOption.puertas.data.name.trim().length > 0) {
+            if (selectedOption.rebatibles.data.name.trim().length > 0) {
                 handleQuantityApertura({
-                    drawerQuantity: selectedOption.puertas.data.name !== "No" ? Number(selectedOption.puertas.data.name) : 0,
-                    bajoMesadaProps: {
+                    drawerQuantity: selectedOption.rebatibles.data.name !== "No" ? Number(selectedOption.rebatibles.data.name) : 0,
+                    alacenaProps: {
                         setSelectedOption,
                     },
                     category,
@@ -204,47 +165,36 @@ export default function BajoMesadaContainer({
                 quantity: bisagrasQuantity,
                 itemData,
                 excelData: excelData.bisagras,
-                bajoMesadaProps: {
+                alacenaProps: {
                     setSelectedOption,
                     category
-                },
+                }
             });
         }
-        if (category === "correderas") {
-            handleNumericInputChange({
-                quantity: correderasQuantity,
-                itemData,
-                excelData: excelData.correderas,
-                bajoMesadaProps: {
-                    setSelectedOption,
-                    category
-                },
-            })
-        }
-    };
+    }
+
+
     //cantidad de bisagras
     const handleBisagrasQuantityChangeWrapper = (event: React.ChangeEvent<HTMLInputElement>): void => {
         handleBisagrasQuantityChange({
             event,
             setBisagrasQuantity,
-            bajoMesadaProps: {
-                selectedOption,
-                setSelectedOption
+            alacenaProps: {
+                setSelectedOption,
+                selectedOption
             },
             excelData: excelData.bisagras,
         });
     };
-    //cantidad de correderas
-    const handleCorrederasQuantityChangeWrapper = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        handleCorrederasQuantityChange(event, setCorrederasQuantity, selectedOption, excelData.correderas, setSelectedOption);
-    };
+
     //cantidad del modulo total
     const handleQuantityChangeWrapper = (event: React.ChangeEvent<HTMLInputElement>): void => {
         handleQuantityChange(event, setQuantity);
     };
+
     //actualizacion de precio total
     const totalPriceWithQuantity = calculateTotalPrice(selectedOption, quantity);
-    //actualizacion de vuelta atras en selecciones
+
     useEffect(() => {
         if (selectedOption.materialExterior.data.name.trim().length > 0) { //actualiamos materialExterior
             handleMaterialExterior({
@@ -280,34 +230,12 @@ export default function BajoMesadaContainer({
                 setSquareMeter
             });
         }
-        if (selectedOption.zocalo.data.name.trim().length > 0) {//  actualizamos zocalo
-            handleZocalo({
-                itemData: selectedOption.zocalo.data.name,
-                measurements,
-                excelData: excelData.zocalo,
-                setSelectedOption,
-                category: 'zocalo',
-            });
-        }
-        if (selectedOption.cajones.data.name.trim().length > 0) { //Actualizo cajones
-            handleCalculateDrawerPrice({
-                // excelData: excelData.fondos,
+        if (selectedOption.estantes.data.name.trim().length > 0) { //Actualizo estantes
+            handleCalculateShelfPrice({
+                category: 'estantes',
+                drawerQuantity: selectedOption.estantes.data.name !== "No" ? Number(selectedOption.estantes.data.name) : 0,
                 measurements,
                 setSelectedOption,
-                drawerQuantity: selectedOption.cajones.data.name !== "No" ? Number(selectedOption.cajones.data.name) : 0,
-                category: "cajones",
-                setSquareMeter,
-                squareMeter
-            })
-        }
-        if (selectedOption.pisoCajon.data.name.trim().length > 0) { //actualizamos pisoCajon
-            handleCalculatePricePisoCajon({
-                measurements,
-                itemData: selectedOption.pisoCajon.data.name,
-                setSelectedOption,
-                excelData: excelData.fondos,
-                drawerQuantity: selectedOption.cajones.data.name !== "No" ? Number(selectedOption.cajones.data.name) : 0,
-                category: "pisoCajon",
                 setSquareMeter,
                 squareMeter
             })
@@ -333,19 +261,10 @@ export default function BajoMesadaContainer({
         Object.keys(consolidatedSquareMeter).forEach(material => {
             const materialData = combinedData.find(mat => mat.name === material);
             if (materialData) {
-                // const medida = materialData.meters ?? 0;
-                // const precio = materialData.price ?? 0;
                 const amountNeeded = consolidatedSquareMeter[material];
-                // let placasNeeded = 1;
-                // if (amountNeeded > medida) {
-                //     placasNeeded = Math.ceil(amountNeeded / medida);
-                // }
-                // const totalPrice = placasNeeded * precio;
 
                 updatedTotalSquareMeters[material] = {
                     amount: parseFloat(amountNeeded.toFixed(3)),
-                    // placas: placasNeeded,
-                    // price: parseFloat(totalPrice.toFixed(2))
                 };
             }
         });
@@ -393,7 +312,6 @@ export default function BajoMesadaContainer({
         setSelectedOption(initialSelectedOption);
         setMeasurements(undefined)
         setBisagrasQuantity(1)
-        setCorrederasQuantity(1)
         setSquareMeter([]);
         setTotalSquareMeters({})
         // Llama a la función para guardar las opciones
@@ -405,20 +323,18 @@ export default function BajoMesadaContainer({
         return;
     };
 
-    return <BajoMesadaComponent
-        handleOptionSelect={handleOptionSelect}
-        handleQuantityChangeWrapper={handleQuantityChangeWrapper}
-        handleSaveOptions={handleSaveOptions}
+    return <AlacenaComponent
+        excelData={excelData}
         moduleName={moduleName}
         setModuleName={setModuleName}
-        quantity={quantity}
+        handleOptionSelect={handleOptionSelect}
         selectedOption={selectedOption}
-        excelData={excelData}
+        quantity={quantity}
+        handleSaveOptions={handleSaveOptions}
+        handleQuantityChangeWrapper={handleQuantityChangeWrapper}
         totalPriceWithQuantity={totalPriceWithQuantity}
-        measurements={measurements ? true : false}
         bisagrasQuantity={bisagrasQuantity}
-        correderasQuantity={correderasQuantity}
-        handleCorrederasQuantityChangeWrapper={handleCorrederasQuantityChangeWrapper}
         handleBisagrasQuantityChangeWrapper={handleBisagrasQuantityChangeWrapper}
+        measurements={measurements ? true : false}
     />
 }

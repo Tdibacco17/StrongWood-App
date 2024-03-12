@@ -49,21 +49,32 @@ export interface BajoMesadaInterface {
 }
 export type BajoMesadaTypes = keyof BajoMesadaInterface;
 
-
-
 //ALACENA datos del excel
 export interface AlacenaExcelDataResponse {
     medidas: ExcelDataInterface[];
     materiales: ExcelDataInterface[];
     panelDeCierre: ExcelDataInterface[];
-    fondo: ExcelDataInterface[];
+    fondos: ExcelDataInterface[];
+    rebatibles: ExcelDataInterface[];
+    batientes: ExcelDataInterface[];
+    bisagras: ExcelDataInterface[];
+    aperturas: ExcelDataInterface[];
+    piston: ExcelDataInterface[];
+    estantes: ExcelDataInterface[];
 }
-export type AlacenaSectionTitle = "medidas" | "materiales" | "panel de cierre" | "fondo";
+export type AlacenaSectionTitle = "medidas" | "materiales" | "panel de cierre" | "fondos" | "rebatibles"
+    | "batientes" | "bisagras" | "aperturas" | "piston" | "estantes";
 //ESTRUCTURA DE CONSULTAS ALACENA
 export interface AlacenaInterface {
     medida: TableSelectFieldsInterface,
     materialExterior: TableSelectFieldsInterface,
     panelDeCierre: TableSelectFieldsInterface;
     fondo: TableSelectFieldsInterface,
+    rebatibles: TableSelectFieldsInterface,
+    batientes: TableSelectFieldsInterface,
+    bisagras: TableSelectFieldsInterface,
+    apertura: TableSelectFieldsInterface,
+    piston: TableSelectFieldsInterface,
+    estantes: TableSelectFieldsInterface,
 }
 export type AlacenaTypes = keyof AlacenaInterface;

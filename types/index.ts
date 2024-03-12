@@ -1,4 +1,5 @@
-import { BajoMesadaTypes } from "./cocinaTypes";
+import { AlacenaTypes, BajoMesadaTypes } from "./cocinaTypes";
+import { CategoryType } from "./reducer";
 
 export interface ItemNavigation {
     title: string,
@@ -29,7 +30,7 @@ export interface MeasurementsInterface {
 
 //metros cuadrados de los materiales seleccionados
 export interface SquareMetersInterface {
-    sectionId: BajoMesadaTypes,
+    sectionId: CategoryType | BajoMesadaTypes | AlacenaTypes,
     title: string,
     amount: number,
 }

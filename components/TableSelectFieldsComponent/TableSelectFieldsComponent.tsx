@@ -10,9 +10,8 @@ import {
 } from "@/components/ui/table"
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
-import { SquareMetersInterface, TableSelectFieldsInterface } from "@/types"
+import { TableSelectFieldsInterface } from "@/types"
 import styles from "./TableSelectFieldsComponent.module.scss"
-import { AlacenaInterface, BajoMesadaInterface } from "@/types/cocinaTypes"
 import { SelectedOptionType } from "@/types/reducer"
 
 export default function TableSelectFieldsComponent({
@@ -22,15 +21,13 @@ export default function TableSelectFieldsComponent({
     quantity,
     selectedOption,
     totalPriceWithQuantity,
-    // totalSquareMeters
 }: {
     handleQuantityChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
     handleSaveOptions: () => void,
     moduleName: string,
     quantity: number,
-    selectedOption: BajoMesadaInterface,//SelectedOptionType,
+    selectedOption: SelectedOptionType,
     totalPriceWithQuantity: number,
-    // totalSquareMeters: { [key: string]: { amount: number, placas: number, price: number } }
 }) {
     return (
         <div className={styles["container-section-table"]}>
@@ -68,26 +65,6 @@ export default function TableSelectFieldsComponent({
                         </TableRow>
                     })}
                 </TableBody>
-                {/* {Object.entries(totalSquareMeters).length > 0 && <>
-                    <TableHeader className={styles["line"]}>
-                        <TableRow className={styles["row-active"]}>
-                            <TableHead className="w-[200px]">MATERIALES</TableHead>
-                            <TableHead>PLACAS</TableHead>
-                            <TableHead>M2 A UTILIZAR</TableHead>
-                            <TableHead className="text-right">PRECIO</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {Object.entries(totalSquareMeters).map(([title, { amount, placas, price }], index) => (
-                            <TableRow key={index}>
-                                <TableCell className="text-medium font-medium">{title}</TableCell>
-                                <TableCell className="font-medium">{placas}</TableCell>
-                                <TableCell className="font-medium">{amount} m</TableCell>
-                                <TableCell className="text-right font-medium">${price}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </>} */}
                 <TableFooter className={styles["line-bottom"]}>
                     <TableRow>
                         <TableCell colSpan={3} className="text-lg">Total</TableCell>

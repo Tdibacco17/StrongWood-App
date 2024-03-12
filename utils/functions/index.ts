@@ -1,5 +1,5 @@
 import { ExcelDataInterface, MeasurementsInterface, SquareMetersInterface } from '@/types';
-import { BajoMesadaInterface, BajoMesadaTypes } from '@/types/cocinaTypes';
+import { AlacenaInterface, AlacenaTypes, BajoMesadaInterface, BajoMesadaTypes } from '@/types/cocinaTypes';
 import { CategoryType, SelectedOptionType } from '@/types/reducer';
 
 //conseguir el a,b,c y actualizar squareMeter si corresponde
@@ -14,7 +14,7 @@ export const handleMeasureSelect = ({
     setMeasurements: React.Dispatch<React.SetStateAction<MeasurementsInterface | undefined>>,
     squareMeter: SquareMetersInterface[],
     setSquareMeter: React.Dispatch<React.SetStateAction<SquareMetersInterface[]>>,
-    category: BajoMesadaTypes
+    category: CategoryType
 }): void => {
     if (itemData && itemData.name) {
         const [ancho, alto, profundidad] = itemData.name.split('x').map(val => parseFloat(val.trim()));
@@ -206,14 +206,20 @@ export const handleNumericInputChange = ({
     quantity,
     itemData,
     excelData,
-    setSelectedOption,
-    category
+    bajoMesadaProps,
+    alacenaProps
 }: {
     quantity: number,
     itemData: ExcelDataInterface,
     excelData: ExcelDataInterface[],
-    setSelectedOption: React.Dispatch<React.SetStateAction<BajoMesadaInterface>>,
-    category: BajoMesadaTypes
+    bajoMesadaProps?: {
+        category: BajoMesadaTypes,
+        setSelectedOption: React.Dispatch<React.SetStateAction<BajoMesadaInterface>>,
+    },
+    alacenaProps?: {
+        category: AlacenaTypes,
+        setSelectedOption: React.Dispatch<React.SetStateAction<AlacenaInterface>>,
+    }
 }): void => {
     if (itemData.name === "No") return;
     // Eliminar la parte de la cantidad del nombre
@@ -230,18 +236,35 @@ export const handleNumericInputChange = ({
     // Actualizar el nombre del artículo según la cantidad
     const updatedName = quantity > 1 ? `${selectedItem.name} x${quantity}` : selectedItem.name;
 
-    // Actualizar el estado selectedOption con el nuevo precio
-    setSelectedOption((prevState: BajoMesadaInterface) => ({
-        ...prevState,
-        [category]: {
-            ...prevState[category],
-            data: {
-                ...prevState[category].data,
-                name: updatedName,
-                price: parseFloat(newPrice.toFixed(2))
+    if (bajoMesadaProps) {
+        // Actualizar el estado selectedOption con el nuevo precio => BAJOME SADA
+        bajoMesadaProps.setSelectedOption((prevState: BajoMesadaInterface) => ({
+            ...prevState,
+            [bajoMesadaProps.category]: {
+                ...prevState[bajoMesadaProps.category],
+                data: {
+                    ...prevState[bajoMesadaProps.category].data,
+                    name: updatedName,
+                    price: parseFloat(newPrice.toFixed(2))
+                },
             },
-        },
-    }));
+        }));
+    }
+    if (alacenaProps) {
+        // Actualizar el estado selectedOption con el nuevo precio => ALACENA
+        alacenaProps.setSelectedOption((prevState: AlacenaInterface) => ({
+            ...prevState,
+            [alacenaProps.category]: {
+                ...prevState[alacenaProps.category],
+                data: {
+                    ...prevState[alacenaProps.category].data,
+                    name: updatedName,
+                    price: parseFloat(newPrice.toFixed(2))
+                },
+            },
+        }));
+    }
+
 };
 
 //handle de handleQuantityChange ( calcula cuantos modulos )
@@ -254,25 +277,54 @@ export const handleQuantityChange = (
 };
 
 // handle de handleBisagrasQuantityChange
-export const handleBisagrasQuantityChange = (
+export const handleBisagrasQuantityChange = ({
+    event,
+    setBisagrasQuantity,
+    excelData,
+    bajoMesadaProps,
+    alacenaProps
+}: {
     event: React.ChangeEvent<HTMLInputElement>,
     setBisagrasQuantity: React.Dispatch<React.SetStateAction<number>>,
-    selectedOption: BajoMesadaInterface,
     excelData: ExcelDataInterface[],
-    setSelectedOption: React.Dispatch<React.SetStateAction<BajoMesadaInterface>> // Agregar como argumento
-): void => {
+    bajoMesadaProps?: {
+        selectedOption: BajoMesadaInterface,
+        setSelectedOption: React.Dispatch<React.SetStateAction<BajoMesadaInterface>>,
+    },
+    alacenaProps?: {
+        selectedOption: AlacenaInterface,
+        setSelectedOption: React.Dispatch<React.SetStateAction<AlacenaInterface>>,
+    }
+}): void => {
     const newQuantity = parseInt(event.target.value);
     const updatedQuantity = newQuantity > 1 ? newQuantity : 1;
     setBisagrasQuantity(updatedQuantity);
-    // Llamar a la función handleNumericInputChange para actualizar el precio de las bisagras
-    if (selectedOption.bisagras.data.name.trim().length > 0) {
-        handleNumericInputChange({
-            quantity: updatedQuantity,
-            itemData: selectedOption.bisagras.data,
-            excelData: excelData,
-            setSelectedOption: setSelectedOption, // Propiedad necesaria aquí
-            category: 'bisagras'
-        });
+    // Llamar a la función handleNumericInputChange para actualizar el precio de las bisagras BAJO MESADA
+    if (bajoMesadaProps) {
+        if (bajoMesadaProps.selectedOption.bisagras.data.name.trim().length > 0) {
+            handleNumericInputChange({
+                quantity: updatedQuantity,
+                itemData: bajoMesadaProps.selectedOption.bisagras.data,
+                excelData: excelData,
+                bajoMesadaProps: {
+                    setSelectedOption: bajoMesadaProps.setSelectedOption,
+                    category: 'bisagras'
+                },
+            });
+        }
+    };
+    if (alacenaProps) {
+        if (alacenaProps.selectedOption.bisagras.data.name.trim().length > 0) {
+            handleNumericInputChange({
+                quantity: updatedQuantity,
+                itemData: alacenaProps.selectedOption.bisagras.data,
+                excelData: excelData,
+                alacenaProps: {
+                    setSelectedOption: alacenaProps.setSelectedOption,
+                    category: 'bisagras'
+                },
+            });
+        }
     }
 };
 // handle de handleCorrederasQuantityChange 
@@ -292,8 +344,10 @@ export const handleCorrederasQuantityChange = (
             quantity: updatedQuantity,
             itemData: selectedOption.correderas.data,
             excelData: excelData,
-            setSelectedOption: setSelectedOption, // Propiedad necesaria aquí
-            category: 'correderas'
+            bajoMesadaProps: {
+                setSelectedOption,
+                category: 'correderas'
+            },
         });
     }
 };
@@ -302,7 +356,7 @@ export const handleCorrederasQuantityChange = (
 export const handleCalculateDrawerPrice = ({
     measurements,
     drawerQuantity,
-    excelData,
+    // excelData,
     setSelectedOption,
     squareMeter,
     setSquareMeter,
@@ -311,7 +365,7 @@ export const handleCalculateDrawerPrice = ({
     setSelectedOption: React.Dispatch<React.SetStateAction<BajoMesadaInterface>>,
     measurements: MeasurementsInterface | undefined,
     drawerQuantity: number,
-    excelData: ExcelDataInterface[],
+    // excelData: ExcelDataInterface[],
     squareMeter: SquareMetersInterface[],
     setSquareMeter: React.Dispatch<React.SetStateAction<SquareMetersInterface[]>>,
     category: BajoMesadaTypes
@@ -432,33 +486,95 @@ export const handleSquareMeterChange = (
     }
 };
 
+//apertura
 export const handleQuantityApertura = ({
     drawerQuantity,
-    setSelectedOption,
+    // setSelectedOption,
     category,
     itemData,
-    excelData
+    excelData,
+    bajoMesadaProps,
+    alacenaProps
 }: {
     drawerQuantity: number,
-    setSelectedOption: React.Dispatch<React.SetStateAction<BajoMesadaInterface>>,
-    category: BajoMesadaTypes,
+    category: CategoryType,
     itemData: ExcelDataInterface,
     excelData: ExcelDataInterface[],
+    bajoMesadaProps?: {
+        setSelectedOption: React.Dispatch<React.SetStateAction<BajoMesadaInterface>>,
+    },
+    alacenaProps?: {
+        setSelectedOption: React.Dispatch<React.SetStateAction<AlacenaInterface>>,
+    }
 }) => {
     const selectedMaterial = excelData.find((material: ExcelDataInterface) => material.name === itemData.name);
     if (selectedMaterial) {
-        setSelectedOption((prevState: any) => ({
-            ...prevState,
-            [category]: {
-                ...prevState[category],
-                data: {
-                    ...prevState[category].data,
-                    price: parseFloat((selectedMaterial.price * drawerQuantity).toFixed(3))
-                    ,
+        if (bajoMesadaProps) {
+            bajoMesadaProps.setSelectedOption((prevState: any) => ({
+                ...prevState,
+                [category]: {
+                    ...prevState[category],
+                    data: {
+                        ...prevState[category].data,
+                        price: parseFloat((selectedMaterial.price * drawerQuantity).toFixed(3))
+                        ,
+                    },
                 },
-            },
-        }));
+            }));
+        };
+        if (alacenaProps) {
+            alacenaProps.setSelectedOption((prevState: any) => ({
+                ...prevState,
+                [category]: {
+                    ...prevState[category],
+                    data: {
+                        ...prevState[category].data,
+                        price: parseFloat((selectedMaterial.price * drawerQuantity).toFixed(3))
+                        ,
+                    },
+                },
+            }));
+        }
     }
+}
+
+//estantes
+export const handleCalculateShelfPrice = ({
+    measurements,
+    drawerQuantity,
+    setSelectedOption,
+    category,
+    squareMeter,
+    setSquareMeter
+}: {
+    measurements: MeasurementsInterface | undefined,
+    drawerQuantity: number,
+    setSelectedOption: React.Dispatch<React.SetStateAction<AlacenaInterface>>,
+    category: AlacenaTypes,
+    squareMeter: SquareMetersInterface[],
+    setSquareMeter: React.Dispatch<React.SetStateAction<SquareMetersInterface[]>>,
+}) => {
+    if (!measurements) return
+    const { ancho, profundidad } = measurements
+
+    setSelectedOption(prevState => ({
+        ...prevState,
+        cajones: {
+            ...prevState.rebatibles,
+            data: {
+                ...prevState.rebatibles.data,
+                price: 0 // parseFloat((totalPrice * Number(drawerQuantity)).toFixed(2))
+            }
+        }
+    }));
+
+    // Llamar al handle de square meters
+    const newSquareMeter: SquareMetersInterface = {
+        sectionId: category,
+        title: 'Melamina blanca',
+        amount: drawerQuantity === 0 ? 0 : parseFloat(((ancho * profundidad) * Number(drawerQuantity)).toFixed(3))
+    };
+    handleSquareMeterChange(newSquareMeter, squareMeter, setSquareMeter);
 }
 
 //calcualr precio total de las selecciones

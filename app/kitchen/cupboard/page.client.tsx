@@ -1,5 +1,5 @@
 'use client'
-import AlacenaComponent from "@/components/AlacenaComponent/AlacenaComponent";
+import AlacenaContainer from "@/container/AlacenaContainer/AlacenaContainer";
 import { AlacenaExcelDataResponse, AlacenaInterface } from "@/types/cocinaTypes";
 import { OptionType } from "@/types/reducer";
 
@@ -12,26 +12,52 @@ export default function CupboardPageClient({
     optionType: OptionType,
     moduleType: string
 }) {
-    // const initialAlacenaOption: AlacenaInterface = {
-    //     medida: {
-    //         title: "Medidas",
-    //         data: { name: "", price: 0, meters: 0 }
-    //     },
-    //     materialExterior: {
-    //         title: "Material exterior",
-    //         data: { name: "", price: 0 }
-    //     },
-    //     panelDeCierre: {
-    //         title: "Panel de cierre",
-    //         data: { name: "", price: 0 }
-    //     },
-    // };
-    return <></>
-    // return <ModuleContainer
-    //     excelData={excelData}
-    //     Component={AlacenaComponent}
-    //     initialSelectedOption={initialAlacenaOption}
-    //     optionType={optionType}
-    //     moduleType={moduleType}
-    // />
+    const initialAlacenaOption: AlacenaInterface = {
+        medida: {
+            title: "Medidas",
+            data: { name: "", price: 0 }
+        },
+        materialExterior: {
+            title: "Material exterior",
+            data: { name: "", price: 0 }
+        },
+        panelDeCierre: {
+            title: "Panel de cierre",
+            data: { name: "", price: 0 }
+        },
+        fondo: {
+            title: "Fondo",
+            data: { name: "", price: 0 }
+        },
+        rebatibles: {
+            title: "Rebatibles",
+            data: { name: "", price: 0 }
+        },
+        batientes: {
+            title: "Batientes",
+            data: { name: "", price: 0 }
+        },
+        bisagras: {
+            title: "Bisagras",
+            data: { name: "", price: 0 }
+        },
+        apertura: {
+            title: "Apertura",
+            data: { name: "", price: 0 }
+        },
+        estantes: {
+            title: "Estantes",
+            data: { name: "", price: 0 }
+        },
+        piston: {
+            title: "Piston",
+            data: { name: "", price: 0 }
+        },
+    };
+    return <AlacenaContainer
+        excelData={excelData}
+        initialSelectedOption={initialAlacenaOption}
+        optionType={optionType}
+        moduleType={moduleType}
+    />
 }

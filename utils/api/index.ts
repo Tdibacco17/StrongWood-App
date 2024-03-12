@@ -102,68 +102,86 @@ const api = {
                 };
             }
         },
-        // alacena:{
-        //     list: async (): Promise<AlacenaExcelDataResponse> => {
-        //         const text = await fetch(`${process.env.COCINA_ALACENA}`, { cache: "no-store" }).then((res) => res.text())
-        //         const rows = text.split("\n");
+        alacena: {
+            list: async (): Promise<AlacenaExcelDataResponse> => {
+                const text = await fetch(`${process.env.COCINA_ALACENA}`, { cache: "no-store" }).then((res) => res.text())
+                const rows = text.split("\n");
 
-        //         // Definir arrays para almacenar los datos de medidas y materiales
-        //         const medidas: ExcelDataInterface[] = [];
-        //         const materiales: ExcelDataInterface[] = [];
+                // Definir arrays para almacenar los datos de medidas y materiales
+                const medidas: ExcelDataInterface[] = [];
+                const materiales: ExcelDataInterface[] = [];
+                const panelDeCierre: ExcelDataInterface[] = [];
+                const fondos: ExcelDataInterface[] = [];
+                const rebatibles: ExcelDataInterface[] = [];
+                const batientes: ExcelDataInterface[] = [];
+                const bisagras: ExcelDataInterface[] = [];
+                const aperturas: ExcelDataInterface[] = [];
+                const piston: ExcelDataInterface[] = [];
+                const estantes: ExcelDataInterface[] = [];
 
-        //         // Función para procesar cada fila y añadir al array correspondiente
-        //         const processRow = (sectionArray: ExcelDataInterface[], sectionName: AlacenaSectionTitle): ((row: string) => void) => {
-        //             // Esta función interna será devuelta y se encargará del procesamiento de cada fila
-        //             return (row: string) => {
-        //                 const [name, price, meters] = row.split("\t");
+                // Función para procesar cada fila y añadir al array correspondiente
+                const processRow = (sectionArray: ExcelDataInterface[], sectionName: AlacenaSectionTitle): ((row: string) => void) => {
+                    // Esta función interna será devuelta y se encargará del procesamiento de cada fila
+                    return (row: string) => {
+                        const [name, price, meters] = row.split("\t");
 
-        //                 // Verificar si la fila no comienza con el nombre de la sección
-        //                 if (!name.startsWith(sectionName)) {
-        //                     // Crear un objeto para almacenar los datos de la fila
-        //                     const rowData: ExcelDataInterface = {
-        //                         name,
-        //                         price: parseFloat(price.replace(",", ".")), // Convertir el precio a un número de punto flotante
-        //                     };
+                        // Verificar si la fila no comienza con el nombre de la sección
+                        if (!name.startsWith(sectionName)) {
+                            // Crear un objeto para almacenar los datos de la fila
+                            const rowData: ExcelDataInterface = {
+                                name,
+                                price: parseFloat(price.replace(",", ".")), // Convertir el precio a un número de punto flotante
+                            };
 
-        //                     // Verificar si hay datos para metros y si son válidos
-        //                     if (meters && !isNaN(parseFloat(meters.replace(",", ".")))) {
-        //                         rowData.meters = parseFloat(meters.replace(",", ".")); // Convertir los metros a un número de punto flotante si son válidos
-        //                     }
+                            // Verificar si hay datos para metros y si son válidos
+                            if (meters && !isNaN(parseFloat(meters.replace(",", ".")))) {
+                                rowData.meters = parseFloat(meters.replace(",", ".")); // Convertir los metros a un número de punto flotante si son válidos
+                            }
 
-        //                     // Agregar los datos de la fila al array correspondiente
-        //                     sectionArray.push(rowData);
-        //                 }
-        //             };
-        //         };
+                            // Agregar los datos de la fila al array correspondiente
+                            sectionArray.push(rowData);
+                        }
+                    };
+                };
 
-        //         // Definir mapeo de secciones a funciones de procesamiento
-        //         const sectionProcessors: Record<AlacenaSectionTitle, (row: string) => void> = {
-        //             "medidas": processRow(medidas, "medidas"),
-        //             "materiales": processRow(materiales, "materiales"),
-        //             //"fondo": processRow(fondo, "fondo"),
-        //             // Puedes agregar más secciones aquí según sea necesario
-        //         };
+                // Definir mapeo de secciones a funciones de procesamiento
+                const sectionProcessors: Record<AlacenaSectionTitle, (row: string) => void> = {
+                    "medidas": processRow(medidas, "medidas"),
+                    "materiales": processRow(materiales, "materiales"),
+                    "panel de cierre": processRow(panelDeCierre, "panel de cierre"),
+                    "fondos": processRow(fondos, "fondos"),
+                    "rebatibles": processRow(rebatibles, "rebatibles"),
+                    "batientes": processRow(batientes, "batientes"),
+                    "aperturas": processRow(aperturas, "aperturas"),
+                    "bisagras": processRow(bisagras, "bisagras"),
+                    "piston": processRow(piston, "piston"),
+                    "estantes": processRow(estantes, "estantes"),
+                    // Puedes agregar más secciones aquí según sea necesario
+                };
 
-        //         // Procesar cada fila del archivo TSV
-        //         let currentSection: AlacenaSectionTitle | null = null;
-        //         for (const row of rows) {
-        //             const [sectionName] = row.split("\t");
+                // Procesar cada fila del archivo TSV
+                let currentSection: AlacenaSectionTitle | null = null;
+                for (const row of rows) {
+                    const [sectionName] = row.split("\t");
 
-        //             // Verificar si estamos procesando una nueva sección
-        //             if (sectionName in sectionProcessors) {
-        //                 currentSection = sectionName as AlacenaSectionTitle;
-        //             }
+                    // Verificar si estamos procesando una nueva sección
+                    if (sectionName in sectionProcessors) {
+                        currentSection = sectionName as AlacenaSectionTitle;
+                    }
 
-        //             // Procesar fila utilizando la función de procesamiento correspondiente
-        //             if (currentSection && sectionProcessors[currentSection]) {
-        //                 sectionProcessors[currentSection](row);
-        //             }
-        //         }
+                    // Procesar fila utilizando la función de procesamiento correspondiente
+                    if (currentSection && sectionProcessors[currentSection]) {
+                        sectionProcessors[currentSection](row);
+                    }
+                }
 
-        //         // Retornamos el objeto con las medidas y materiales
-        //         return { medidas, materiales };
-        //     }
-        // }
+                // Retornamos el objeto con las medidas y materiales
+                return {
+                    medidas, materiales, aperturas, batientes, bisagras,
+                    fondos, panelDeCierre, piston, rebatibles, estantes
+                };
+            }
+        }
     }
 }
 

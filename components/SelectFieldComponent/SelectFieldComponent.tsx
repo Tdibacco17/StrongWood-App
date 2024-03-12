@@ -9,7 +9,7 @@ export default function SelectFieldComponent({
     inputQuantity,
     handleQuantityInputChange,
     bajoMesadaProps,
-    // alacenaProps,
+    alacenaProps,
     title,
     subTitle,
     isDisabled,
@@ -19,16 +19,16 @@ export default function SelectFieldComponent({
     excelData?: ExcelDataInterface[]; // Marcar excelData como opcional
     inputQuantity?: number,
     handleQuantityInputChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
-    bajoMesadaProps: {
+    bajoMesadaProps?: {
         handleOptionSelect: (category: BajoMesadaTypes, itemData: ExcelDataInterface) => void;
         selectedOption: BajoMesadaInterface;
         selectedOptionType: BajoMesadaTypes;
     };
-    // alacenaProps?: {
-    //     handleOptionSelect: (category: AlacenaTypes, itemData: ExcelDataInterface) => void;
-    //     selectedOption: AlacenaInterface;
-    //     selectedOptionType: AlacenaTypes;
-    // };
+    alacenaProps?: {
+        handleOptionSelect: (category: AlacenaTypes, itemData: ExcelDataInterface) => void;
+        selectedOption: AlacenaInterface;
+        selectedOptionType: AlacenaTypes;
+    };
     title: string;
     subTitle?: string,
     isDisabled: boolean,
@@ -41,19 +41,19 @@ export default function SelectFieldComponent({
             const selectedItemName = bajoMesadaProps.selectedOption[bajoMesadaProps.selectedOptionType]?.data?.name;
             return selectedItemName && selectedItemName.startsWith(itemData.name);
         }
-        //  else if (alacenaProps) {
-        //     const selectedItemName = alacenaProps.selectedOption[alacenaProps.selectedOptionType]?.data?.name;
-        //     return selectedItemName && selectedItemName.startsWith(itemData.name);
-        // }
+        else if (alacenaProps) {
+            const selectedItemName = alacenaProps.selectedOption[alacenaProps.selectedOptionType]?.data?.name;
+            return selectedItemName && selectedItemName.startsWith(itemData.name);
+        }
         return false;
     };
     const handleOptionSelect = (category: BajoMesadaTypes | AlacenaTypes, itemData: ExcelDataInterface) => {
         if (bajoMesadaProps) {
             bajoMesadaProps.handleOptionSelect(category as BajoMesadaTypes, itemData);
         }
-        // else if (alacenaProps) {
-        //     alacenaProps.handleOptionSelect(category as AlacenaTypes, itemData);
-        // }
+        else if (alacenaProps) {
+            alacenaProps.handleOptionSelect(category as AlacenaTypes, itemData);
+        }
     };
 
     // Verificar si excelData está definido antes de usarlo
@@ -80,14 +80,11 @@ export default function SelectFieldComponent({
             <div className={styles["options"]}>
                 {excelData.map((itemData: ExcelDataInterface, index: number) => (
                     <Button
-                        disabled={!isDisabled ||( btnBlocked && index !== 0)}
+                        disabled={!isDisabled || (btnBlocked && index !== 0)}
                         variant="secondary"
                         key={index}
                         onClick={() => handleOptionSelect(
-                            // bajoMesadaProps ?
-                            bajoMesadaProps.selectedOptionType
-                            // : alacenaProps?.selectedOptionType
-                            // ?? "medida",
+                            bajoMesadaProps ? bajoMesadaProps.selectedOptionType : alacenaProps?.selectedOptionType ?? "medida"
                             , itemData)}
                         className={`${styles["btn-custom"]} ${isOptionSelected(itemData) ? styles["btn-active"] : ""}`}
                     >

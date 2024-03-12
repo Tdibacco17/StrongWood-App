@@ -196,7 +196,7 @@ export default function BajoMesadaComponent({
                         }} />
                 </div>
                 <DividerComponent title="SELECCIONES REALIZADAS" size="lg" />
-                <TableSelectFieldsComponent quantity={quantity} moduleName={moduleName} handleSaveOptions={handleSaveOptions} /* totalSquareMeters={totalSquareMeters} */
+                <TableSelectFieldsComponent quantity={quantity} moduleName={moduleName} handleSaveOptions={handleSaveOptions}
                     handleQuantityChange={handleQuantityChangeWrapper} selectedOption={selectedOption} totalPriceWithQuantity={totalPriceWithQuantity} />
             </div>
         </div>
