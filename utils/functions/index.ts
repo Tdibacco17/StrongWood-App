@@ -560,9 +560,9 @@ export const handleCalculateShelfPrice = ({
     setSelectedOption(prevState => ({
         ...prevState,
         cajones: {
-            ...prevState.rebatibles,
+            ...prevState.estantes,
             data: {
-                ...prevState.rebatibles.data,
+                ...prevState.estantes.data,
                 price: 0 // parseFloat((totalPrice * Number(drawerQuantity)).toFixed(2))
             }
         }

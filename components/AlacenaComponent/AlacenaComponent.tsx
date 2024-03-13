@@ -72,7 +72,7 @@ export default function AlacenaComponent({
                         }} />
 
                 </div>
-                <DividerComponent title="REBATIBLES O PUERTAS" size="medium" />
+                <DividerComponent title="PUERTAS" size="medium" />
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Rebatibles" excelData={excelData.rebatibles}
                         isDisabled={selectedOption.fondo.data.name.length > 0} showNumericInput={false}
@@ -111,7 +111,6 @@ export default function AlacenaComponent({
                 <DividerComponent title="ACCESORIOS" size="medium" />
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Estantes" excelData={excelData.estantes}
-                        inputQuantity={bisagrasQuantity} handleQuantityInputChange={handleBisagrasQuantityChangeWrapper}
                         isDisabled={selectedOption.apertura.data.name.length > 0} showNumericInput={true}
                         alacenaProps={{
                             selectedOption: selectedOption,
