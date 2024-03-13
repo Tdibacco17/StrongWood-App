@@ -74,7 +74,7 @@ export default function AlacenaComponent({
                 </div>
                 <DividerComponent title="PUERTAS" size="medium" />
                 <div className={styles["wrapper-row"]}>
-                    <SelectFieldComponent title="Rebatibles" excelData={excelData.rebatibles}
+                    <SelectFieldComponent title="Rebatibles" subTitle="Precio del frente contemplado en material exterior" excelData={excelData.rebatibles}
                         isDisabled={selectedOption.fondo.data.name.length > 0} showNumericInput={false}
                         btnBlocked={selectedOption.batientes.data.name.trim().length > 0 && (selectedOption.batientes.data.name === "No" ? false : true)}
                         alacenaProps={{
@@ -82,22 +82,22 @@ export default function AlacenaComponent({
                             selectedOptionType: "rebatibles",
                             handleOptionSelect: handleOptionSelect,
                         }} />
-                    <SelectFieldComponent title="Batientes" excelData={excelData.batientes}
-                        isDisabled={selectedOption.rebatibles.data.name.length > 0} showNumericInput={false}
-                        btnBlocked={selectedOption.rebatibles.data.name === "No" ? false : true}
+                    <SelectFieldComponent title="Bisagras" excelData={excelData.bisagras}
+                        inputQuantity={bisagrasQuantity} handleQuantityInputChange={handleBisagrasQuantityChangeWrapper}
+                        isDisabled={selectedOption.rebatibles.data.name.length > 0} showNumericInput={true}
                         alacenaProps={{
                             selectedOption: selectedOption,
-                            selectedOptionType: "batientes",
+                            selectedOptionType: "bisagras",
                             handleOptionSelect: handleOptionSelect,
                         }} />
                 </div>
                 <div className={styles["wrapper-row"]}>
-                    <SelectFieldComponent title="Bisagras" excelData={excelData.bisagras}
-                        inputQuantity={bisagrasQuantity} handleQuantityInputChange={handleBisagrasQuantityChangeWrapper}
-                        isDisabled={selectedOption.batientes.data.name.length > 0} showNumericInput={true}
+                    <SelectFieldComponent title="Batientes" subTitle="Precio del frente contemplado en material exterior" excelData={excelData.batientes}
+                        isDisabled={selectedOption.bisagras.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.rebatibles.data.name === "No" ? false : true}
                         alacenaProps={{
                             selectedOption: selectedOption,
-                            selectedOptionType: "bisagras",
+                            selectedOptionType: "batientes",
                             handleOptionSelect: handleOptionSelect,
                         }} />
                     <SelectFieldComponent title="Apertura" excelData={excelData.aperturas}

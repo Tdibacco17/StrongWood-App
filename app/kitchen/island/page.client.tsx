@@ -1,18 +1,19 @@
 'use client'
 import BajoMesadaContainer from "@/container/BajoMesadaContainer/BajoMesadaContainer";
-import { BajoMesadaExcelDataResponse, BajoMesadaInterface, ModuleType } from "@/types/cocinaTypes";
+import IslaContainer from "@/container/IslaContainer/IslaContainer";
+import { IslaExcelDataResponse, IslaInterface, ModuleType } from "@/types/cocinaTypes";
 import { OptionType } from "@/types/reducer";
 
-export default function UnderCounterPageClient({
+export default function IslandPageClient({
     excelData,
     optionType,
     moduleType
 }: {
-    excelData: BajoMesadaExcelDataResponse,
+    excelData: IslaExcelDataResponse,
     optionType: OptionType,
     moduleType: ModuleType
 }) {
-    const initialUnderCounterOption: BajoMesadaInterface = {
+    const initialUnderCounterOption: IslaInterface = {
         medida: {
             title: "Medida",
             data: { name: "", price: 0 }
@@ -23,6 +24,10 @@ export default function UnderCounterPageClient({
         },
         panelDeCierre: {
             title: "Panel de cierre",
+            data: { name: "", price: 0 }
+        },
+        cierreAtras: {
+            title: "Cierre atras",
             data: { name: "", price: 0 }
         },
         fondo: {
@@ -91,7 +96,7 @@ export default function UnderCounterPageClient({
         },
     };
 
-    return <BajoMesadaContainer
+    return <IslaContainer
         excelData={excelData}
         initialSelectedOption={initialUnderCounterOption}
         optionType={optionType}

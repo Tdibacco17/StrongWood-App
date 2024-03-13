@@ -1,5 +1,5 @@
 import { ExcelDataInterface, MeasurementsInterface, SquareMetersInterface } from '@/types';
-import { AlacenaInterface, AlacenaTypes, BajoMesadaInterface, BajoMesadaTypes } from '@/types/cocinaTypes';
+import { AlacenaInterface, AlacenaTypes, BajoMesadaInterface, BajoMesadaTypes, IslaInterface, IslaTypes } from '@/types/cocinaTypes';
 import { CategoryType, SelectedOptionType } from '@/types/reducer';
 
 //conseguir el a,b,c y actualizar squareMeter si corresponde
@@ -53,6 +53,7 @@ export const handleMaterialExterior = ({
     if (!measurements) return;
     const { ancho, alto } = measurements;
     const selectedMaterial = excelData.find((material: ExcelDataInterface) => material.name === materialName);
+
     if (selectedMaterial) {
         // let materialPrice = ancho * alto * selectedMaterial.price;
         // materialPrice = parseFloat(materialPrice.toFixed(2));
@@ -207,7 +208,8 @@ export const handleNumericInputChange = ({
     itemData,
     excelData,
     bajoMesadaProps,
-    alacenaProps
+    alacenaProps,
+    islaProps
 }: {
     quantity: number,
     itemData: ExcelDataInterface,
@@ -219,6 +221,10 @@ export const handleNumericInputChange = ({
     alacenaProps?: {
         category: AlacenaTypes,
         setSelectedOption: React.Dispatch<React.SetStateAction<AlacenaInterface>>,
+    },
+    islaProps?: {
+        category: IslaTypes,
+        setSelectedOption: React.Dispatch<React.SetStateAction<IslaInterface>>,
     }
 }): void => {
     if (itemData.name === "No") return;
@@ -264,7 +270,20 @@ export const handleNumericInputChange = ({
             },
         }));
     }
-
+    if (islaProps) {
+        // Actualizar el estado selectedOption con el nuevo precio => ISLA
+        islaProps.setSelectedOption((prevState: IslaInterface) => ({
+            ...prevState,
+            [islaProps.category]: {
+                ...prevState[islaProps.category],
+                data: {
+                    ...prevState[islaProps.category].data,
+                    name: updatedName,
+                    price: parseFloat(newPrice.toFixed(2))
+                },
+            },
+        }));
+    }
 };
 
 //handle de handleQuantityChange ( calcula cuantos modulos )
@@ -282,7 +301,8 @@ export const handleBisagrasQuantityChange = ({
     setBisagrasQuantity,
     excelData,
     bajoMesadaProps,
-    alacenaProps
+    alacenaProps,
+    islaProps
 }: {
     event: React.ChangeEvent<HTMLInputElement>,
     setBisagrasQuantity: React.Dispatch<React.SetStateAction<number>>,
@@ -294,6 +314,10 @@ export const handleBisagrasQuantityChange = ({
     alacenaProps?: {
         selectedOption: AlacenaInterface,
         setSelectedOption: React.Dispatch<React.SetStateAction<AlacenaInterface>>,
+    },
+    islaProps?: {
+        selectedOption: IslaInterface,
+        setSelectedOption: React.Dispatch<React.SetStateAction<IslaInterface>>,
     }
 }): void => {
     const newQuantity = parseInt(event.target.value);
@@ -326,29 +350,71 @@ export const handleBisagrasQuantityChange = ({
             });
         }
     }
+    if (islaProps) {
+        if (islaProps.selectedOption.bisagras.data.name.trim().length > 0) {
+            handleNumericInputChange({
+                quantity: updatedQuantity,
+                itemData: islaProps.selectedOption.bisagras.data,
+                excelData: excelData,
+                islaProps: {
+                    setSelectedOption: islaProps.setSelectedOption,
+                    category: 'bisagras'
+                },
+            });
+        }
+    }
 };
 // handle de handleCorrederasQuantityChange 
-export const handleCorrederasQuantityChange = (
+export const handleCorrederasQuantityChange = ({
+    event,
+    setCorrederasQuantity,
+    // selectedOption,
+    excelData,
+    // setSelectedOption,
+    bajoMesadaProps,
+    islaProps
+}: {
     event: React.ChangeEvent<HTMLInputElement>,
     setCorrederasQuantity: React.Dispatch<React.SetStateAction<number>>,
-    selectedOption: BajoMesadaInterface,
     excelData: ExcelDataInterface[],
-    setSelectedOption: React.Dispatch<React.SetStateAction<BajoMesadaInterface>> // Agregar como argumento
-): void => {
+    bajoMesadaProps?: {
+        selectedOption: BajoMesadaInterface,
+        setSelectedOption: React.Dispatch<React.SetStateAction<BajoMesadaInterface>> // Agregar como argumento
+    },
+    islaProps?: {
+        selectedOption: IslaInterface,
+        setSelectedOption: React.Dispatch<React.SetStateAction<IslaInterface>> // Agregar como argumento
+    }
+}): void => {
     const newQuantity = parseInt(event.target.value);
     const updatedQuantity = newQuantity > 1 ? newQuantity : 1;
     setCorrederasQuantity(updatedQuantity);
     // Validar si hay una selección de correderas y si es así, llamar a handleNumericInputChange
-    if (selectedOption.correderas.data.name.trim().length > 0) {
-        handleNumericInputChange({
-            quantity: updatedQuantity,
-            itemData: selectedOption.correderas.data,
-            excelData: excelData,
-            bajoMesadaProps: {
-                setSelectedOption,
-                category: 'correderas'
-            },
-        });
+    if (bajoMesadaProps) {
+        if (bajoMesadaProps.selectedOption.correderas.data.name.trim().length > 0) {
+            handleNumericInputChange({
+                quantity: updatedQuantity,
+                itemData: bajoMesadaProps.selectedOption.correderas.data,
+                excelData: excelData,
+                bajoMesadaProps: {
+                    setSelectedOption: bajoMesadaProps.setSelectedOption,
+                    category: 'correderas'
+                },
+            });
+        }
+    }
+    if (islaProps) {
+        if (islaProps.selectedOption.correderas.data.name.trim().length > 0) {
+            handleNumericInputChange({
+                quantity: updatedQuantity,
+                itemData: islaProps.selectedOption.correderas.data,
+                excelData: excelData,
+                islaProps: {
+                    setSelectedOption: islaProps.setSelectedOption,
+                    category: 'correderas'
+                },
+            });
+        }
     }
 };
 
@@ -357,12 +423,19 @@ export const handleCalculateDrawerPrice = ({
     measurements,
     drawerQuantity,
     // excelData,
-    setSelectedOption,
+    // setSelectedOption,
     squareMeter,
     setSquareMeter,
-    category
+    category,
+    bajoMesadaProps,
+    islaProps
 }: {
-    setSelectedOption: React.Dispatch<React.SetStateAction<BajoMesadaInterface>>,
+    bajoMesadaProps?: {
+        setSelectedOption: React.Dispatch<React.SetStateAction<BajoMesadaInterface>>,
+    },
+    islaProps?: {
+        setSelectedOption: React.Dispatch<React.SetStateAction<IslaInterface>>,
+    },
     measurements: MeasurementsInterface | undefined,
     drawerQuantity: number,
     // excelData: ExcelDataInterface[],
@@ -387,17 +460,30 @@ export const handleCalculateDrawerPrice = ({
     // if (drawerQuantity !== 0) {
     //     totalPrice = (largoCajon + anchoCajon) * excelData[0].price; // exceldata[1] => melamina blanca posicion cero
     // }
-
-    setSelectedOption(prevState => ({
-        ...prevState,
-        cajones: {
-            ...prevState.cajones,
-            data: {
-                ...prevState.cajones.data,
-                price: 0 // parseFloat((totalPrice * Number(drawerQuantity)).toFixed(2))
+    if (bajoMesadaProps) {
+        bajoMesadaProps.setSelectedOption(prevState => ({
+            ...prevState,
+            [category]: {
+                ...prevState[category],
+                data: {
+                    ...prevState[category].data,
+                    price: 0 // parseFloat((totalPrice * Number(drawerQuantity)).toFixed(2))
+                }
             }
-        }
-    }));
+        }));
+    }
+    if (islaProps) {
+        islaProps.setSelectedOption(prevState => ({
+            ...prevState,
+            [category]: {
+                ...prevState[category],
+                data: {
+                    ...prevState[category].data,
+                    price: 0 // parseFloat((totalPrice * Number(drawerQuantity)).toFixed(2))
+                }
+            }
+        }));
+    }
 
     // Llamar al handle de square meters
     const newSquareMeter: SquareMetersInterface = {
@@ -410,7 +496,7 @@ export const handleCalculateDrawerPrice = ({
 
 //piso cajon
 export const handleCalculatePricePisoCajon = ({
-    setSelectedOption,
+    // setSelectedOption,
     measurements,
     excelData,
     drawerQuantity,
@@ -418,8 +504,15 @@ export const handleCalculatePricePisoCajon = ({
     itemData,
     squareMeter,
     setSquareMeter,
+    bajoMesadaProps,
+    islaProps
 }: {
-    setSelectedOption: React.Dispatch<React.SetStateAction<BajoMesadaInterface>>,
+    bajoMesadaProps?: {
+        setSelectedOption: React.Dispatch<React.SetStateAction<BajoMesadaInterface>>,
+    },
+    islaProps?: {
+        setSelectedOption: React.Dispatch<React.SetStateAction<IslaInterface>>,
+    },
     measurements: MeasurementsInterface | undefined,
     excelData: ExcelDataInterface[]
     drawerQuantity: number,
@@ -434,17 +527,20 @@ export const handleCalculatePricePisoCajon = ({
 
     if (selectedMaterial) {
         // const totalPrice = (ancho * profundidad) * selectedMaterial.price;
-        setSelectedOption((prevState: any) => ({
-            ...prevState,
-            [category]: {
-                ...prevState[category],
-                data: {
-                    ...prevState[category].data,
-                    price: 0 //parseFloat((totalPrice * drawerQuantity).toFixed(2))
-                    ,
+        if (bajoMesadaProps) {
+            bajoMesadaProps.setSelectedOption((prevState: any) => ({
+                ...prevState,
+                [category]: {
+                    ...prevState[category],
+                    data: {
+                        ...prevState[category].data,
+                        price: 0 //parseFloat((totalPrice * drawerQuantity).toFixed(2))
+                        ,
+                    },
                 },
-            },
-        }));
+            }));
+        }
+
         // Llamar al handle de square meters
         const newSquareMeter: SquareMetersInterface = {
             sectionId: category,
@@ -494,7 +590,8 @@ export const handleQuantityApertura = ({
     itemData,
     excelData,
     bajoMesadaProps,
-    alacenaProps
+    alacenaProps,
+    islaProps
 }: {
     drawerQuantity: number,
     category: CategoryType,
@@ -505,6 +602,9 @@ export const handleQuantityApertura = ({
     },
     alacenaProps?: {
         setSelectedOption: React.Dispatch<React.SetStateAction<AlacenaInterface>>,
+    },
+    islaProps?: {
+        setSelectedOption: React.Dispatch<React.SetStateAction<IslaInterface>>,
     }
 }) => {
     const selectedMaterial = excelData.find((material: ExcelDataInterface) => material.name === itemData.name);
@@ -524,6 +624,19 @@ export const handleQuantityApertura = ({
         };
         if (alacenaProps) {
             alacenaProps.setSelectedOption((prevState: any) => ({
+                ...prevState,
+                [category]: {
+                    ...prevState[category],
+                    data: {
+                        ...prevState[category].data,
+                        price: parseFloat((selectedMaterial.price * drawerQuantity).toFixed(3))
+                        ,
+                    },
+                },
+            }));
+        }
+        if (islaProps) {
+            islaProps.setSelectedOption((prevState: any) => ({
                 ...prevState,
                 [category]: {
                     ...prevState[category],
@@ -559,10 +672,10 @@ export const handleCalculateShelfPrice = ({
 
     setSelectedOption(prevState => ({
         ...prevState,
-        cajones: {
-            ...prevState.estantes,
+        [category]: {
+            ...prevState[category],
             data: {
-                ...prevState.estantes.data,
+                ...prevState[category].data,
                 price: 0 // parseFloat((totalPrice * Number(drawerQuantity)).toFixed(2))
             }
         }

@@ -1,7 +1,7 @@
 import BajoMesadaComponent from "@/components/BajoMesadaComponent/BajoMesadaComponent";
 import { UseSavedOptions } from "@/hook/UseSavedOptions";
 import { ExcelDataInterface, MeasurementsInterface, SquareMetersInterface } from "@/types";
-import { BajoMesadaExcelDataResponse, BajoMesadaInterface, BajoMesadaTypes } from "@/types/cocinaTypes";
+import { BajoMesadaExcelDataResponse, BajoMesadaInterface, BajoMesadaTypes, ModuleType } from "@/types/cocinaTypes";
 import { OptionType, SaveOptionsInterface } from "@/types/reducer";
 import {
     calculateTotalPrice, handleFondo, handleMaterialExterior, handleMeasureSelect, handleNumericInputChange, handlePanelDeCierre,
@@ -19,7 +19,7 @@ export default function BajoMesadaContainer({
     initialSelectedOption: BajoMesadaInterface,
     excelData: BajoMesadaExcelDataResponse,
     optionType: OptionType,
-    moduleType: string
+    moduleType: ModuleType
 }) {
     const [moduleName, setModuleName] = useState<string>('');
     const [quantity, setQuantity] = useState<number>(1);
@@ -129,7 +129,9 @@ export default function BajoMesadaContainer({
                 handleCalculateDrawerPrice({
                     // excelData: excelData.materiales,
                     measurements,
-                    setSelectedOption,
+                    bajoMesadaProps: {
+                        setSelectedOption,
+                    },
                     drawerQuantity: itemData.name !== "No" ? Number(itemData.name) : 0,
                     category,
                     setSquareMeter,
@@ -140,7 +142,9 @@ export default function BajoMesadaContainer({
                     handleCalculatePricePisoCajon({
                         measurements,
                         itemData: selectedOption.pisoCajon.data.name,
-                        setSelectedOption,
+                        bajoMesadaProps: {
+                            setSelectedOption,
+                        },
                         excelData: excelData.fondos,
                         drawerQuantity: itemData.name !== "No" ? Number(itemData.name) : 0,
                         category: "pisoCajon",
@@ -165,7 +169,9 @@ export default function BajoMesadaContainer({
                     handleCalculatePricePisoCajon({
                         measurements,
                         itemData: itemData.name,
-                        setSelectedOption,
+                        bajoMesadaProps: {
+                            setSelectedOption,
+                        },
                         excelData: excelData.fondos,
                         drawerQuantity: selectedOption.cajones.data.name !== "No" ? Number(selectedOption.cajones.data.name) : 0,
                         category,
@@ -236,7 +242,7 @@ export default function BajoMesadaContainer({
     };
     //cantidad de correderas
     const handleCorrederasQuantityChangeWrapper = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        handleCorrederasQuantityChange(event, setCorrederasQuantity, selectedOption, excelData.correderas, setSelectedOption);
+        handleCorrederasQuantityChange({ event, setCorrederasQuantity, excelData: excelData.correderas, bajoMesadaProps: { setSelectedOption, selectedOption } });
     };
     //cantidad del modulo total
     const handleQuantityChangeWrapper = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -293,7 +299,9 @@ export default function BajoMesadaContainer({
             handleCalculateDrawerPrice({
                 // excelData: excelData.fondos,
                 measurements,
-                setSelectedOption,
+                bajoMesadaProps: {
+                    setSelectedOption,
+                },
                 drawerQuantity: selectedOption.cajones.data.name !== "No" ? Number(selectedOption.cajones.data.name) : 0,
                 category: "cajones",
                 setSquareMeter,
@@ -304,7 +312,9 @@ export default function BajoMesadaContainer({
             handleCalculatePricePisoCajon({
                 measurements,
                 itemData: selectedOption.pisoCajon.data.name,
-                setSelectedOption,
+                bajoMesadaProps: {
+                    setSelectedOption,
+                },
                 excelData: excelData.fondos,
                 drawerQuantity: selectedOption.cajones.data.name !== "No" ? Number(selectedOption.cajones.data.name) : 0,
                 category: "pisoCajon",

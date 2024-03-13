@@ -1,6 +1,6 @@
 'use client'
 import AlacenaContainer from "@/container/AlacenaContainer/AlacenaContainer";
-import { AlacenaExcelDataResponse, AlacenaInterface } from "@/types/cocinaTypes";
+import { AlacenaExcelDataResponse, AlacenaInterface, ModuleType } from "@/types/cocinaTypes";
 import { OptionType } from "@/types/reducer";
 
 export default function CupboardPageClient({
@@ -10,7 +10,7 @@ export default function CupboardPageClient({
 }: {
     excelData: AlacenaExcelDataResponse,
     optionType: OptionType,
-    moduleType: string
+    moduleType: ModuleType
 }) {
     const initialAlacenaOption: AlacenaInterface = {
         medida: {

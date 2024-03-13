@@ -1,5 +1,5 @@
 import { ExcelDataInterface, SquareMetersInterface } from ".";
-import { AlacenaInterface, BajoMesadaInterface } from "./cocinaTypes";
+import { AlacenaInterface, BajoMesadaInterface, IslaInterface } from "./cocinaTypes";
 
 //acciones reducer
 export type ActionType =
@@ -41,5 +41,5 @@ export interface SavedOptionsContextInterface {
     getTotalPriceOfOptions: (optionType: OptionType) => number;
 }
 
-export type SelectedOptionType = BajoMesadaInterface | AlacenaInterface;
-export type CategoryType = keyof SelectedOptionType;
+export type SelectedOptionType = BajoMesadaInterface | AlacenaInterface | IslaInterface;
+export type CategoryType = keyof (BajoMesadaInterface & AlacenaInterface & IslaInterface);

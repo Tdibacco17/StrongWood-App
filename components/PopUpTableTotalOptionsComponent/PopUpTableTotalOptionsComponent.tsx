@@ -60,7 +60,7 @@ export default function PopUpTableTotalOptionsComponent({
                                         return <TableRow key={category}>
                                             <TableCell className="text-medium font-medium">{item.title}</TableCell>
                                             <TableCell className="font-medium">{item.data.name}</TableCell>
-                                            <TableCell className="text-right font-medium">${item.data.price}</TableCell>
+                                            <TableCell className="text-right font-medium">{item.data.price === 0 ? "" : `$${item.data.price}`}</TableCell>
                                         </TableRow>
                                     })}
                                 </TableBody>
@@ -80,7 +80,7 @@ export default function PopUpTableTotalOptionsComponent({
                                 </TableBody>
                                 <TableFooter className={styles["line-bottom"]}>
                                     <TableRow>
-                                        <TableCell colSpan={2} className="text-lg">Total por {saveOptions[optionType].data[selectedItemIndex].quantity} modulo</TableCell>
+                                        <TableCell colSpan={2} className="text-lg">Total x {saveOptions[optionType].data[selectedItemIndex].quantity} modulo</TableCell>
                                         <TableCell className="text-right text-lg">${saveOptions[optionType].data[selectedItemIndex].totalPrice}</TableCell>
                                     </TableRow>
                                 </TableFooter>

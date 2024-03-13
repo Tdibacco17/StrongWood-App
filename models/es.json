@@ -30,6 +30,10 @@
                 "title": "Bajo mesada",
                 "url": "/kitchen/under-counter"
             },
+            "island": {
+                "title": "Isla",
+                "url": "/kitchen/island"
+            },
             "cupboard": {
                 "title": "Alacena",
                 "url": "/kitchen/cupboard"

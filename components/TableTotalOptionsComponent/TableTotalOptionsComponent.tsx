@@ -54,7 +54,7 @@ export function TableTotalOptionsComponent() {
                                         <TableHead></TableHead>
                                     </TableRow>
                                 </TableHeader>
-                                <TableBody>
+                                <TableBody className={styles["line-bottom"]}>
                                     {data.data.map((item: SaveOptionsInterface, index: number) => (
                                         <TableRow key={index}>
                                             <TableCell className="space-x-2 w-[400px]">
@@ -89,6 +89,7 @@ export function TableTotalOptionsComponent() {
                                         </TableRow>
                                     ))}
                                 </TableBody>
+                                <br></br>
                                 <TableHeader className={styles["line-top"]}>
                                     <TableRow className={styles["row-active"]}>
                                         <TableHead className="w-[400px]">MATERIALES A UTILIZAR</TableHead>
