@@ -3,7 +3,11 @@ import { UseSavedOptions } from "@/hook/UseSavedOptions";
 import { ExcelDataInterface, MeasurementsInterface, SquareMetersInterface } from "@/types";
 import { AlacenaExcelDataResponse, AlacenaInterface, AlacenaTypes, ModuleType } from "@/types/cocinaTypes"
 import { OptionType, SaveOptionsInterface } from "@/types/reducer"
-import { calculateTotalPrice, handleBisagrasQuantityChange, handleCalculateShelfPrice, handleFondo, handleMaterialExterior, handleMeasureSelect, handleNumericInputChange, handlePanelDeCierre, handleQuantityApertura, handleQuantityChange } from "@/utils/functions";
+import {
+    calculateTotalPrice, handleBisagrasQuantityChange, handleCalculateShelfPrice,
+    handleFondo, handleMaterialExterior, handleMeasureSelect, handleNumericInputChange,
+    handlePanelDeCierre, handleQuantityApertura, handleQuantityChange
+} from "@/utils/functions";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -92,7 +96,6 @@ export default function AlacenaContainer({
                 handleFondo({
                     itemData: itemData.name,
                     measurements,
-                    excelData: excelData.fondos,
                     setSelectedOption,
                     category,
                     squareMeter,
@@ -222,7 +225,6 @@ export default function AlacenaContainer({
             handleFondo({
                 itemData: selectedOption.fondo.data.name,
                 measurements,
-                excelData: excelData.fondos,
                 setSelectedOption,
                 category: 'fondo',
                 squareMeter,

@@ -96,7 +96,6 @@ export default function BajoMesadaContainer({
                 handleFondo({
                     itemData: itemData.name,
                     measurements,
-                    excelData: excelData.fondos,
                     setSelectedOption,
                     category,
                     squareMeter,
@@ -279,7 +278,6 @@ export default function BajoMesadaContainer({
             handleFondo({
                 itemData: selectedOption.fondo.data.name,
                 measurements,
-                excelData: excelData.fondos,
                 setSelectedOption,
                 category: 'fondo',
                 squareMeter,

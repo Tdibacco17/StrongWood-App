@@ -109,7 +109,6 @@ export default function IslaContainer({
                 handleFondo({
                     itemData: itemData.name,
                     measurements,
-                    excelData: excelData.fondos,
                     setSelectedOption,
                     category,
                     squareMeter,
@@ -303,7 +302,6 @@ export default function IslaContainer({
             handleFondo({
                 itemData: selectedOption.fondo.data.name,
                 measurements,
-                excelData: excelData.fondos,
                 setSelectedOption,
                 category: 'fondo',
                 squareMeter,

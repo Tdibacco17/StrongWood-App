@@ -1,5 +1,4 @@
 'use client'
-import BajoMesadaContainer from "@/container/BajoMesadaContainer/BajoMesadaContainer";
 import IslaContainer from "@/container/IslaContainer/IslaContainer";
 import { IslaExcelDataResponse, IslaInterface, ModuleType } from "@/types/cocinaTypes";
 import { OptionType } from "@/types/reducer";

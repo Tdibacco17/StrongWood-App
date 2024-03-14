@@ -39,6 +39,7 @@ export interface SavedOptionsContextInterface {
     handleRemoveOption: (optionType: OptionType, index: number) => void;
     handleClearOptions: (optionType: OptionType) => void;
     getTotalPriceOfOptions: (optionType: OptionType) => number;
+    loading: boolean
 }
 
 export type SelectedOptionType = BajoMesadaInterface | AlacenaInterface | IslaInterface;

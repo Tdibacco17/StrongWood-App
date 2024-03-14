@@ -2,12 +2,13 @@
 import { initialOptionsState, reducer } from "@/reducer/SaveOptionesRuder";
 import { ExcelDataInterface } from "@/types";
 import { OptionType, SaveOptionsInterface, SavedOptionsContextInterface, } from "@/types/reducer";
-import { ReactNode, createContext, useEffect, useReducer } from "react";
+import { ReactNode, createContext, useEffect, useReducer, useState } from "react";
 
 export const SaveOptionsContext = createContext<SavedOptionsContextInterface | {}>({});
 
 export const SaveOptionsProvider = ({ children }: { children: ReactNode }) => {
     const [saveOptions, dispatch] = useReducer(reducer, initialOptionsState);
+    const [loading, setLoading] = useState<boolean>(true);
     // console.log("[saveOptions]: ", saveOptions)
 
     const handleSaveOptionsChange = (optionType: OptionType, newOption: SaveOptionsInterface) => {
@@ -57,6 +58,9 @@ export const SaveOptionsProvider = ({ children }: { children: ReactNode }) => {
                 // No hay datos guardados, inicializar con el estado inicial
                 dispatch({ type: 'SET_OPTIONS', payload: initialOptionsState });
             }
+            setTimeout(() => {
+                setLoading(false);
+            }, 750)
         }
     }, []);
 
@@ -68,7 +72,8 @@ export const SaveOptionsProvider = ({ children }: { children: ReactNode }) => {
                 handleSaveMaterialsChange,
                 handleRemoveOption,
                 handleClearOptions,
-                getTotalPriceOfOptions
+                getTotalPriceOfOptions,
+                loading
             }}>
             {children}
         </SaveOptionsContext.Provider>

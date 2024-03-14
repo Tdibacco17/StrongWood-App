@@ -67,7 +67,7 @@ export default function IslaComponent({
                             selectedOptionType: "panelDeCierre",
                             handleOptionSelect: handleOptionSelect,
                         }} />
-                    <SelectFieldComponent title="Panel de cierre (atras)" excelData={excelData.cierreAtras}
+                    <SelectFieldComponent title="Panel de cierre ( atras )" excelData={excelData.cierreAtras}
                         isDisabled={selectedOption.panelDeCierre.data.name.length > 0} showNumericInput={false}
                         islaProps={{
                             selectedOption: selectedOption,
