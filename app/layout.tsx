@@ -1,5 +1,5 @@
-import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import type { Metadata, Viewport } from "next";
 import { font } from "@/utils/fonts";
 import { Toaster } from "sonner";
 import { ResizableProvider } from "@/context/ResizableProvider";
