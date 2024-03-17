@@ -1,3 +1,4 @@
+'use client'
 import BajoMesadaComponent from "@/components/BajoMesadaComponent/BajoMesadaComponent";
 import { UseSavedOptions } from "@/hook/UseSavedOptions";
 import { ExcelDataInterface, MeasurementsInterface, SquareMetersInterface } from "@/types";

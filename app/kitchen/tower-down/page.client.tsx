@@ -1,4 +1,3 @@
-'use client'
 import BajoMesadaContainer from "@/container/BajoMesadaContainer/BajoMesadaContainer";
 import { MeasurementsInterface } from "@/types";
 import { BajoMesadaExcelDataResponse, BajoMesadaInterface, ModuleType } from "@/types/cocinaTypes";

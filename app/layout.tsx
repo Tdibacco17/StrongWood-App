@@ -4,6 +4,7 @@ import { font } from "@/utils/fonts";
 import { Toaster } from "sonner";
 import { ResizableProvider } from "@/context/ResizableProvider";
 import { SaveOptionsProvider } from "@/context/SavedOptionsContextProvider";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "StrongWood App®",
@@ -30,16 +31,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  //suppressHydrationWarning
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={font.className}>
-        <ResizableProvider>
-          <SaveOptionsProvider>
-            {children}
-            <Toaster richColors theme="dark" />
-          </SaveOptionsProvider>
-        </ResizableProvider>
+        <ThemeProvider>
+          <ResizableProvider>
+            <SaveOptionsProvider>
+              {children}
+              <Toaster richColors theme="dark" />
+            </SaveOptionsProvider>
+          </ResizableProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

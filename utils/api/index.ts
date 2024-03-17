@@ -7,7 +7,7 @@ const api = {
     cocina: {
         bajoMesada: {
             list: async (): Promise<BajoMesadaExcelDataResponse> => {
-                const text = await fetch(`${process.env.COCINA_BAJO_MESADA}`, { next: { tags: ["kitchen"] } }).then((res) => res.text())
+                const text = await fetch(`${process.env.COCINA_BAJO_MESADA}`, /*{ next: { tags: ["cocina"] }*/{ cache: "no-cache" }).then((res) => res.text())
                 const rows = text.split("\n");
 
                 // Definir arrays para almacenar los datos de medidas y materiales
@@ -104,7 +104,7 @@ const api = {
         },
         alacena: {
             list: async (): Promise<AlacenaExcelDataResponse> => {
-                const text = await fetch(`${process.env.COCINA_ALACENA}`, { next: { tags: ["kitchen"] } }).then((res) => res.text())
+                const text = await fetch(`${process.env.COCINA_ALACENA}`, /*{ next: { tags: ["cocina"] }*/{ cache: "no-cache" }).then((res) => res.text())
                 const rows = text.split("\n");
 
                 // Definir arrays para almacenar los datos de medidas y materiales

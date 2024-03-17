@@ -1,4 +1,3 @@
-'use client'
 import AlacenaContainer from "@/container/AlacenaContainer/AlacenaContainer";
 import { MeasurementsInterface } from "@/types";
 import { AlacenaExcelDataResponse, AlacenaInterface, ModuleType } from "@/types/cocinaTypes";
