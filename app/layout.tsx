@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import Providers from "@/providers/Providers";
 import { font } from "@/utils/fonts";
 import { Toaster } from "sonner";
+import { ResizableProvider } from "@/context/ResizableProvider";
+import { SaveOptionsProvider } from "@/context/SavedOptionsContextProvider";
 
 export const metadata: Metadata = {
   title: "StrongWood App®",
@@ -33,10 +34,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
-        <Providers>
+        <ResizableProvider>
+          <SaveOptionsProvider>
             {children}
-            <Toaster richColors theme="dark"/>
-        </Providers>
+            <Toaster richColors theme="dark" />
+          </SaveOptionsProvider>
+        </ResizableProvider>
       </body>
     </html>
   );
