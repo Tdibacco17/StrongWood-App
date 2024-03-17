@@ -9,12 +9,12 @@ export default function Providers({
     children: React.ReactNode;
 }) {
     return (
-        <ThemeProvider>
+        // <ThemeProvider>
             <ResizableProvider>
                 <SaveOptionsProvider>
                     {children}
                 </SaveOptionsProvider>
             </ResizableProvider>
-        </ThemeProvider>
+        // </ThemeProvider
     );
 }
