@@ -1,6 +1,7 @@
 'use client'
-import IslaContainer from "@/container/IslaContainer/IslaContainer";
-import { IslaExcelDataResponse, IslaInterface, ModuleType } from "@/types/cocinaTypes";
+import BajoMesadaContainer from "@/container/BajoMesadaContainer/BajoMesadaContainer";
+import { MeasurementsInterface } from "@/types";
+import { BajoMesadaExcelDataResponse, BajoMesadaInterface, ModuleType } from "@/types/cocinaTypes";
 import { OptionType } from "@/types/reducer";
 
 export default function IslandPageClient({
@@ -8,15 +9,17 @@ export default function IslandPageClient({
     optionType,
     moduleType
 }: {
-    excelData: IslaExcelDataResponse,
+    excelData: BajoMesadaExcelDataResponse,
     optionType: OptionType,
     moduleType: ModuleType
 }) {
-    const initialUnderCounterOption: IslaInterface = {
-        medida: {
-            title: "Medida",
-            data: { name: "", price: 0 }
-        },
+    const initialMeasurementOption: MeasurementsInterface = {
+        ancho: "",
+        alto: "",
+        profundidad: ""
+    }
+
+    const initialIslandOption: BajoMesadaInterface = {
         materialExterior: {
             title: "Material exterior",
             data: { name: "", price: 0 }
@@ -95,10 +98,12 @@ export default function IslandPageClient({
         },
     };
 
-    return <IslaContainer
+    return <BajoMesadaContainer
         excelData={excelData}
-        initialSelectedOption={initialUnderCounterOption}
+        initialSelectedOption={initialIslandOption}
+        initialMeasurementOption={initialMeasurementOption}
         optionType={optionType}
         moduleType={moduleType}
+        subTitle={"De ser necesario utilizar la coma. ( Pensado para modulos de 0.50m a 1.50m de ancho )"}
     />
 }

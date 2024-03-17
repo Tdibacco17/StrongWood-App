@@ -1,7 +1,7 @@
 import { ExcelDataInterface } from "@/types";
 import styles from "./SelectFieldComponent.module.scss"
 import { Button } from "../ui/button";
-import { AlacenaInterface, AlacenaTypes, BajoMesadaInterface, BajoMesadaTypes, IslaInterface, IslaTypes } from "@/types/cocinaTypes";
+import { AlacenaInterface, AlacenaTypes, BajoMesadaInterface, BajoMesadaTypes } from "@/types/cocinaTypes";
 import { Input } from "../ui/input";
 
 export default function SelectFieldComponent({
@@ -10,7 +10,6 @@ export default function SelectFieldComponent({
     handleQuantityInputChange,
     bajoMesadaProps,
     alacenaProps,
-    islaProps,
     title,
     subTitle,
     isDisabled,
@@ -30,11 +29,6 @@ export default function SelectFieldComponent({
         selectedOption: AlacenaInterface;
         selectedOptionType: AlacenaTypes;
     };
-    islaProps?: {
-        handleOptionSelect: (category: IslaTypes, itemData: ExcelDataInterface) => void;
-        selectedOption: IslaInterface;
-        selectedOptionType: IslaTypes;
-    },
     title: string;
     subTitle?: string,
     isDisabled: boolean,
@@ -51,21 +45,14 @@ export default function SelectFieldComponent({
             const selectedItemName = alacenaProps.selectedOption[alacenaProps.selectedOptionType]?.data?.name;
             return selectedItemName && selectedItemName.startsWith(itemData.name);
         }
-        else if (islaProps) {
-            const selectedItemName = islaProps.selectedOption[islaProps.selectedOptionType]?.data?.name;
-            return selectedItemName && selectedItemName.startsWith(itemData.name);
-        }
         return false;
     };
-    const handleOptionSelect = (category: BajoMesadaTypes | AlacenaTypes | IslaTypes, itemData: ExcelDataInterface) => {
+    const handleOptionSelect = (category: BajoMesadaTypes | AlacenaTypes, itemData: ExcelDataInterface) => {
         if (bajoMesadaProps) {
             bajoMesadaProps.handleOptionSelect(category as BajoMesadaTypes, itemData);
         }
         else if (alacenaProps) {
             alacenaProps.handleOptionSelect(category as AlacenaTypes, itemData);
-        }
-        else if (islaProps) {
-            islaProps.handleOptionSelect(category as IslaTypes, itemData);
         }
     };
 
@@ -101,8 +88,6 @@ export default function SelectFieldComponent({
                                 handleOptionSelect(bajoMesadaProps.selectedOptionType, itemData);
                             } else if (alacenaProps) {
                                 handleOptionSelect(alacenaProps.selectedOptionType, itemData);
-                            } else if (islaProps) {
-                                handleOptionSelect(islaProps.selectedOptionType, itemData);
                             }
                         }}
                         className={`${styles["btn-custom"]} ${isOptionSelected(itemData) ? styles["btn-active"] : ""}`}

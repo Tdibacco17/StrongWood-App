@@ -13,23 +13,53 @@ import { toast } from "sonner";
 
 export default function AlacenaContainer({
     initialSelectedOption,
+    initialMeasurementOption,
     excelData,
     optionType,
-    moduleType
+    moduleType,
+    subTitle
 }: {
     initialSelectedOption: AlacenaInterface,
+    initialMeasurementOption: MeasurementsInterface,
     excelData: AlacenaExcelDataResponse,
     optionType: OptionType,
     moduleType: ModuleType
+    subTitle?: string
 }) {
     const [moduleName, setModuleName] = useState<string>('');
     const [quantity, setQuantity] = useState<number>(1);
-    const [measurements, setMeasurements] = useState<MeasurementsInterface | undefined>(undefined);
+    const [measurements, setMeasurements] = useState<MeasurementsInterface>(initialMeasurementOption);
     const [selectedOption, setSelectedOption] = useState<AlacenaInterface>(initialSelectedOption);
     const [bisagrasQuantity, setBisagrasQuantity] = useState<number>(1);
     const [squareMeter, setSquareMeter] = useState<SquareMetersInterface[]>([])
     const [totalSquareMeters, setTotalSquareMeters] = useState<{ [key: string]: { amount: number } }>({});
     const { handleSaveOptionsChange, handleSaveMaterialsChange } = UseSavedOptions();
+
+    //actualizador de selecciones de medidas(inputs)
+    const handleMeasureChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: keyof MeasurementsInterface) => {
+        let value = e.target.value.replace(",", ".");
+        if (value === "" || parseFloat(value) < 0) {
+            value = "0";
+        }
+        setMeasurements(prevState => ({
+            ...prevState,
+            [fieldName]: parseFloat(value)
+        }));
+    };
+
+    //agregamos las medidas a squareMeters
+    useEffect(() => {
+        const { ancho, alto, profundidad } = measurements;
+        if (ancho !== "" && alto !== "" && profundidad !== "") {
+            handleMeasureSelect({
+                measurements,
+                squareMeter,
+                setSquareMeter,
+                category: "medidas",
+                isReinforcement: true
+            });
+        }
+    }, [measurements])
 
     //actualizador de selecciones
     const handleOptionSelect = (
@@ -47,21 +77,11 @@ export default function AlacenaContainer({
                 },
             },
         }));
-        if (category === 'medida') {
-            handleMeasureSelect({
-                itemData,
-                setMeasurements,
-                squareMeter,
-                setSquareMeter,
-                category
-            });
-        }
         if (measurements) {
             if (category === 'materialExterior') {
                 handleMaterialExterior({
                     materialName: itemData.name,
                     measurements,
-                    excelData: excelData.materiales,
                     setSelectedOption,
                     category,
                     squareMeter,
@@ -72,7 +92,6 @@ export default function AlacenaContainer({
                         itemData: selectedOption.panelDeCierre.data.name,
                         materialName: itemData.name,
                         measurements,
-                        excelData: excelData.materiales,
                         setSelectedOption,
                         category: 'panelDeCierre',
                         setSquareMeter,
@@ -85,7 +104,6 @@ export default function AlacenaContainer({
                     itemData: itemData.name,
                     materialName: selectedOption.materialExterior.data.name,
                     measurements,
-                    excelData: excelData.materiales,
                     setSelectedOption: setSelectedOption,
                     category,
                     setSquareMeter,
@@ -94,7 +112,7 @@ export default function AlacenaContainer({
             }
             if (category === 'fondo') {
                 handleFondo({
-                    itemData: itemData.name,
+                    materialName: itemData.name,
                     measurements,
                     setSelectedOption,
                     category,
@@ -110,7 +128,7 @@ export default function AlacenaContainer({
                             setSelectedOption,
                         },
                         category: 'apertura',
-                        itemData: selectedOption.apertura.data,
+                        materialName: selectedOption.apertura.data.name,
                         excelData: excelData.aperturas
                     })
                 }
@@ -123,7 +141,7 @@ export default function AlacenaContainer({
                             setSelectedOption,
                         },
                         category: 'apertura',
-                        itemData: selectedOption.apertura.data,
+                        materialName: selectedOption.apertura.data.name,
                         excelData: excelData.aperturas
                     })
                 }
@@ -147,7 +165,7 @@ export default function AlacenaContainer({
                         setSelectedOption,
                     },
                     category,
-                    itemData,
+                    materialName: itemData.name,
                     excelData: excelData.aperturas
                 })
             }
@@ -158,7 +176,7 @@ export default function AlacenaContainer({
                         setSelectedOption,
                     },
                     category,
-                    itemData,
+                    materialName: itemData.name,
                     excelData: excelData.aperturas
                 })
             }
@@ -202,7 +220,6 @@ export default function AlacenaContainer({
             handleMaterialExterior({
                 materialName: selectedOption.materialExterior.data.name,
                 measurements,
-                excelData: excelData.materiales,
                 setSelectedOption,
                 category: 'materialExterior',
                 setSquareMeter,
@@ -214,7 +231,6 @@ export default function AlacenaContainer({
                 itemData: selectedOption.panelDeCierre.data.name,
                 materialName: selectedOption.materialExterior.data.name,
                 measurements,
-                excelData: excelData.materiales,
                 setSelectedOption,
                 category: 'panelDeCierre',
                 setSquareMeter,
@@ -223,7 +239,7 @@ export default function AlacenaContainer({
         }
         if (selectedOption.fondo.data.name.trim().length > 0) { //  actualizamos fondo
             handleFondo({
-                itemData: selectedOption.fondo.data.name,
+                materialName: selectedOption.fondo.data.name,
                 measurements,
                 setSelectedOption,
                 category: 'fondo',
@@ -311,7 +327,7 @@ export default function AlacenaContainer({
         setModuleName('');
         setQuantity(1);
         setSelectedOption(initialSelectedOption);
-        setMeasurements(undefined)
+        setMeasurements(initialMeasurementOption)
         setBisagrasQuantity(1)
         setSquareMeter([]);
         setTotalSquareMeters({})
@@ -336,6 +352,13 @@ export default function AlacenaContainer({
         totalPriceWithQuantity={totalPriceWithQuantity}
         bisagrasQuantity={bisagrasQuantity}
         handleBisagrasQuantityChangeWrapper={handleBisagrasQuantityChangeWrapper}
-        measurements={measurements ? true : false}
+        measurements={measurements}
+        handleMeasureChange={handleMeasureChange}
+        measurementSelected={
+            (measurements.ancho !== "" && measurements.ancho !== 0) &&
+            (measurements.alto !== "" && measurements.alto !== 0) &&
+            (measurements.profundidad !== "" && measurements.profundidad !== 0)
+        }
+        subTitle={subTitle}
     />
 }

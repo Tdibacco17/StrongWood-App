@@ -13,7 +13,7 @@ export interface ExcelDataInterface {
     meters?: number | null;
 }
 
-export interface SelectedOptionInterface{
+export interface SelectedOptionInterface {
     name: string,
     price: number,
 }
@@ -25,12 +25,12 @@ export interface TableSelectFieldsInterface {
 }
 //medidas del modulo seleccionado
 export interface MeasurementsInterface {
-    ancho: number, alto: number, profundidad: number
+    ancho: number | "", alto: number | "", profundidad: number | ""
 }
 
 //metros cuadrados de los materiales seleccionados
 export interface SquareMetersInterface {
-    sectionId: CategoryType | BajoMesadaTypes | AlacenaTypes,
+    sectionId: CategoryType | BajoMesadaTypes | AlacenaTypes | "medidas",
     title: string,
     amount: number,
 }

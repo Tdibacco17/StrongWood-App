@@ -1,5 +1,5 @@
-import { ExcelDataInterface, SquareMetersInterface } from ".";
-import { AlacenaInterface, BajoMesadaInterface, IslaInterface } from "./cocinaTypes";
+import { ExcelDataInterface } from ".";
+import { AlacenaInterface, BajoMesadaInterface } from "./cocinaTypes";
 
 //acciones reducer
 export type ActionType =
@@ -42,5 +42,5 @@ export interface SavedOptionsContextInterface {
     loading: boolean
 }
 
-export type SelectedOptionType = BajoMesadaInterface | AlacenaInterface | IslaInterface;
-export type CategoryType = keyof (BajoMesadaInterface & AlacenaInterface & IslaInterface);
+export type SelectedOptionType = BajoMesadaInterface | AlacenaInterface;
+export type CategoryType = keyof (BajoMesadaInterface & AlacenaInterface);

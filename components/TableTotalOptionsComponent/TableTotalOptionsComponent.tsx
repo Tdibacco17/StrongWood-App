@@ -40,7 +40,7 @@ export function TableTotalOptionsComponent() {
 
     return (
         <section className={styles["section-total-options"]}>
-            {true
+            {loading
                 ? <SkeletonTableTotalOptionsComponent />
                 : Object.entries(saveOptions).map(([optionType, data]) => {
                     const typedOptionType = optionType as OptionType;

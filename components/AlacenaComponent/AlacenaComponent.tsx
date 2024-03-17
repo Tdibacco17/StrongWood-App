@@ -1,10 +1,11 @@
-import { ExcelDataInterface } from "@/types"
+import { ExcelDataInterface, MeasurementsInterface } from "@/types"
 import styles from "./AlacenaComponent.module.scss"
 import NameFieldComponent from "../NameFieldComponent/NameFieldComponent"
 import TableSelectFieldsComponent from "../TableSelectFieldsComponent/TableSelectFieldsComponent"
 import { AlacenaExcelDataResponse, AlacenaInterface, AlacenaTypes } from "@/types/cocinaTypes"
 import SelectFieldComponent from "../SelectFieldComponent/SelectFieldComponent"
 import DividerComponent from "../DividerComponent/DividerComponent"
+import MeasureFieldComponent from "../MeasureFieldComponent/MeasureFieldComponent"
 
 export default function AlacenaComponent({
     excelData,
@@ -18,7 +19,10 @@ export default function AlacenaComponent({
     totalPriceWithQuantity,
     bisagrasQuantity,
     handleBisagrasQuantityChangeWrapper,
-    measurements
+    measurements,
+    handleMeasureChange,
+    measurementSelected,
+    subTitle
 }: {
     excelData: AlacenaExcelDataResponse,
     moduleName: string,
@@ -31,24 +35,22 @@ export default function AlacenaComponent({
     totalPriceWithQuantity: number,
     bisagrasQuantity: number,
     handleBisagrasQuantityChangeWrapper: (event: React.ChangeEvent<HTMLInputElement>) => void,
-    measurements: boolean
+    measurements: MeasurementsInterface,
+    handleMeasureChange: (e: React.ChangeEvent<HTMLInputElement>, fieldName: keyof MeasurementsInterface) => void,
+    measurementSelected: boolean,
+    subTitle?: string
 }) {
     return (
         <div className={styles["container-section-alacena"]}>
             <div className={styles["wrapper-column"]}>
                 <NameFieldComponent moduleName={moduleName} setModuleName={setModuleName} />
                 <DividerComponent title="DIMENSIONES" size="medium" />
-                <SelectFieldComponent title="Medida" subTitle="( Ancho x Alto x Profundidad )" excelData={excelData.medidas}
-                    isDisabled={true} showNumericInput={false}
-                    alacenaProps={{
-                        selectedOption: selectedOption,
-                        selectedOptionType: "medida",
-                        handleOptionSelect: handleOptionSelect,
-                    }} />
+                <MeasureFieldComponent title="Medidas" subTitle={subTitle}
+                    measurements={measurements} handleMeasureChange={handleMeasureChange} />
                 <DividerComponent title="MATERIALES Y FORMATO" size="medium" />
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Material exterior" excelData={excelData.materiales}
-                        isDisabled={measurements} showNumericInput={false}
+                        isDisabled={measurementSelected} showNumericInput={false}
                         alacenaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "materialExterior",
@@ -57,14 +59,14 @@ export default function AlacenaComponent({
                 </div>
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Panel de cierre" excelData={excelData.panelDeCierre}
-                        isDisabled={selectedOption.materialExterior.data.name.length > 0} showNumericInput={false}
+                        isDisabled={measurementSelected && selectedOption.materialExterior.data.name.length > 0} showNumericInput={false}
                         alacenaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "panelDeCierre",
                             handleOptionSelect: handleOptionSelect,
                         }} />
                     <SelectFieldComponent title="Fondo" excelData={excelData.fondos.slice(0, 2)}
-                        isDisabled={selectedOption.panelDeCierre.data.name.length > 0} showNumericInput={false}
+                        isDisabled={measurementSelected && selectedOption.panelDeCierre.data.name.length > 0} showNumericInput={false}
                         alacenaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "fondo",
@@ -75,7 +77,7 @@ export default function AlacenaComponent({
                 <DividerComponent title="PUERTAS" size="medium" />
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Rebatibles" subTitle="Precio del frente contemplado en material exterior" excelData={excelData.rebatibles}
-                        isDisabled={selectedOption.fondo.data.name.length > 0} showNumericInput={false}
+                        isDisabled={measurementSelected && selectedOption.fondo.data.name.length > 0} showNumericInput={false}
                         btnBlocked={selectedOption.batientes.data.name.trim().length > 0 && (selectedOption.batientes.data.name === "No" ? false : true)}
                         alacenaProps={{
                             selectedOption: selectedOption,
@@ -84,7 +86,7 @@ export default function AlacenaComponent({
                         }} />
                     <SelectFieldComponent title="Bisagras" excelData={excelData.bisagras}
                         inputQuantity={bisagrasQuantity} handleQuantityInputChange={handleBisagrasQuantityChangeWrapper}
-                        isDisabled={selectedOption.rebatibles.data.name.length > 0} showNumericInput={true}
+                        isDisabled={measurementSelected && selectedOption.rebatibles.data.name.length > 0} showNumericInput={true}
                         alacenaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "bisagras",
@@ -93,7 +95,7 @@ export default function AlacenaComponent({
                 </div>
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Batientes" subTitle="Precio del frente contemplado en material exterior" excelData={excelData.batientes}
-                        isDisabled={selectedOption.bisagras.data.name.length > 0} showNumericInput={false}
+                        isDisabled={measurementSelected && selectedOption.bisagras.data.name.length > 0} showNumericInput={false}
                         btnBlocked={selectedOption.rebatibles.data.name === "No" ? false : true}
                         alacenaProps={{
                             selectedOption: selectedOption,
@@ -101,7 +103,7 @@ export default function AlacenaComponent({
                             handleOptionSelect: handleOptionSelect,
                         }} />
                     <SelectFieldComponent title="Apertura" excelData={excelData.aperturas}
-                        isDisabled={selectedOption.bisagras.data.name.length > 0} showNumericInput={false}
+                        isDisabled={measurementSelected && selectedOption.bisagras.data.name.length > 0} showNumericInput={false}
                         alacenaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "apertura",
@@ -111,14 +113,14 @@ export default function AlacenaComponent({
                 <DividerComponent title="ACCESORIOS" size="medium" />
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Estantes" excelData={excelData.estantes}
-                        isDisabled={selectedOption.apertura.data.name.length > 0} showNumericInput={true}
+                        isDisabled={measurementSelected && selectedOption.apertura.data.name.length > 0} showNumericInput={true}
                         alacenaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "estantes",
                             handleOptionSelect: handleOptionSelect,
                         }} />
                     <SelectFieldComponent title="Piston" excelData={excelData.piston}
-                        isDisabled={selectedOption.estantes.data.name.length > 0} showNumericInput={false}
+                        isDisabled={measurementSelected && selectedOption.estantes.data.name.length > 0} showNumericInput={false}
                         alacenaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "piston",
@@ -126,7 +128,7 @@ export default function AlacenaComponent({
                         }} />
                 </div>
                 <DividerComponent title="SELECCIONES REALIZADAS" size="lg" />
-                <TableSelectFieldsComponent quantity={quantity} moduleName={moduleName} handleSaveOptions={handleSaveOptions}
+                <TableSelectFieldsComponent quantity={quantity} moduleName={moduleName} handleSaveOptions={handleSaveOptions} measurements={measurements}
                     handleQuantityChange={handleQuantityChangeWrapper} selectedOption={selectedOption} totalPriceWithQuantity={totalPriceWithQuantity} />
             </div>
         </div>

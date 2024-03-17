@@ -37,6 +37,14 @@
             "cupboard": {
                 "title": "Alacena",
                 "url": "/kitchen/cupboard"
+            },
+            "towerDown": {
+                "title": "Torre abajo",
+                "url": "/kitchen/tower-down"
+            },
+            "towerUp": {
+                "title": "Torre arriba",
+                "url": "/kitchen/tower-up"
             }
         },
         "closet": {

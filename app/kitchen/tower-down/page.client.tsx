@@ -4,7 +4,7 @@ import { MeasurementsInterface } from "@/types";
 import { BajoMesadaExcelDataResponse, BajoMesadaInterface, ModuleType } from "@/types/cocinaTypes";
 import { OptionType } from "@/types/reducer";
 
-export default function UnderCounterPageClient({
+export default function TowerDownPagePageClient({
     excelData,
     optionType,
     moduleType
@@ -13,14 +13,13 @@ export default function UnderCounterPageClient({
     optionType: OptionType,
     moduleType: ModuleType
 }) {
-
     const initialMeasurementOption: MeasurementsInterface = {
         ancho: "",
         alto: "",
         profundidad: ""
     }
 
-    const initialUnderCounterOption: BajoMesadaInterface = {
+    const initialTowerDownOption: BajoMesadaInterface = {
         materialExterior: {
             title: "Material exterior",
             data: { name: "", price: 0 }
@@ -101,10 +100,10 @@ export default function UnderCounterPageClient({
 
     return <BajoMesadaContainer
         excelData={excelData}
-        initialSelectedOption={initialUnderCounterOption}
+        initialSelectedOption={initialTowerDownOption}
         initialMeasurementOption={initialMeasurementOption}
         optionType={optionType}
         moduleType={moduleType}
-        subTitle={"De ser necesario utilizar la coma. ( Pensado para modulos de 0.20m a 1m de ancho )"}
+        subTitle={"De ser necesario utilizar la coma."}
     />
 }

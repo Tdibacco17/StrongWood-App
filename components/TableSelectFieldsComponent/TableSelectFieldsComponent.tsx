@@ -10,9 +10,10 @@ import {
 } from "@/components/ui/table"
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
-import { TableSelectFieldsInterface } from "@/types"
+import { MeasurementsInterface, TableSelectFieldsInterface } from "@/types"
 import styles from "./TableSelectFieldsComponent.module.scss"
 import { SelectedOptionType } from "@/types/reducer"
+import React from "react"
 
 export default function TableSelectFieldsComponent({
     handleQuantityChange,
@@ -21,6 +22,7 @@ export default function TableSelectFieldsComponent({
     quantity,
     selectedOption,
     totalPriceWithQuantity,
+    measurements
 }: {
     handleQuantityChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
     handleSaveOptions: () => void,
@@ -28,6 +30,7 @@ export default function TableSelectFieldsComponent({
     quantity: number,
     selectedOption: SelectedOptionType,
     totalPriceWithQuantity: number,
+    measurements: MeasurementsInterface,
 }) {
     return (
         <div className={styles["container-section-table"]}>
@@ -38,6 +41,7 @@ export default function TableSelectFieldsComponent({
                 <TableHeader className={moduleName.length > 0 ? styles["line-top"] : ""}>
                     <TableRow className={moduleName.length > 0 ? styles["row-active"] : ""}>
                         <TableCell colSpan={moduleName.length > 0 ? 0 : 3} className="text-medium font-medium text-muted-foreground">NOMBRE DEL MODULO</TableCell>
+                        {/* {measurements} MOSTRA DATOS EN LA TABLA  Y ARREGLAR PRIMER CARGA EN LA HOME DEL LOCAL STORAGE */}
                         {moduleName.length > 0 &&
                             <TableCell colSpan={2} className={`text-medium font-medium`}>{moduleName}</TableCell>}
                         <TableCell className="flex justify-end items-center gap-4">
@@ -57,6 +61,17 @@ export default function TableSelectFieldsComponent({
                     </TableRow>
                 </TableHeader>
                 <TableBody>
+                    <TableRow className={`${(measurements.alto !== "" && measurements.ancho !== "" && measurements.profundidad !== "") ? "" : "opacity-20"}`}>
+                        <TableCell className="text-medium font-medium">Medidas</TableCell>
+                        <TableCell colSpan={3} className="font-medium">
+                            {(measurements.alto !== "" && measurements.ancho !== "" && measurements.profundidad !== "") &&
+                                Object.values(measurements).map((itemData: number | "", index: number) => {
+                                    return <React.Fragment key={index}>
+                                        {`${itemData}m ${index === 2 ? "" : "x "}`}
+                                    </React.Fragment>
+                                })}
+                        </TableCell>
+                    </TableRow>
                     {Object.entries(selectedOption).map(([category, item]: [string, TableSelectFieldsInterface]) => {
                         return <TableRow key={category} className={(item.data.price === 0 && (item.data.name === "No" || item.data.name === "")) ? "opacity-20" : ""}>
                             <TableCell className="text-medium font-medium">{item.title}</TableCell>

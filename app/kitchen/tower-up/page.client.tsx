@@ -4,7 +4,7 @@ import { MeasurementsInterface } from "@/types";
 import { AlacenaExcelDataResponse, AlacenaInterface, ModuleType } from "@/types/cocinaTypes";
 import { OptionType } from "@/types/reducer";
 
-export default function CupboardPageClient({
+export default function TowerUpPagePageClient({
     excelData,
     optionType,
     moduleType
@@ -18,8 +18,7 @@ export default function CupboardPageClient({
         alto: "",
         profundidad: ""
     }
-
-    const initialCupboardOption: AlacenaInterface = {
+    const initialTowerUpOption: AlacenaInterface = {
         materialExterior: {
             title: "Material exterior",
             data: { name: "", price: 0 }
@@ -57,12 +56,13 @@ export default function CupboardPageClient({
             data: { name: "", price: 0 }
         },
     };
+    
     return <AlacenaContainer
         excelData={excelData}
-        initialSelectedOption={initialCupboardOption}
+        initialSelectedOption={initialTowerUpOption}
         initialMeasurementOption={initialMeasurementOption}
         optionType={optionType}
         moduleType={moduleType}
-        subTitle={"De ser necesario utilizar la coma. ( Pensado para modulos de 0.20m a 1m de ancho )"}
+        subTitle={"De ser necesario utilizar la coma."}
     />
 }
