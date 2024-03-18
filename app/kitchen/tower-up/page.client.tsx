@@ -26,6 +26,10 @@ export default function TowerUpPagePageClient({
             title: "Panel de cierre",
             data: { name: "", price: 0 }
         },
+        cierreTecho: {
+            title: "Cierre techo",
+            data: { name: "", price: 0 }
+        },
         fondo: {
             title: "Fondo",
             data: { name: "", price: 0 }
@@ -55,7 +59,7 @@ export default function TowerUpPagePageClient({
             data: { name: "", price: 0 }
         },
     };
-    
+
     return <AlacenaContainer
         excelData={excelData}
         initialSelectedOption={initialTowerUpOption}

@@ -110,6 +110,7 @@ const api = {
                 // Definir arrays para almacenar los datos de medidas y materiales
                 const materiales: ExcelDataInterface[] = [];
                 const panelDeCierre: ExcelDataInterface[] = [];
+                const cierreTecho: ExcelDataInterface[] = [];
                 const fondos: ExcelDataInterface[] = [];
                 const rebatibles: ExcelDataInterface[] = [];
                 const batientes: ExcelDataInterface[] = [];
@@ -147,6 +148,7 @@ const api = {
                 const sectionProcessors: Record<AlacenaSectionTitle, (row: string) => void> = {
                     "materiales": processRow(materiales, "materiales"),
                     "panel de cierre": processRow(panelDeCierre, "panel de cierre"),
+                    "cierre techo": processRow(cierreTecho, "cierre techo"),
                     "fondos": processRow(fondos, "fondos"),
                     "rebatibles": processRow(rebatibles, "rebatibles"),
                     "batientes": processRow(batientes, "batientes"),
@@ -175,7 +177,7 @@ const api = {
 
                 // Retornamos el objeto con las medidas y materiales
                 return {
-                    materiales, aperturas, batientes, bisagras,
+                    materiales, aperturas, batientes, bisagras, cierreTecho,
                     fondos, panelDeCierre, piston, rebatibles, estantes
                 };
             }

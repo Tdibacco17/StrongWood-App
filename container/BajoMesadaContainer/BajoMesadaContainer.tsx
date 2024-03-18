@@ -57,7 +57,6 @@ export default function BajoMesadaContainer({
                 squareMeter,
                 setSquareMeter,
                 category: "medidas",
-                isReinforcement: true
             });
         }
     }, [measurements])
@@ -78,7 +77,8 @@ export default function BajoMesadaContainer({
                 },
             },
         }));
-        if (measurements) {
+        const { ancho, alto, profundidad } = measurements;
+        if (ancho !== "" && alto !== "" && profundidad !== "") {
             if (category === 'materialExterior') {
                 handleMaterialExterior({
                     materialName: itemData.name,

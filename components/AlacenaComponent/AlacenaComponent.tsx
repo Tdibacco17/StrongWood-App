@@ -65,8 +65,15 @@ export default function AlacenaComponent({
                             selectedOptionType: "panelDeCierre",
                             handleOptionSelect: handleOptionSelect,
                         }} />
-                    <SelectFieldComponent title="Fondo" excelData={excelData.fondos.slice(0, 2)}
+                    <SelectFieldComponent title="Cierre techo" excelData={excelData.cierreTecho}
                         isDisabled={measurementSelected && selectedOption.panelDeCierre.data.name.length > 0} showNumericInput={false}
+                        alacenaProps={{
+                            selectedOption: selectedOption,
+                            selectedOptionType: "cierreTecho",
+                            handleOptionSelect: handleOptionSelect,
+                        }} />
+                    <SelectFieldComponent title="Fondo" excelData={excelData.fondos.slice(0, 2)}
+                        isDisabled={measurementSelected && selectedOption.cierreTecho.data.name.length > 0} showNumericInput={false}
                         alacenaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "fondo",

@@ -6,7 +6,7 @@ import { AlacenaExcelDataResponse, AlacenaInterface, AlacenaTypes, ModuleType } 
 import { OptionType, SaveOptionsInterface } from "@/types/reducer"
 import {
     calculateTotalPrice, handleBisagrasQuantityChange, handleCalculateShelfPrice,
-    handleFondo, handleMaterialExterior, handleMeasureSelect, handleNumericInputChange,
+    handleFondo, handleMaterialExterior, handleMeasureCeiling, handleMeasureSelect, handleNumericInputChange,
     handlePanelDeCierre, handleQuantityApertura, handleQuantityChange
 } from "@/utils/functions";
 import { useEffect, useState } from "react";
@@ -57,7 +57,6 @@ export default function AlacenaContainer({
                 squareMeter,
                 setSquareMeter,
                 category: "medidas",
-                isReinforcement: true
             });
         }
     }, [measurements])
@@ -78,7 +77,8 @@ export default function AlacenaContainer({
                 },
             },
         }));
-        if (measurements) {
+        const { ancho, alto, profundidad } = measurements;
+        if (ancho !== "" && alto !== "" && profundidad !== "") {
             if (category === 'materialExterior') {
                 handleMaterialExterior({
                     materialName: itemData.name,
@@ -99,6 +99,14 @@ export default function AlacenaContainer({
                         squareMeter
                     });
                 }
+            }
+            if (category === "cierreTecho") {
+                handleMeasureCeiling({
+                    measurements,
+                    squareMeter,
+                    setSquareMeter,
+                    category,
+                });
             }
             if (category === 'panelDeCierre') {
                 handlePanelDeCierre({
@@ -226,6 +234,14 @@ export default function AlacenaContainer({
                 setSquareMeter,
                 squareMeter
             })
+        }
+        if (selectedOption.cierreTecho.data.name.trim().length > 0) {
+            handleMeasureCeiling({
+                measurements,
+                squareMeter,
+                setSquareMeter,
+                category: 'cierreTecho',
+            });
         }
         if (selectedOption.panelDeCierre.data.name.trim().length > 0 && selectedOption.materialExterior.data.name.trim().length > 0) { // actualizamos panel de cierre
             handlePanelDeCierre({

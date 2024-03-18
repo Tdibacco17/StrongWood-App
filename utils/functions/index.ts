@@ -7,29 +7,47 @@ export const handleMeasureSelect = ({
     squareMeter,
     setSquareMeter,
     category,
-    isReinforcement
 }: {
     measurements: MeasurementsInterface,
     squareMeter: SquareMetersInterface[],
     setSquareMeter: React.Dispatch<React.SetStateAction<SquareMetersInterface[]>>,
     category: CategoryType | "medidas",
-    isReinforcement: boolean
 }): void => {
     const { ancho, alto, profundidad } = measurements;
     if (ancho !== "" && alto !== "" && profundidad !== "") {
         const laterales = (alto * profundidad) * 2
         const piso = ancho * profundidad
-
-        let techo;
-        if (isReinforcement) {
-            techo = (0.1 * ancho) * 2
-        }
-        techo = ancho * profundidad
+        const techo = (0.1 * ancho) * 2
 
         const newSquareMeter: SquareMetersInterface = {
             sectionId: category,
             title: "Melamina blanca",
             amount: (laterales + piso + techo) ? parseFloat((laterales + piso + techo).toFixed(3)) : 0
+        };
+
+        handleSquareMeterChange(newSquareMeter, squareMeter, setSquareMeter);
+    }
+};
+
+
+export const handleMeasureCeiling = ({
+    measurements,
+    squareMeter,
+    setSquareMeter,
+    category,
+}: {
+    measurements: MeasurementsInterface,
+    squareMeter: SquareMetersInterface[],
+    setSquareMeter: React.Dispatch<React.SetStateAction<SquareMetersInterface[]>>,
+    category: CategoryType,
+}): void => {
+    const { ancho, alto, profundidad } = measurements;
+    if (ancho !== "" && alto !== "" && profundidad !== "") {
+
+        const newSquareMeter: SquareMetersInterface = {
+            sectionId: category,
+            title: "Melamina blanca",
+            amount: parseFloat(( ancho * profundidad).toFixed(3))
         };
 
         handleSquareMeterChange(newSquareMeter, squareMeter, setSquareMeter);
