@@ -129,7 +129,7 @@ export default function BajoMesadaComponent({
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Cajones" subTitle="Precio del frente contemplado en material exterior" excelData={excelData.cajones}
                         isDisabled={measurementSelected && selectedOption.bisagras.data.name.length > 0} showNumericInput={false}
-                        btnBlocked={selectedOption.correderas.data.name.length > 0 }
+                        btnBlocked={selectedOption.correderas.data.name.length > 0}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "cajones",
@@ -234,7 +234,7 @@ export default function BajoMesadaComponent({
                 </div>
                 <DividerComponent title="SELECCIONES REALIZADAS" size="lg" />
                 <TableSelectFieldsComponent quantity={quantity} measurements={measurements} moduleName={moduleName} handleSaveOptions={handleSaveOptions}
-                    handleQuantityChange={handleQuantityChangeWrapper} selectedOption={selectedOption} totalPriceWithQuantity={totalPriceWithQuantity} />
+                    isDisabled={selectedOption.tacho.data.name.length > 0 && selectedOption.tacho.data.name !== ""} handleQuantityChange={handleQuantityChangeWrapper} selectedOption={selectedOption} totalPriceWithQuantity={totalPriceWithQuantity} />
             </div>
         </div>
     )

@@ -22,7 +22,8 @@ export default function TableSelectFieldsComponent({
     quantity,
     selectedOption,
     totalPriceWithQuantity,
-    measurements
+    measurements,
+    isDisabled
 }: {
     handleQuantityChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
     handleSaveOptions: () => void,
@@ -31,6 +32,7 @@ export default function TableSelectFieldsComponent({
     selectedOption: SelectedOptionType,
     totalPriceWithQuantity: number,
     measurements: MeasurementsInterface,
+    isDisabled: boolean
 }) {
     return (
         <div className={styles["container-section-table"]}>
@@ -44,8 +46,9 @@ export default function TableSelectFieldsComponent({
                         {moduleName.length > 0 &&
                             <TableCell colSpan={2} className={`text-medium font-medium`}>{moduleName}</TableCell>}
                         <TableCell className="flex justify-end items-center gap-4">
-                            <p className="text-medium font-medium">Cantidad</p>
+                            <p className={`${!isDisabled ? "opacity-50" : ""} text-medium font-medium`} >Cantidad</p>
                             <Input
+                                disabled={!isDisabled}
                                 type="number"
                                 value={quantity.toString()}
                                 onChange={handleQuantityChange}

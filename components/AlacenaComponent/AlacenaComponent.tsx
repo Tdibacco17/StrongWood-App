@@ -144,7 +144,7 @@ export default function AlacenaComponent({
                 </div>
                 <DividerComponent title="SELECCIONES REALIZADAS" size="lg" />
                 <TableSelectFieldsComponent quantity={quantity} moduleName={moduleName} handleSaveOptions={handleSaveOptions} measurements={measurements}
-                    handleQuantityChange={handleQuantityChangeWrapper} selectedOption={selectedOption} totalPriceWithQuantity={totalPriceWithQuantity} />
+                    isDisabled={selectedOption.piston.data.name.length > 0 && selectedOption.piston.data.name !== ""} handleQuantityChange={handleQuantityChangeWrapper} selectedOption={selectedOption} totalPriceWithQuantity={totalPriceWithQuantity} />
             </div>
         </div>
     )
