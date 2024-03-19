@@ -63,13 +63,13 @@ export default function SelectFieldComponent({
         <div className={styles["container-select-field"]}>
             <div className={styles["wrapper"]}>
                 <div>
-                    <p className={`${!isDisabled ? "opacity-50" : ""}`}>{title}</p>
+                    <p className={`${!isDisabled || btnBlocked ? "opacity-50" : ""}`}>{title}</p>
                     {subTitle &&
-                        <p className={`${!isDisabled ? "opacity-50" : ""} text-sm text-muted-foreground`}>{subTitle}</p>}
+                        <p className={`${!isDisabled || btnBlocked ? "opacity-50" : ""} text-sm text-muted-foreground`}>{subTitle}</p>}
                 </div>
                 {showNumericInput && inputQuantity && handleQuantityInputChange &&
                     <Input
-                        disabled={!isDisabled}
+                        disabled={!isDisabled || btnBlocked}
                         type="number"
                         value={inputQuantity.toString()}
                         onChange={handleQuantityInputChange}
@@ -80,7 +80,7 @@ export default function SelectFieldComponent({
             <div className={styles["options"]}>
                 {excelData.map((itemData: ExcelDataInterface, index: number) => (
                     <Button
-                        disabled={!isDisabled || (btnBlocked && index !== 0)}
+                        disabled={!isDisabled || (btnBlocked)} //&& index !== 0
                         variant="secondary"
                         key={index}
                         onClick={() => {

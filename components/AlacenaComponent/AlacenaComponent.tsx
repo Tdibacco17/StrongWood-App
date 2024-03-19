@@ -46,11 +46,14 @@ export default function AlacenaComponent({
                 <NameFieldComponent moduleName={moduleName} setModuleName={setModuleName} />
                 <DividerComponent title="DIMENSIONES" size="medium" />
                 <MeasureFieldComponent title="Medidas" subTitle={subTitle}
+                    isDisabled={moduleName.trim().length > 0 ? false : true}
+                    btnBlocked={selectedOption.materialExterior.data.name.length > 0}
                     measurements={measurements} handleMeasureChange={handleMeasureChange} />
                 <DividerComponent title="MATERIALES Y FORMATO" size="medium" />
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Material exterior" excelData={excelData.materiales}
                         isDisabled={measurementSelected} showNumericInput={false}
+                        btnBlocked={selectedOption.panelDeCierre.data.name.length > 0}
                         alacenaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "materialExterior",
@@ -60,6 +63,7 @@ export default function AlacenaComponent({
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Panel de cierre" excelData={excelData.panelDeCierre}
                         isDisabled={measurementSelected && selectedOption.materialExterior.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.cierreTecho.data.name.length > 0}
                         alacenaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "panelDeCierre",
@@ -67,6 +71,7 @@ export default function AlacenaComponent({
                         }} />
                     <SelectFieldComponent title="Cierre techo" excelData={excelData.cierreTecho}
                         isDisabled={measurementSelected && selectedOption.panelDeCierre.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.fondo.data.name.length > 0}
                         alacenaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "cierreTecho",
@@ -85,7 +90,7 @@ export default function AlacenaComponent({
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Rebatibles" subTitle="Precio del frente contemplado en material exterior" excelData={excelData.rebatibles}
                         isDisabled={measurementSelected && selectedOption.fondo.data.name.length > 0} showNumericInput={false}
-                        btnBlocked={selectedOption.batientes.data.name.trim().length > 0 && (selectedOption.batientes.data.name === "No" ? false : true)}
+                        btnBlocked={selectedOption.bisagras.data.name.length > 0}
                         alacenaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "rebatibles",
@@ -94,6 +99,7 @@ export default function AlacenaComponent({
                     <SelectFieldComponent title="Bisagras" excelData={excelData.bisagras}
                         inputQuantity={bisagrasQuantity} handleQuantityInputChange={handleBisagrasQuantityChangeWrapper}
                         isDisabled={measurementSelected && selectedOption.rebatibles.data.name.length > 0} showNumericInput={true}
+                        btnBlocked={selectedOption.batientes.data.name.length > 0}
                         alacenaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "bisagras",
@@ -103,14 +109,15 @@ export default function AlacenaComponent({
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Batientes" subTitle="Precio del frente contemplado en material exterior" excelData={excelData.batientes}
                         isDisabled={measurementSelected && selectedOption.bisagras.data.name.length > 0} showNumericInput={false}
-                        btnBlocked={selectedOption.rebatibles.data.name === "No" ? false : true}
+                        btnBlocked={selectedOption.apertura.data.name.length > 0}
                         alacenaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "batientes",
                             handleOptionSelect: handleOptionSelect,
                         }} />
                     <SelectFieldComponent title="Apertura" excelData={excelData.aperturas}
-                        isDisabled={measurementSelected && selectedOption.bisagras.data.name.length > 0} showNumericInput={false}
+                        isDisabled={measurementSelected && selectedOption.batientes.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.estantes.data.name.length > 0}
                         alacenaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "apertura",
@@ -121,6 +128,7 @@ export default function AlacenaComponent({
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Estantes" excelData={excelData.estantes}
                         isDisabled={measurementSelected && selectedOption.apertura.data.name.length > 0} showNumericInput={true}
+                        btnBlocked={selectedOption.piston.data.name.length > 0}
                         alacenaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "estantes",

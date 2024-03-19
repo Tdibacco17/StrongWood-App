@@ -19,6 +19,7 @@ import { Badge } from "../ui/badge";
 import { UseSavedOptions } from "@/hook/UseSavedOptions";
 import { OptionType } from "@/types/reducer";
 import { TableSelectFieldsInterface } from "@/types";
+import React from "react";
 
 export default function PopUpTableTotalOptionsComponent({
     selectedItemIndex,
@@ -55,6 +56,17 @@ export default function PopUpTableTotalOptionsComponent({
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
+                                    <TableRow >
+                                        <TableCell className="text-medium font-medium">Medidas</TableCell>
+                                        <TableCell colSpan={3} className="font-medium">
+                                            {(saveOptions[optionType].data[selectedItemIndex].measurements) &&
+                                                Object.values(saveOptions[optionType].data[selectedItemIndex].measurements).map((itemData: number | "", index: number) => {
+                                                    return <React.Fragment key={index}>
+                                                        {`${itemData}m ${index === 2 ? "" : "x "}`}
+                                                    </React.Fragment>
+                                                })}
+                                        </TableCell>
+                                    </TableRow>
                                     {Object.entries(saveOptions[optionType].data[selectedItemIndex].moduleData).map(([category, item]: [string, TableSelectFieldsInterface]) => {
                                         if (item.data.name === "No") return
                                         return <TableRow key={category}>

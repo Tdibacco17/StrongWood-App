@@ -1,4 +1,4 @@
-import { ExcelDataInterface } from ".";
+import { ExcelDataInterface, MeasurementsInterface } from ".";
 import { AlacenaInterface, BajoMesadaInterface } from "./cocinaTypes";
 
 //acciones reducer
@@ -28,6 +28,7 @@ export interface SaveOptionsInterface {
     totalPrice: number,
     quantity: number,
     moduleData: SelectedOptionType,
+    measurements: MeasurementsInterface,
     materials: { [key: string]: { amount: number } }
 }
 

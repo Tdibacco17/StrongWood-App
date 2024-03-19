@@ -41,7 +41,6 @@ export default function TableSelectFieldsComponent({
                 <TableHeader className={moduleName.length > 0 ? styles["line-top"] : ""}>
                     <TableRow className={moduleName.length > 0 ? styles["row-active"] : ""}>
                         <TableCell colSpan={moduleName.length > 0 ? 0 : 3} className="text-medium font-medium text-muted-foreground">NOMBRE DEL MODULO</TableCell>
-                        {/* {measurements} MOSTRA DATOS EN LA TABLA  Y ARREGLAR PRIMER CARGA EN LA HOME DEL LOCAL STORAGE */}
                         {moduleName.length > 0 &&
                             <TableCell colSpan={2} className={`text-medium font-medium`}>{moduleName}</TableCell>}
                         <TableCell className="flex justify-end items-center gap-4">

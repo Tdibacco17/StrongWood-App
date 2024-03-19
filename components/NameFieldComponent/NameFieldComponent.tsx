@@ -3,10 +3,10 @@ import styles from "./NameFieldComponent.module.scss"
 
 export default function NameFieldComponent({
     moduleName,
-    setModuleName
+    setModuleName,
 }: {
     moduleName: string,
-    setModuleName: Function
+    setModuleName: Function,
 }) {
     return (
         <div className={styles["container-name-field"]}>

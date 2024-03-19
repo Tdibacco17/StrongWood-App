@@ -13,6 +13,7 @@ export interface BajoMesadaExcelDataResponse {
     pisoMetalico: ExcelDataInterface[];
     puertas: ExcelDataInterface[];
     cajones: ExcelDataInterface[];
+    cajonInterno: ExcelDataInterface[];
     bisagras: ExcelDataInterface[];
     correderas: ExcelDataInterface[];
     cubiertero: ExcelDataInterface[];
@@ -23,7 +24,7 @@ export interface BajoMesadaExcelDataResponse {
     tacho: ExcelDataInterface[];
 }
 //titulos del excel de bajo mesada
-export type BajoMesadaSectionTitle = "materiales" | "panel de cierre" | "cierre atras" | "fondos" | "patas"
+export type BajoMesadaSectionTitle = "materiales" | "panel de cierre" | "cierre atras" | "fondos" | "patas" | "cajon interno"
     | "zocalo" | "aperturas" | "piso metalico" | "puertas" | "cajones" | "bisagras" | "correderas" | "cubiertero"
     | "carro esquinero" | "carro especiero" | "carro verdulero" | "canasto verdulero" | "tacho";
 //ESTRUCTURA DE CONSULTAS BAJO MESADA
@@ -47,6 +48,8 @@ export interface BajoMesadaInterface {
     canastoVerdulero: TableSelectFieldsInterface,
     tacho: TableSelectFieldsInterface,
     pisoCajon: TableSelectFieldsInterface,
+    cajonInterno: TableSelectFieldsInterface,
+    pisoCajonInterno: TableSelectFieldsInterface,
 }
 export type BajoMesadaTypes = keyof BajoMesadaInterface;
 

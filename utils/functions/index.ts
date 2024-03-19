@@ -47,7 +47,7 @@ export const handleMeasureCeiling = ({
         const newSquareMeter: SquareMetersInterface = {
             sectionId: category,
             title: "Melamina blanca",
-            amount: parseFloat(( ancho * profundidad).toFixed(3))
+            amount: parseFloat((ancho * profundidad).toFixed(3))
         };
 
         handleSquareMeterChange(newSquareMeter, squareMeter, setSquareMeter);
@@ -87,7 +87,7 @@ export const handleMaterialExterior = ({
         const newSquareMeter: SquareMetersInterface = {
             sectionId: category,
             title: materialName,
-            amount: ancho * alto
+            amount: materialName === "No" ? 0 : ancho * alto
         };
         handleSquareMeterChange(newSquareMeter, squareMeter, setSquareMeter);
     }
@@ -368,6 +368,7 @@ export const handleCalculateDrawerPrice = ({
 }: {
     bajoMesadaProps?: {
         setSelectedOption: React.Dispatch<React.SetStateAction<BajoMesadaInterface>>,
+        category: BajoMesadaTypes
     },
     measurements: MeasurementsInterface,
     drawerQuantity: number,
@@ -378,7 +379,6 @@ export const handleCalculateDrawerPrice = ({
     if (ancho !== "" && alto !== "" && profundidad !== "") {
 
         const separacionCajon = 0.1;
-
         let alturaCajon = 0.1;
         if (drawerQuantity === 2) {
             alturaCajon = 0.25;
@@ -389,30 +389,29 @@ export const handleCalculateDrawerPrice = ({
         if (bajoMesadaProps) {
             bajoMesadaProps.setSelectedOption(prevState => ({
                 ...prevState,
-                ['cajones']: {
-                    ...prevState['cajones'],
+                [bajoMesadaProps.category]: {
+                    ...prevState[bajoMesadaProps.category],
                     data: {
-                        ...prevState['cajones'].data,
+                        ...prevState[bajoMesadaProps.category].data,
                         price: 0
                     }
                 }
             }));
-        }
 
-        // Llamar al handle de square meters
-        const newSquareMeter: SquareMetersInterface = {
-            sectionId: 'cajones',
-            title: 'Melamina blanca',
-            amount: drawerQuantity === 0 ? 0 : parseFloat(((largoCajon + anchoCajon) * Number(drawerQuantity)).toFixed(3))
-        };
-        handleSquareMeterChange(newSquareMeter, squareMeter, setSquareMeter);
+            // Llamar al handle de square meters
+            const newSquareMeter: SquareMetersInterface = {
+                sectionId: bajoMesadaProps.category,
+                title: 'Melamina blanca',
+                amount: drawerQuantity === 0 ? 0 : parseFloat(((largoCajon + anchoCajon) * Number(drawerQuantity)).toFixed(3))
+            };
+            handleSquareMeterChange(newSquareMeter, squareMeter, setSquareMeter);
+        }
     }
 };
 
 //piso cajon
 export const handleCalculatePricePisoCajon = ({
     measurements,
-    excelData,
     drawerQuantity,
     materialName,
     squareMeter,
@@ -421,9 +420,9 @@ export const handleCalculatePricePisoCajon = ({
 }: {
     bajoMesadaProps?: {
         setSelectedOption: React.Dispatch<React.SetStateAction<BajoMesadaInterface>>,
+        category: BajoMesadaTypes
     },
     measurements: MeasurementsInterface,
-    excelData: ExcelDataInterface[]
     drawerQuantity: number,
     materialName: string,
     squareMeter: SquareMetersInterface[],
@@ -431,29 +430,25 @@ export const handleCalculatePricePisoCajon = ({
 }) => {
     const { ancho, alto, profundidad } = measurements;
     if (ancho !== "" && alto !== "" && profundidad !== "") {
-        const selectedMaterial = excelData.find((material: ExcelDataInterface) => material.name === materialName);
-
-        if (selectedMaterial) {
-            // const totalPrice = (ancho * profundidad) * selectedMaterial.price;
-            if (bajoMesadaProps) {
-                bajoMesadaProps.setSelectedOption((prevState: any) => ({
-                    ...prevState,
-                    ["pisoCajon"]: {
-                        ...prevState["pisoCajon"],
-                        data: {
-                            ...prevState["pisoCajon"].data,
-                            price: 0
-                            ,
-                        },
+        if (bajoMesadaProps) {
+            bajoMesadaProps.setSelectedOption((prevState: any) => ({
+                ...prevState,
+                [bajoMesadaProps.category]: {
+                    ...prevState[bajoMesadaProps.category],
+                    data: {
+                        ...prevState[bajoMesadaProps.category].data,
+                        name: materialName,
+                        price: 0
+                        ,
                     },
-                }));
-            }
-
+                },
+            }));
+            const areaCajon = ancho * (profundidad - 0.1)
             // Llamar al handle de square meters
             const newSquareMeter: SquareMetersInterface = {
-                sectionId: "pisoCajon",
-                title: selectedMaterial.name,
-                amount: parseFloat((ancho * profundidad * drawerQuantity).toFixed(3))
+                sectionId: bajoMesadaProps.category,
+                title: materialName,
+                amount: drawerQuantity === 0 ? 0 : parseFloat((areaCajon * drawerQuantity).toFixed(3))
             };
             handleSquareMeterChange(newSquareMeter, squareMeter, setSquareMeter);
         }
@@ -468,12 +463,13 @@ export const handleSquareMeterChange = (
 ): void => {
     // Verificar si ya existe un objeto con el mismo sectionId
     const existingIndex = squareMeter.findIndex(item => item.sectionId === newSquareMeter.sectionId);
-
     // Si la cantidad es 0 o se selecciona "No", eliminar el objeto correspondiente
     if (newSquareMeter.amount === 0 || newSquareMeter.title === "No") {
         // Filtrar el arreglo para eliminar el objeto con el sectionId correspondiente
         const updatedSquareMeter = squareMeter.filter(item => item.sectionId !== newSquareMeter.sectionId);
         // Actualizar el estado con el nuevo arreglo sin el objeto eliminado
+
+
         setSquareMeter(updatedSquareMeter);
     } else {
         // Si ya existe, actualizamos los metros cuadrados

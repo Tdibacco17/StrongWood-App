@@ -55,12 +55,20 @@ export default function IslandPageClient({
             title: "Cajones",
             data: { name: "", price: 0 }
         },
-        correderas: {
-            title: "Correderas",
-            data: { name: "", price: 0 }
-        },
         pisoCajon: {
             title: "Piso cajon",
+            data: { name: "", price: 0 }
+        },
+        cajonInterno: {
+            title: "Cajon interno",
+            data: { name: "", price: 0 }
+        },
+        pisoCajonInterno: {
+            title: "Piso cajon interno",
+            data: { name: "", price: 0 }
+        },
+        correderas: {
+            title: "Correderas",
             data: { name: "", price: 0 }
         },
         apertura: {

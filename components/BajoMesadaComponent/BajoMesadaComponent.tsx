@@ -50,11 +50,14 @@ export default function BajoMesadaComponent({
                 <NameFieldComponent moduleName={moduleName} setModuleName={setModuleName} />
                 <DividerComponent title="DIMENSIONES" size="medium" />
                 <MeasureFieldComponent title="Medidas" subTitle={subTitle}
+                    isDisabled={moduleName.trim().length > 0 ? false : true}
+                    btnBlocked={selectedOption.materialExterior.data.name.length > 0}
                     measurements={measurements} handleMeasureChange={handleMeasureChange} />
                 <DividerComponent title="MATERIALES Y FORMATO" size="medium" />
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Material exterior" excelData={excelData.materiales}
                         isDisabled={measurementSelected} showNumericInput={false}
+                        btnBlocked={selectedOption.panelDeCierre.data.name.length > 0}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "materialExterior",
@@ -64,6 +67,7 @@ export default function BajoMesadaComponent({
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Panel de cierre" excelData={excelData.panelDeCierre}
                         isDisabled={measurementSelected && selectedOption.materialExterior.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.cierreAtras.data.name.length > 0}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "panelDeCierre",
@@ -71,6 +75,7 @@ export default function BajoMesadaComponent({
                         }} />
                     <SelectFieldComponent title="Panel de cierre ( atras )" excelData={excelData.cierreAtras}
                         isDisabled={measurementSelected && selectedOption.panelDeCierre.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.fondo.data.name.length > 0}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "cierreAtras",
@@ -78,6 +83,7 @@ export default function BajoMesadaComponent({
                         }} />
                     <SelectFieldComponent title="Fondo" excelData={excelData.fondos.slice(0, 2)}
                         isDisabled={measurementSelected && selectedOption.cierreAtras.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.patas.data.name.length > 0}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "fondo",
@@ -85,6 +91,7 @@ export default function BajoMesadaComponent({
                         }} />
                     <SelectFieldComponent title="Patas" excelData={excelData.patas}
                         isDisabled={measurementSelected && selectedOption.fondo.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.zocalo.data.name.length > 0}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "patas",
@@ -92,6 +99,7 @@ export default function BajoMesadaComponent({
                         }} />
                     <SelectFieldComponent title="Zocalo" excelData={excelData.zocalo}
                         isDisabled={measurementSelected && selectedOption.patas.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.puertas.data.name.length > 0}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "zocalo",
@@ -101,7 +109,8 @@ export default function BajoMesadaComponent({
                 <DividerComponent title="CAJON O PUERTAS" size="medium" />
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Puertas" subTitle="Precio del frente contemplado en material exterior" excelData={excelData.puertas}
-                        isDisabled={measurementSelected && selectedOption.zocalo.data.name.length > 0} showNumericInput={false} btnBlocked={selectedOption.cajones.data.name.trim().length > 0 && (selectedOption.cajones.data.name === "No" ? false : true)}
+                        isDisabled={measurementSelected && selectedOption.zocalo.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.bisagras.data.name.length > 0}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "puertas",
@@ -110,6 +119,7 @@ export default function BajoMesadaComponent({
                     <SelectFieldComponent title="Bisagras" excelData={excelData.bisagras}
                         inputQuantity={bisagrasQuantity} handleQuantityInputChange={handleBisagrasQuantityChangeWrapper}
                         isDisabled={measurementSelected && selectedOption.puertas.data.name.length > 0} showNumericInput={true}
+                        btnBlocked={selectedOption.cajones.data.name.length > 0}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "bisagras",
@@ -118,7 +128,8 @@ export default function BajoMesadaComponent({
                 </div>
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Cajones" subTitle="Precio del frente contemplado en material exterior" excelData={excelData.cajones}
-                        isDisabled={measurementSelected && selectedOption.bisagras.data.name.length > 0} showNumericInput={false} btnBlocked={selectedOption.puertas.data.name === "No" ? false : true}
+                        isDisabled={measurementSelected && selectedOption.bisagras.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.correderas.data.name.length > 0 }
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "cajones",
@@ -127,6 +138,7 @@ export default function BajoMesadaComponent({
                     <SelectFieldComponent title="Correderas" excelData={excelData.correderas}
                         inputQuantity={correderasQuantity} handleQuantityInputChange={handleCorrederasQuantityChangeWrapper}
                         isDisabled={measurementSelected && selectedOption.cajones.data.name.length > 0} showNumericInput={true}
+                        btnBlocked={selectedOption.cajonInterno.data.name.length > 0}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "correderas",
@@ -134,8 +146,18 @@ export default function BajoMesadaComponent({
                         }} />
                 </div>
                 <div className={styles["wrapper-row"]}>
-                    <SelectFieldComponent title="Piso cajon" excelData={excelData.fondos}
+                    {/* ACA */}
+                    <SelectFieldComponent title="Cajon interno" excelData={excelData.cajonInterno}
                         isDisabled={measurementSelected && selectedOption.correderas.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.pisoCajon.data.name.length > 0}
+                        bajoMesadaProps={{
+                            selectedOption: selectedOption,
+                            selectedOptionType: "cajonInterno",
+                            handleOptionSelect: handleOptionSelect,
+                        }} />
+                    <SelectFieldComponent title="Piso cajon" excelData={excelData.fondos}
+                        isDisabled={measurementSelected && selectedOption.cajonInterno.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.apertura.data.name.length > 0}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "pisoCajon",
@@ -143,6 +165,7 @@ export default function BajoMesadaComponent({
                         }} />
                     <SelectFieldComponent title="Apertura" excelData={excelData.aperturas}
                         isDisabled={selectedOption.pisoCajon.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.pisoMetalico.data.name.length > 0}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "apertura",
@@ -153,6 +176,7 @@ export default function BajoMesadaComponent({
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Piso metalico" excelData={excelData.pisoMetalico}
                         isDisabled={measurementSelected && selectedOption.apertura.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.pisoMetalico.data.name.length > 0}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "pisoMetalico",
@@ -160,6 +184,7 @@ export default function BajoMesadaComponent({
                         }} />
                     <SelectFieldComponent title="Cubiertero" excelData={excelData.cubiertero}
                         isDisabled={measurementSelected && selectedOption.pisoMetalico.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.carroEsquinero.data.name.length > 0}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "cubiertero",
@@ -167,6 +192,7 @@ export default function BajoMesadaComponent({
                         }} />
                     <SelectFieldComponent title="Carro esquinero" excelData={excelData.carroEsquinero}
                         isDisabled={measurementSelected && selectedOption.cubiertero.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.carroEspeciero.data.name.length > 0}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "carroEsquinero",
@@ -174,16 +200,17 @@ export default function BajoMesadaComponent({
                         }} />
                     <SelectFieldComponent title="Carro especiero" excelData={excelData.carroEspeciero}
                         isDisabled={measurementSelected && selectedOption.carroEsquinero.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.carroVerdulero.data.name.length > 0}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "carroEspeciero",
                             handleOptionSelect: handleOptionSelect,
                         }} />
-
                 </div>
                 <div className={styles["wrapper-row"]}>
                     <SelectFieldComponent title="Carro verdulero" excelData={excelData.carroVerdulero}
                         isDisabled={measurementSelected && selectedOption.carroEspeciero.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.canastoVerdulero.data.name.length > 0}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "carroVerdulero",
@@ -191,6 +218,7 @@ export default function BajoMesadaComponent({
                         }} />
                     <SelectFieldComponent title="Canasto verdulero" excelData={excelData.canastoVerdulero}
                         isDisabled={measurementSelected && selectedOption.carroVerdulero.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.tacho.data.name.length > 0}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "canastoVerdulero",

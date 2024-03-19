@@ -1,6 +1,6 @@
 'use client'
 import { initialOptionsState, reducer } from "@/reducer/SaveOptionesRuder";
-import { ExcelDataInterface } from "@/types";
+import { ExcelDataInterface, MeasurementsInterface } from "@/types";
 import { OptionType, SaveOptionsInterface, SavedOptionsContextInterface, } from "@/types/reducer";
 import { ReactNode, createContext, useEffect, useReducer, useState } from "react";
 

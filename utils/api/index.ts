@@ -7,7 +7,10 @@ const api = {
     cocina: {
         bajoMesada: {
             list: async (): Promise<BajoMesadaExcelDataResponse> => {
-                const text = await fetch(`${process.env.COCINA_BAJO_MESADA}`, { next: { tags: ["cocina"] } }).then((res) => res.text())
+                const text = await fetch(`${process.env.COCINA_BAJO_MESADA}`, {
+                    next: { tags: ["cocina"] },
+                    cache: "no-cache"
+                }).then((res) => res.text())
                 const rows = text.split("\n");
 
                 // Definir arrays para almacenar los datos de medidas y materiales
@@ -21,6 +24,7 @@ const api = {
                 const pisoMetalico: ExcelDataInterface[] = [];
                 const puertas: ExcelDataInterface[] = [];
                 const cajones: ExcelDataInterface[] = [];
+                const cajonInterno: ExcelDataInterface[] = [];
                 const bisagras: ExcelDataInterface[] = [];
                 const correderas: ExcelDataInterface[] = [];
                 const cubiertero: ExcelDataInterface[] = [];
@@ -67,6 +71,7 @@ const api = {
                     "piso metalico": processRow(pisoMetalico, "piso metalico"),
                     "puertas": processRow(puertas, "puertas"),
                     "cajones": processRow(cajones, "cajones"),
+                    "cajon interno": processRow(cajonInterno, "cajon interno"),
                     "bisagras": processRow(bisagras, "bisagras"),
                     "correderas": processRow(correderas, "correderas"),
                     "cubiertero": processRow(cubiertero, "cubiertero"),
@@ -96,7 +101,7 @@ const api = {
 
                 // Retornamos el objeto con las medidas y materiales
                 return {
-                    materiales, panelDeCierre, fondos, patas, zocalo, aperturas, cierreAtras,
+                    materiales, panelDeCierre, fondos, patas, zocalo, aperturas, cierreAtras, cajonInterno,
                     pisoMetalico, puertas, cajones, bisagras, correderas, cubiertero, carroEsquinero,
                     carroEspeciero, carroVerdulero, canastoVerdulero, tacho
                 };
@@ -104,7 +109,10 @@ const api = {
         },
         alacena: {
             list: async (): Promise<AlacenaExcelDataResponse> => {
-                const text = await fetch(`${process.env.COCINA_ALACENA}`, { next: { tags: ["cocina"] } }).then((res) => res.text())
+                const text = await fetch(`${process.env.COCINA_ALACENA}`, {
+                    next: { tags: ["cocina"] },
+                    cache: "no-cache"
+                }).then((res) => res.text())
                 const rows = text.split("\n");
 
                 // Definir arrays para almacenar los datos de medidas y materiales

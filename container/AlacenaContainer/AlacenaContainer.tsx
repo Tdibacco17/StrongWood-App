@@ -86,7 +86,7 @@ export default function AlacenaContainer({
                     setSelectedOption,
                     category,
                     squareMeter,
-                    setSquareMeter
+                    setSquareMeter,
                 })
                 if (selectedOption.panelDeCierre.data.name.trim().length > 0) { // actualizamos panel de cierre
                     handlePanelDeCierre({
@@ -129,32 +129,6 @@ export default function AlacenaContainer({
                     setSquareMeter
                 });
             }
-            if (category === "batientes") {
-                if (selectedOption.apertura.data.name.trim().length > 0) { // actualizo apertura
-                    handleQuantityApertura({
-                        drawerQuantity: itemData.name !== "No" ? Number(itemData.name) : 0,
-                        alacenaProps: {
-                            setSelectedOption,
-                        },
-                        category: 'apertura',
-                        materialName: selectedOption.apertura.data.name,
-                        excelData: excelData.aperturas
-                    })
-                }
-            }
-            if (category === "rebatibles") {
-                if (selectedOption.apertura.data.name.trim().length > 0) { // actualizo apertura
-                    handleQuantityApertura({
-                        drawerQuantity: itemData.name !== "No" ? Number(itemData.name) : 0,
-                        alacenaProps: {
-                            setSelectedOption,
-                        },
-                        category: 'apertura',
-                        materialName: selectedOption.apertura.data.name,
-                        excelData: excelData.aperturas
-                    })
-                }
-            }
             if (category === "estantes") {
                 handleCalculateShelfPrice({
                     category,
@@ -177,8 +151,7 @@ export default function AlacenaContainer({
                     materialName: itemData.name,
                     excelData: excelData.aperturas
                 })
-            }
-            if (selectedOption.rebatibles.data.name.trim().length > 0) {
+            } else if (selectedOption.rebatibles.data.name.trim().length > 0) {
                 handleQuantityApertura({
                     drawerQuantity: selectedOption.rebatibles.data.name !== "No" ? Number(selectedOption.rebatibles.data.name) : 0,
                     alacenaProps: {
@@ -223,58 +196,6 @@ export default function AlacenaContainer({
 
     //actualizacion de precio total
     const totalPriceWithQuantity = calculateTotalPrice(selectedOption, quantity);
-
-    useEffect(() => {
-        if (selectedOption.materialExterior.data.name.trim().length > 0) { //actualiamos materialExterior
-            handleMaterialExterior({
-                materialName: selectedOption.materialExterior.data.name,
-                measurements,
-                setSelectedOption,
-                category: 'materialExterior',
-                setSquareMeter,
-                squareMeter
-            })
-        }
-        if (selectedOption.cierreTecho.data.name.trim().length > 0) {
-            handleMeasureCeiling({
-                measurements,
-                squareMeter,
-                setSquareMeter,
-                category: 'cierreTecho',
-            });
-        }
-        if (selectedOption.panelDeCierre.data.name.trim().length > 0 && selectedOption.materialExterior.data.name.trim().length > 0) { // actualizamos panel de cierre
-            handlePanelDeCierre({
-                itemData: selectedOption.panelDeCierre.data.name,
-                materialName: selectedOption.materialExterior.data.name,
-                measurements,
-                setSelectedOption,
-                category: 'panelDeCierre',
-                setSquareMeter,
-                squareMeter
-            });
-        }
-        if (selectedOption.fondo.data.name.trim().length > 0) { //  actualizamos fondo
-            handleFondo({
-                materialName: selectedOption.fondo.data.name,
-                measurements,
-                setSelectedOption,
-                category: 'fondo',
-                squareMeter,
-                setSquareMeter
-            });
-        }
-        if (selectedOption.estantes.data.name.trim().length > 0) { //Actualizo estantes
-            handleCalculateShelfPrice({
-                category: 'estantes',
-                drawerQuantity: selectedOption.estantes.data.name !== "No" ? Number(selectedOption.estantes.data.name) : 0,
-                measurements,
-                setSelectedOption,
-                setSquareMeter,
-                squareMeter
-            })
-        }
-    }, [measurements])
 
     useEffect(() => {
         const consolidatedSquareMeter: { [key: string]: number } = {};
@@ -337,6 +258,7 @@ export default function AlacenaContainer({
             totalPrice: calculateTotalPrice(selectedOption, quantity),
             quantity,
             moduleData: { ...selectedOption },
+            measurements,
             materials: totalSquareMeters
         };
 

@@ -122,7 +122,7 @@ const updateTotalMaterials = (optionType: OptionType, materialsData: ExcelDataIn
             };
         }
     });
-    console.log("[CREACION DE TOTAL SQUARE]: ", updatedTotalSquareMeters)
+    // console.log("[CREACION DE TOTAL SQUARE]: ", updatedTotalSquareMeters)
 
     return updatedTotalSquareMeters
 };
