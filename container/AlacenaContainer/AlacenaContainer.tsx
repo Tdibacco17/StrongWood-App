@@ -88,17 +88,6 @@ export default function AlacenaContainer({
                     squareMeter,
                     setSquareMeter,
                 })
-                if (selectedOption.panelDeCierre.data.name.trim().length > 0) { // actualizamos panel de cierre
-                    handlePanelDeCierre({
-                        itemData: selectedOption.panelDeCierre.data.name,
-                        materialName: itemData.name,
-                        measurements,
-                        setSelectedOption,
-                        category: 'panelDeCierre',
-                        setSquareMeter,
-                        squareMeter
-                    });
-                }
             }
             if (category === "cierreTecho") {
                 handleMeasureCeiling({
