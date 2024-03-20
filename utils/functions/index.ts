@@ -35,11 +35,13 @@ export const handleMeasureCeiling = ({
     squareMeter,
     setSquareMeter,
     category,
+    itemData
 }: {
     measurements: MeasurementsInterface,
     squareMeter: SquareMetersInterface[],
     setSquareMeter: React.Dispatch<React.SetStateAction<SquareMetersInterface[]>>,
     category: CategoryType,
+    itemData: ExcelDataInterface
 }): void => {
     const { ancho, alto, profundidad } = measurements;
     if (ancho !== "" && alto !== "" && profundidad !== "") {
@@ -47,7 +49,7 @@ export const handleMeasureCeiling = ({
         const newSquareMeter: SquareMetersInterface = {
             sectionId: category,
             title: "Melamina blanca",
-            amount: parseFloat((ancho * profundidad).toFixed(3))
+            amount: itemData.name !== "No" ? parseFloat((ancho * profundidad).toFixed(3)) : 0
         };
 
         handleSquareMeterChange(newSquareMeter, squareMeter, setSquareMeter);
@@ -62,6 +64,7 @@ export const handleMaterialExterior = ({
     category,
     squareMeter,
     setSquareMeter,
+    itemData
 }: {
     materialName: string,
     measurements: MeasurementsInterface,
@@ -69,6 +72,7 @@ export const handleMaterialExterior = ({
     category: CategoryType,
     squareMeter: SquareMetersInterface[],
     setSquareMeter: React.Dispatch<React.SetStateAction<SquareMetersInterface[]>>,
+    itemData: ExcelDataInterface
 }): void => {
     const { ancho, alto, profundidad } = measurements;
     if (ancho !== "" && alto !== "" && profundidad !== "") {
@@ -87,7 +91,7 @@ export const handleMaterialExterior = ({
         const newSquareMeter: SquareMetersInterface = {
             sectionId: category,
             title: materialName,
-            amount: materialName === "No" ? 0 : ancho * alto
+            amount: itemData.name === "No" ? 0 : ancho * alto
         };
         handleSquareMeterChange(newSquareMeter, squareMeter, setSquareMeter);
     }

@@ -86,6 +86,7 @@ export default function BajoMesadaContainer({
                     category,
                     squareMeter,
                     setSquareMeter,
+                    itemData
                 })
             }
             if (category === 'panelDeCierre') {
@@ -107,6 +108,7 @@ export default function BajoMesadaContainer({
                     category,
                     squareMeter,
                     setSquareMeter,
+                    itemData
                 })
             }
             if (category === 'fondo') {
@@ -140,29 +142,6 @@ export default function BajoMesadaContainer({
                     squareMeter
                 })
             }
-            if (category === "cajonInterno") {
-                handleCalculateDrawerPrice({
-                    measurements,
-                    bajoMesadaProps: {
-                        setSelectedOption,
-                        category
-                    },
-                    drawerQuantity: itemData.name !== "No" ? Number(itemData.name) : 0,
-                    setSquareMeter,
-                    squareMeter
-                })
-                handleCalculatePricePisoCajon({
-                    measurements,
-                    materialName: '3mm',
-                    bajoMesadaProps: {
-                        setSelectedOption,
-                        category: "pisoCajonInterno"
-                    },
-                    drawerQuantity: itemData.name !== "No" ? Number(itemData.name) : 0,
-                    setSquareMeter,
-                    squareMeter
-                })
-            }
             if (category === "pisoCajon") {
                 if (selectedOption.cajones.data.name.trim().length > 0) {
                     handleCalculatePricePisoCajon({
@@ -175,6 +154,34 @@ export default function BajoMesadaContainer({
                         drawerQuantity: selectedOption.cajones.data.name !== "No" ? Number(selectedOption.cajones.data.name) : 0,
                         setSquareMeter,
                         squareMeter,
+                    })
+                }
+            }
+            if (category === "cajonInterno") {
+                //hacer 2 en una
+                handleCalculateDrawerPrice({
+                    measurements,
+                    bajoMesadaProps: {
+                        setSelectedOption,
+                        category
+                    },
+                    drawerQuantity: itemData.name !== "No" ? Number(itemData.name) : 0,
+                    setSquareMeter,
+                    squareMeter
+                })
+            }
+            if (category === "pisoCajonInterno") {
+                if (selectedOption.cajones.data.name.trim().length > 0 && selectedOption.cajonInterno.data.name.trim().length > 0) {
+                    handleCalculatePricePisoCajon({
+                        measurements,
+                        materialName: itemData.name,
+                        bajoMesadaProps: {
+                            setSelectedOption,
+                            category: "pisoCajonInterno"
+                        },
+                        drawerQuantity: selectedOption.cajonInterno.data.name !== "No" ? Number(selectedOption.cajonInterno.data.name) : 0,
+                        setSquareMeter,
+                        squareMeter
                     })
                 }
             }

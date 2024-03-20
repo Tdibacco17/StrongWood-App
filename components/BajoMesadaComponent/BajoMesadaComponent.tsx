@@ -138,7 +138,7 @@ export default function BajoMesadaComponent({
                     <SelectFieldComponent title="Correderas" excelData={excelData.correderas}
                         inputQuantity={correderasQuantity} handleQuantityInputChange={handleCorrederasQuantityChangeWrapper}
                         isDisabled={measurementSelected && selectedOption.cajones.data.name.length > 0} showNumericInput={true}
-                        btnBlocked={selectedOption.cajonInterno.data.name.length > 0}
+                        btnBlocked={selectedOption.pisoCajon.data.name.length > 0}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "correderas",
@@ -146,25 +146,32 @@ export default function BajoMesadaComponent({
                         }} />
                 </div>
                 <div className={styles["wrapper-row"]}>
-                    {/* ACA */}
-                    <SelectFieldComponent title="Cajon interno" excelData={excelData.cajonInterno}
-                        isDisabled={measurementSelected && selectedOption.correderas.data.name.length > 0} showNumericInput={false}
-                        btnBlocked={selectedOption.pisoCajon.data.name.length > 0}
-                        bajoMesadaProps={{
-                            selectedOption: selectedOption,
-                            selectedOptionType: "cajonInterno",
-                            handleOptionSelect: handleOptionSelect,
-                        }} />
                     <SelectFieldComponent title="Piso cajon" excelData={excelData.fondos}
-                        isDisabled={measurementSelected && selectedOption.cajonInterno.data.name.length > 0} showNumericInput={false}
-                        btnBlocked={selectedOption.apertura.data.name.length > 0}
+                        isDisabled={measurementSelected && selectedOption.correderas.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.cajonInterno.data.name.length > 0}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,
                             selectedOptionType: "pisoCajon",
                             handleOptionSelect: handleOptionSelect,
                         }} />
+                    <SelectFieldComponent title="Cajon interno" excelData={excelData.cajonInterno}
+                        isDisabled={measurementSelected && selectedOption.pisoCajon.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.pisoCajonInterno.data.name.length > 0}
+                        bajoMesadaProps={{
+                            selectedOption: selectedOption,
+                            selectedOptionType: "cajonInterno",
+                            handleOptionSelect: handleOptionSelect,
+                        }} />
+                    <SelectFieldComponent title="Piso cajon interno" excelData={excelData.fondos.slice(0, 2)}
+                        isDisabled={measurementSelected && selectedOption.cajonInterno.data.name.length > 0} showNumericInput={false}
+                        btnBlocked={selectedOption.apertura.data.name.length > 0}
+                        bajoMesadaProps={{
+                            selectedOption: selectedOption,
+                            selectedOptionType: "pisoCajonInterno",
+                            handleOptionSelect: handleOptionSelect,
+                        }} />
                     <SelectFieldComponent title="Apertura" excelData={excelData.aperturas}
-                        isDisabled={selectedOption.pisoCajon.data.name.length > 0} showNumericInput={false}
+                        isDisabled={selectedOption.pisoCajonInterno.data.name.length > 0} showNumericInput={false}
                         btnBlocked={selectedOption.pisoMetalico.data.name.length > 0}
                         bajoMesadaProps={{
                             selectedOption: selectedOption,

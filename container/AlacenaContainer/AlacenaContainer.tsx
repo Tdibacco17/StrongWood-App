@@ -35,7 +35,8 @@ export default function AlacenaContainer({
     const [squareMeter, setSquareMeter] = useState<SquareMetersInterface[]>([])
     const [totalSquareMeters, setTotalSquareMeters] = useState<{ [key: string]: { amount: number } }>({});
     const { handleSaveOptionsChange, handleSaveMaterialsChange } = UseSavedOptions();
-
+    console.log("squareMeter", squareMeter)
+    console.log(totalSquareMeters)
     //actualizador de selecciones de medidas(inputs)
     const handleMeasureChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: keyof MeasurementsInterface) => {
         let value = e.target.value.replace(",", ".");
@@ -87,6 +88,7 @@ export default function AlacenaContainer({
                     category,
                     squareMeter,
                     setSquareMeter,
+                    itemData
                 })
             }
             if (category === "cierreTecho") {
@@ -95,6 +97,7 @@ export default function AlacenaContainer({
                     squareMeter,
                     setSquareMeter,
                     category,
+                    itemData
                 });
             }
             if (category === 'panelDeCierre') {
