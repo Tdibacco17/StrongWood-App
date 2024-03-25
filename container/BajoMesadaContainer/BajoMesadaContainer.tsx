@@ -35,6 +35,8 @@ export default function BajoMesadaContainer({
     const [squareMeter, setSquareMeter] = useState<SquareMetersInterface[]>([])
     const [totalSquareMeters, setTotalSquareMeters] = useState<{ [key: string]: { amount: number } }>({});
     const { handleSaveOptionsChange, handleSaveMaterialsChange } = UseSavedOptions();
+    console.log("selectedOption: ", selectedOption)
+    console.log("totalSquareMeters: ", totalSquareMeters)
     //actualizador de selecciones de medidas(inputs)
     const handleMeasureChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: keyof MeasurementsInterface) => {
         let value = e.target.value.replace(",", ".");

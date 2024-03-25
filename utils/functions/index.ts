@@ -451,7 +451,7 @@ export const handleCalculatePricePisoCajon = ({
             // Llamar al handle de square meters
             const newSquareMeter: SquareMetersInterface = {
                 sectionId: bajoMesadaProps.category,
-                title: materialName,
+                title: materialName  === "18mm" ? "Melamina blanca" : materialName,
                 amount: drawerQuantity === 0 ? 0 : parseFloat((areaCajon * drawerQuantity).toFixed(3))
             };
             handleSquareMeterChange(newSquareMeter, squareMeter, setSquareMeter);
